@@ -1,0 +1,6 @@
+.git/*
+.vs/*
+.cmake/*
+cmake*/*
+bin/*
+/CMakeSettings.json
