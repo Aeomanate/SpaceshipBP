@@ -1,7 +1,5 @@
-﻿cmake_minimum_required (VERSION 3.8)
-project ("SpaceShipBP")
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+﻿cmake_minimum_required(VERSION 3.11)
+project(SpaceShipBP)
 
 # Compiler settings
 if (MSVC_VERSION GREATER_EQUAL "1900")
@@ -12,15 +10,20 @@ if (MSVC_VERSION GREATER_EQUAL "1900")
     endif()
 endif()
 
-
-# Include project.
-add_subdirectory ("SpaceShipBP")
-
-# Install SFML
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
+# Install libraries
 include(FetchContent)
+
+## SFML
 FetchContent_Declare(SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
+
+## RapidJSON
+include("SpaceShipBP/libs/RapidJSON/rapidjson.cmake")
+include_directories(${RAPIDJSON_INCLUDE_DIR})
+
+# Include project.
+add_subdirectory ("SpaceShipBP")
