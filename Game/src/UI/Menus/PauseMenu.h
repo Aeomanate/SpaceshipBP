@@ -1,0 +1,11 @@
+#ifndef SPACESHIPBP_PAUSEMENU_H
+#define SPACESHIPBP_PAUSEMENU_H
+
+
+class PauseMenu
+{
+
+};
+
+
+#endif //SPACESHIPBP_PAUSEMENU_H

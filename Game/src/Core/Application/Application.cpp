@@ -8,6 +8,9 @@ Application::Application()
     initSfmlEventHandler();
 
     listenerLastMenuClosed.SubscribeEmitter(menuManager.emitterLastMenuClosed);
+
+    simulation.listenerKeyPressed.SubscribeEmitter(emitterKeyEvent);
+    simulation.listenerMouseButtonClicked.SubscribeEmitter(emitterMouseClicked);
 }
 
 void Application::startLoop()

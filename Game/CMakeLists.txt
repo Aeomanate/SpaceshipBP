@@ -20,16 +20,22 @@ set(SOURCE_FILES
         src/main.cpp
         src/Core/Application/Application.cpp
         src/Core/Application/Application.h
-        src/UI/Button.cpp
-        src/UI/BaseMenu.cpp
-        src/UI/BaseMenu.h
+        src/UI/Elements/Button.cpp
+        src/UI/Menus/BaseMenu.cpp
+        src/UI/Menus/BaseMenu.h
         src/Utility/MenuManager/MenuManager.cpp
         src/Utility/MenuManager/MenuManager.h
-        src/UI/MainMenu.cpp
-        src/UI/MainMenu.h
+        src/UI/Menus/MainMenu.cpp
+        src/UI/Menus/MainMenu.h
         src/Utility/MenuManager/TemplateSpecializes.h
         src/Core/Application/WindowHandling.cpp
         src/Core/Application/ListenerHandling.cpp
+        src/UI/Menus/GameplayMenu.cpp
+        src/UI/Menus/GameplayMenu.h
+        src/UI/Menus/PauseMenu.cpp
+        src/UI/Menus/PauseMenu.h
+        src/UI/Menus/EndGameMenu.cpp
+        src/UI/Menus/EndGameMenu.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

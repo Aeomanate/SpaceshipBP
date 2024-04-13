@@ -5,6 +5,7 @@
 #include "SFML/Graphics.hpp"
 #include "Utility/EventsHandling/ListenersEmitters.h"
 #include "Utility/MenuManager/MenuManager.h"
+#include "Simulation/Simulation.h"
 
 class Application
 {
@@ -19,14 +20,16 @@ private: // Game-related methods
 
     void draw();
 
-private: // Listener handlers
-    void OnLastMenuClosed();
+private: // Emitters
+    DATA_EMITTER(KeyEvent, sf::Event::KeyEvent);
+    DATA_EMITTER(MouseClicked, sf::Event::MouseButtonEvent);
 
 private: // Listeners
-    EventListener<void> listenerLastMenuClosed;
+    SIMPLE_LISTENER(LastMenuClosed);
 
 private: // Game-related objects
     MenuManager menuManager;
+    Simulation simulation;
 
 private: // Window-handling methods
     void handleInput();

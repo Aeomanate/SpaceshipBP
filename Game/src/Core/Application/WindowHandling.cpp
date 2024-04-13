@@ -28,25 +28,11 @@ void Application::handleProgramClose(const sf::Event&)
 
 void Application::handlePressedKeyKeyboard(const sf::Event& e)
 {
-    if (e.key.code == sf::Keyboard::Space || e.key.code == sf::Keyboard::Add)
-    {
-
-    }
-    else if (e.key.code == sf::Keyboard::N || e.key.code == sf::Keyboard::Subtract)
-    {
-
-    }
+    emitterKeyEvent.Emit(e.key);
 }
 
 void Application::handlePressedKeyMouse(const sf::Event& e)
 {
-    if (e.mouseButton.button == sf::Mouse::Button::Left)
-    {
-
-    }
-    else if (e.mouseButton.button == sf::Mouse::Button::Right)
-    {
-
-    }
+    emitterMouseClicked.Emit(e.mouseButton);
 }
 

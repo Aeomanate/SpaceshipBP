@@ -2,5 +2,5 @@
 
 void Application::OnLastMenuClosed()
 {
-
+    isApplicationWork = false;
 }

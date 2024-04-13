@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "Utility/EventsHandling/ListenersEmitters.h"
-#include "UI/BaseMenu.h"
+#include "UI/Menus/BaseMenu.h"
 
 class MenuManager
 {
@@ -18,15 +18,16 @@ public:
     BaseMenu* TopMenu();
 
 public: // Emitters
-    EventEmitter<void> emitterLastMenuClosed;
+    SIMPLE_EMITTER(LastMenuClosed);
 
-private: // Event handlers
-    void OnMenuClosed();
+public: // Public listeners
+    SIMPLE_LISTENER(CloseMenuRequest);
+
+private: // Private listeners
+
 
 private:
     std::stack<std::unique_ptr<BaseMenu>> menuStack;
-
-    EventListener<void> listenerCloseMenu;
 };
 
 #include "TemplateSpecializes.h"

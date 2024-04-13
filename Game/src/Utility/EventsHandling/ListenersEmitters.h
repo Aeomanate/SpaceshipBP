@@ -22,11 +22,21 @@ public:
 
     void Receive(const EventData& eventData)
     {
+        if(!isActive)
+        {
+            return;
+        }
         eventHandler(eventData);
+    }
+
+    void SwitchActive(bool state)
+    {
+        isActive = state;
     }
 
 protected:
     EventHandler eventHandler;
+    bool isActive = true;
 };
 
 template <>
@@ -90,5 +100,22 @@ private:
 
 };
 
+#define DATA_LISTENER(Name, EventData)                                          \
+    EventListener<EventData> listener##Name { [this] (const EventData& data) {  \
+        On##Name(data);                                                         \
+    }};                                                                         \
+    void On##Name(const EventData&)
+
+#define SIMPLE_LISTENER(Name)                      \
+    EventListener<void> listener##Name { [this] {  \
+        On##Name();                                \
+    }};                                            \
+    void On##Name()
+
+#define DATA_EMITTER(Name, EventData)       \
+    EventEmitter<EventData> emitter##Name   \
+
+#define SIMPLE_EMITTER(Name)           \
+    EventEmitter<void> emitter##Name   \
 
 #endif //SPACESHIPBP_LISTENERSEMITTERS_H

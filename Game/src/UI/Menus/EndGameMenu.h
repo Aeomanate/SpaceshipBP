@@ -1,0 +1,11 @@
+#ifndef SPACESHIPBP_ENDGAMEMENU_H
+#define SPACESHIPBP_ENDGAMEMENU_H
+
+
+class EndGameMenu
+{
+
+};
+
+
+#endif //SPACESHIPBP_ENDGAMEMENU_H
