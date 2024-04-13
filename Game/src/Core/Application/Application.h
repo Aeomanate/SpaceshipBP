@@ -24,6 +24,7 @@ private: // Game-related methods
 
 private: // Listeners
     SIMPLE_LISTENER(LastMenuClosed);
+    DATA_LISTENER(KeyPressed, sf::Event::KeyEvent);
 
 private: // Game-related objects
     MenuManager menuManager;

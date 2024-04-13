@@ -4,7 +4,8 @@
 #include <filesystem>
 #include <iostream>
 
-#include "Core/Application/Application.h"
+#include "Core/Application/ApplicationShortcuts.h"
+#include "Utility/WindowsRelated/WindowsRelated.h"
 
 namespace fs = std::filesystem;
 
@@ -18,7 +19,7 @@ void Logger::Log(const std::string& message)
 
     if(!log.is_open())
     {
-        Application::ShowConsole();
+        WindowsRelated::ShowConsole();
         std::cerr << getLoc().configNotFound << std::endl;
         std::cerr << "Output: \n";
         std::cerr << message << '\n';

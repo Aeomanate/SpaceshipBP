@@ -2,6 +2,7 @@
 #define SPACESHIPBP_CONFIGLOCALIZATION_H
 
 #include "Serializable.h"
+#include <string>
 
 struct ConfigLocalization: public Serializable
 {

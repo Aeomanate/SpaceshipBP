@@ -10,7 +10,6 @@ class LowLevelApplication
 public:
     void Run();
     void Setup(sf::VideoMode videoMode, const std::string& applicationName, sf::Uint32 style = sf::Style::Fullscreen);
-    static void ShowConsole();
 
 protected: // Emitters
     DATA_EMITTER(KeyEvent, sf::Event::KeyEvent);

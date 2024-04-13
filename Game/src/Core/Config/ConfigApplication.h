@@ -2,6 +2,9 @@
 #define SPACESHIPBP_CONFIGAPPLICATION_H
 
 #include "Serializable.h"
+#include "SFML/Window/VideoMode.hpp"
+#include "SFML/Window/WindowStyle.hpp"
+#include <string>
 
 struct ConfigApplication: public Serializable
 {
@@ -12,7 +15,7 @@ struct ConfigApplication: public Serializable
     std::string configName = "ProgramConfig.json";
     std::string logFolder = "..";
 
-    sf::VideoMode videoMode = sf::VideoMode(800, 600);
+    sf::VideoMode videoMode = sf::VideoMode(1024, 768);
     std::string windowName = "SpaceShip";
     sf::Uint32 style = sf::Style::Fullscreen;
 };

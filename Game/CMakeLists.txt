@@ -49,6 +49,8 @@ set(SOURCE_FILES
         src/Core/Config/ConfigApplication.cpp
         src/Core/Config/ConfigSimulation.cpp
         src/Core/Config/ConfigLocalization.cpp
+        src/Utility/WindowsRelated/WindowsRelated.cpp
+        src/Utility/WindowsRelated/WindowsRelated.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
