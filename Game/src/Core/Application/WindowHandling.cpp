@@ -1,22 +1,5 @@
 #include "Application.h"
 
-
-Application::Application()
-{
-    window.create({800, 600}, "Space ship");
-    initSfmlEventHandler();
-}
-
-void Application::startLoop()
-{
-    while (isApplicationWork)
-    {
-        draw();
-        handleInput();
-        update();
-    }
-}
-
 void Application::handleInput()
 {
     sf::Event e{ };
@@ -67,13 +50,3 @@ void Application::handlePressedKeyMouse(const sf::Event& e)
     }
 }
 
-void Application::update()
-{
-
-}
-
-void Application::draw()
-{
-    window.clear(sf::Color::White);
-    window.display();
-}

@@ -18,16 +18,18 @@ set(TESTABLE_FILES
 set(SOURCE_FILES
         ${TESTABLE_FILES}
         src/main.cpp
-        src/Core/Application.cpp
-        src/Core/Application.h
+        src/Core/Application/Application.cpp
+        src/Core/Application/Application.h
         src/UI/Button.cpp
         src/UI/BaseMenu.cpp
         src/UI/BaseMenu.h
-        src/Core/MenuManager/MenuManager.cpp
-        src/Core/MenuManager/MenuManager.h
-        src/Core/MenuManager/MenuManagerTemplates.h
+        src/Utility/MenuManager/MenuManager.cpp
+        src/Utility/MenuManager/MenuManager.h
         src/UI/MainMenu.cpp
         src/UI/MainMenu.h
+        src/Utility/MenuManager/TemplateSpecializes.h
+        src/Core/Application/WindowHandling.cpp
+        src/Core/Application/ListenerHandling.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

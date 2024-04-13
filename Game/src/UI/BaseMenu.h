@@ -6,7 +6,7 @@
 class BaseMenu
 {
 public:
-    EventEmitter<void> closeEvent;
+    EventEmitter<void> closeEmitter;
 
 private:
 };

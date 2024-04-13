@@ -3,6 +3,8 @@
 
 #include <unordered_map>
 #include "SFML/Graphics.hpp"
+#include "Utility/EventsHandling/ListenersEmitters.h"
+#include "Utility/MenuManager/MenuManager.h"
 
 class Application
 {
@@ -11,17 +13,28 @@ public:
 
     void startLoop();
 
-private:
+private: // Game-related methods
+
+    void update();
+
+    void draw();
+
+private: // Listener handlers
+    void OnLastMenuClosed();
+
+private: // Listeners
+    EventListener<void> listenerLastMenuClosed;
+
+private: // Game-related objects
+    MenuManager menuManager;
+
+private: // Window-handling methods
     void handleInput();
     void initSfmlEventHandler();
 
     void handleProgramClose(const sf::Event&);
     void handlePressedKeyKeyboard(const sf::Event& e);
     void handlePressedKeyMouse(const sf::Event& e);
-
-    void update();
-
-    void draw();
 
 private:
     bool isApplicationWork = true;
