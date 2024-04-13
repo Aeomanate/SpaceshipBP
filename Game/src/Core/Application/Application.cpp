@@ -3,6 +3,13 @@
 
 Application::Application()
 {
+    ConfigApplication const& app = config.application;
+    Setup(app.videoMode, app.windowName, app.style);
+    ListenersInit();
+}
+
+void Application::ListenersInit()
+{
     listenerKeyPressed.SubscribeEmitter(emitterKeyEvent);
 
     listenerLastMenuClosed.SubscribeEmitter(menuManager.emitterLastMenuClosed);
@@ -21,12 +28,12 @@ MenuManager& Application::GetMenuManager()
     return GetInstance()->menuManager;
 }
 
+
+
 Config const& Application::GetConfig()
 {
     return GetInstance()->config;
 }
-
-
 
 void Application::Update()
 {
@@ -39,11 +46,11 @@ void Application::Draw()
     window.display();
 }
 
+
 void Application::OnLastMenuClosed()
 {
     isLowLevelApplicationWork = false;
 }
-
 
 void Application::OnKeyPressed(const sf::Event::KeyEvent& key)
 {

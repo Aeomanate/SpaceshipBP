@@ -15,7 +15,7 @@ struct ConfigApplication: public Serializable
     std::string configName = "ProgramConfig.json";
     std::string logFolder = "..";
 
-    sf::VideoMode videoMode = sf::VideoMode(1024, 768);
+    sf::VideoMode videoMode = sf::VideoMode(1920, 1080);
     std::string windowName = "SpaceShip";
     sf::Uint32 style = sf::Style::Fullscreen;
 };

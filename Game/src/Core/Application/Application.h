@@ -32,6 +32,7 @@ private: // Game-related objects
     Config config;
 
 protected:
+    void ListenersInit();
     Application();
 
 };
