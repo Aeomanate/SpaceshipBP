@@ -1,0 +1,40 @@
+#ifndef SPACESHIPBP_LOWLEVELAPPLICATION_H
+#define SPACESHIPBP_LOWLEVELAPPLICATION_H
+
+#include <SFML/Graphics.hpp>
+#include <unordered_map>
+#include <Utility/EventsHandling/ListenersEmitters.h>
+
+class LowLevelApplication
+{
+public:
+    void Run();
+    void Setup(sf::VideoMode videoMode, const std::string& applicationName);
+
+protected: // Emitters
+    DATA_EMITTER(KeyEvent, sf::Event::KeyEvent);
+    DATA_EMITTER(MouseClicked, sf::Event::MouseButtonEvent);
+
+protected: // Interface for derived class
+    virtual void Draw() = 0;
+    virtual void Update() = 0;
+
+protected:
+    bool isLowLevelApplicationWork = true;
+    sf::RenderWindow window;
+
+private: // Window-handling methods
+    void initSfmlEventHandler();
+    void HandleInput();
+
+    void handleProgramClose(const sf::Event&);
+    void handlePressedKeyKeyboard(const sf::Event& e);
+    void handlePressedKeyMouse(const sf::Event& e);
+
+private:
+    using WindowEventHandlerFunc = decltype(&LowLevelApplication::handleProgramClose);
+    std::unordered_map<sf::Event::EventType, WindowEventHandlerFunc> sfmlEventHandlerMap;
+};
+
+
+#endif //SPACESHIPBP_LOWLEVELAPPLICATION_H

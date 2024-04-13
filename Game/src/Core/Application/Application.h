@@ -6,23 +6,20 @@
 #include "Utility/EventsHandling/ListenersEmitters.h"
 #include "Utility/MenuManager/MenuManager.h"
 #include "Simulation/Simulation.h"
+#include "Utility/Singleton.h"
+#include "LowLevelApplication.h"
 
-class Application
+class Application: public LowLevelApplication, public Singleton<Application>
 {
 public:
-    explicit Application();
+    Application();
 
-    void startLoop();
+    MenuManager& GetMenuManager();
+    Simulation const& GetSimulation() const;
 
 private: // Game-related methods
-
-    void update();
-
-    void draw();
-
-private: // Emitters
-    DATA_EMITTER(KeyEvent, sf::Event::KeyEvent);
-    DATA_EMITTER(MouseClicked, sf::Event::MouseButtonEvent);
+    void Draw() override;
+    void Update() override;
 
 private: // Listeners
     SIMPLE_LISTENER(LastMenuClosed);
@@ -31,21 +28,6 @@ private: // Game-related objects
     MenuManager menuManager;
     Simulation simulation;
 
-private: // Window-handling methods
-    void handleInput();
-    void initSfmlEventHandler();
-
-    void handleProgramClose(const sf::Event&);
-    void handlePressedKeyKeyboard(const sf::Event& e);
-    void handlePressedKeyMouse(const sf::Event& e);
-
-private:
-    bool isApplicationWork = true;
-
-    using WindowEventHandlerFunc = decltype(&Application::handleProgramClose);
-    std::unordered_map<sf::Event::EventType, WindowEventHandlerFunc> sfmlEventHandlerMap;
-
-    sf::RenderWindow window;
 };
 
 #endif

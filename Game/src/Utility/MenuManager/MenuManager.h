@@ -30,6 +30,12 @@ private:
     std::stack<std::unique_ptr<BaseMenu>> menuStack;
 };
 
-#include "TemplateSpecializes.h"
+
+template <class MenuType>
+void MenuManager::SpawnMenu()
+{
+    menuStack.push(std::make_unique<MenuType>());
+    listenerCloseMenuRequest.SubscribeEmitter(menuStack.top()->emitterCloseRequest);
+}
 
 #endif //SPACESHIPBP_MENUMANAGER_H

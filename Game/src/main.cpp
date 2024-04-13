@@ -1,8 +1,7 @@
-#include <Windows.h>
 #include "Core/Application/Application.h"
 
 int main()
 {
-    ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
-    Application().startLoop();
+    Application::GetInstance()->Setup({ 800, 600 }, "SpaceShip");
+    Application::GetInstance()->Run();
 }

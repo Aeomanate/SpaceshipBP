@@ -18,3 +18,8 @@ void BaseMenu::OnKeyPressed(const sf::Event::KeyEvent& key)
         emitterCloseRequest.Emit();
     }
 }
+
+void BaseMenu::Update()
+{
+
+}

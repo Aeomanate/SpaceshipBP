@@ -2,35 +2,31 @@
 
 
 Application::Application()
-: listenerLastMenuClosed([this] { OnLastMenuClosed(); })
 {
-    window.create({800, 600}, "Space ship");
-    initSfmlEventHandler();
-
     listenerLastMenuClosed.SubscribeEmitter(menuManager.emitterLastMenuClosed);
 
     simulation.listenerKeyPressed.SubscribeEmitter(emitterKeyEvent);
     simulation.listenerMouseButtonClicked.SubscribeEmitter(emitterMouseClicked);
 }
 
-void Application::startLoop()
-{
-    while (isApplicationWork)
-    {
-        draw();
-        handleInput();
-        update();
-    }
-}
-
-void Application::update()
+void Application::Update()
 {
 
 }
 
-void Application::draw()
+void Application::Draw()
 {
     window.clear(sf::Color::Black);
     window.display();
+}
+
+Simulation const& Application::GetSimulation() const
+{
+    return simulation;
+}
+
+MenuManager& Application::GetMenuManager()
+{
+    return menuManager;
 }
 
