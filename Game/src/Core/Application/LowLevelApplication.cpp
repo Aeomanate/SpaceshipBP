@@ -1,10 +1,10 @@
 #include "LowLevelApplication.h"
 #include <Windows.h>
 
-void LowLevelApplication::Setup(sf::VideoMode videoMode, const std::string& applicationName)
+void LowLevelApplication::Setup(sf::VideoMode videoMode, const std::string& applicationName, sf::Uint32 style)
 {
     ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
-    window.create(videoMode, applicationName);
+    window.create(videoMode, applicationName, style);
     initSfmlEventHandler();
 }
 
@@ -15,7 +15,6 @@ void LowLevelApplication::Run()
         Draw();
         HandleInput();
         Update();
-
     }
 }
 
@@ -54,4 +53,9 @@ void LowLevelApplication::handlePressedKeyKeyboard(const sf::Event& e)
 void LowLevelApplication::handlePressedKeyMouse(const sf::Event& e)
 {
     emitterMouseClicked.Emit(e.mouseButton);
+}
+
+void LowLevelApplication::ShowConsole()
+{
+    ::ShowWindow(::GetConsoleWindow(), SW_SHOW);
 }

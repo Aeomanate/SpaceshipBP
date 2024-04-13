@@ -20,13 +20,8 @@ void Application::Draw()
     window.display();
 }
 
-Simulation const& Application::GetSimulation() const
-{
-    return simulation;
-}
 
-MenuManager& Application::GetMenuManager()
+void Application::OnLastMenuClosed()
 {
-    return menuManager;
+    isLowLevelApplicationWork = false;
 }
-

@@ -3,19 +3,20 @@
 
 #include <unordered_map>
 #include "SFML/Graphics.hpp"
-#include "Utility/EventsHandling/ListenersEmitters.h"
-#include "Utility/MenuManager/MenuManager.h"
+#include "Core/EventsHandling/ListenersEmitters.h"
 #include "Simulation/Simulation.h"
 #include "Utility/Singleton.h"
 #include "LowLevelApplication.h"
+#include "Core/Config/Config.h"
+#include "Core/MenuManager/MenuManager.h"
 
 class Application: public LowLevelApplication, public Singleton<Application>
 {
+    friend class Singleton<Application>;
 public:
-    Application();
-
-    MenuManager& GetMenuManager();
-    Simulation const& GetSimulation() const;
+    static MenuManager& GetMenuManager();
+    static Simulation const& GetSimulation();
+    static Config const& GetConfig();
 
 private: // Game-related methods
     void Draw() override;
@@ -27,6 +28,10 @@ private: // Listeners
 private: // Game-related objects
     MenuManager menuManager;
     Simulation simulation;
+    Config config;
+
+protected:
+    Application();
 
 };
 

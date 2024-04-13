@@ -1,8 +1,9 @@
 #ifndef SPACESHIPBP_BASEMENU_H
 #define SPACESHIPBP_BASEMENU_H
 
-#include "SFML/Graphics.hpp"
-#include "Utility/EventsHandling/ListenersEmitters.h"
+#include <SFML/Graphics.hpp>
+
+#include "Core/EventsHandling/ListenersEmitters.h"
 #include "Utility/Updatable.h"
 
 class BaseMenu: public sf::Drawable, public Updatable
@@ -19,8 +20,12 @@ public: // Update interface
 public: // Emitters
     SIMPLE_EMITTER(CloseRequest);
 
-private: // Listeners
+protected: // Listeners
     DATA_LISTENER(KeyPressed, sf::Event::KeyEvent);
+
+
+private:
+    sf::RenderTexture renderTexture;
 };
 
 

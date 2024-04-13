@@ -3,7 +3,7 @@
 
 #include <memory>
 
-template <class Derived>
+template<class Derived>
 class Singleton
 {
 public:

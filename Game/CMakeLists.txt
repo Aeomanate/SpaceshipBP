@@ -6,13 +6,13 @@ include(3P-libs/SFML/SFML.cmake)
 include(3P-libs/RapidJSON/rapidjson.cmake)
 
 set(TESTABLE_FILES
-        src/Utility/EventsHandling/ListenersEmitters.h
-        src/Utility/EventsHandling/BaseClasses.h
+        src/Core/EventsHandling/ListenersEmitters.h
+        src/Core/EventsHandling/BaseClasses.h
         src/Simulation/Simulation.h
         src/Simulation/Simulation.cpp
         src/Core/Types.h
-        src/Core/Config.h
-        src/Core/Config.cpp
+        src/Core/Config/Config.h
+        src/Core/Config/Config.cpp
 )
 
 set(SOURCE_FILES
@@ -23,11 +23,10 @@ set(SOURCE_FILES
         src/UI/Elements/Button.cpp
         src/UI/Menus/BaseMenu.cpp
         src/UI/Menus/BaseMenu.h
-        src/Utility/MenuManager/MenuManager.cpp
-        src/Utility/MenuManager/MenuManager.h
+        src/Core/MenuManager/MenuManager.cpp
+        src/Core/MenuManager/MenuManager.h
         src/UI/Menus/MainMenu.cpp
         src/UI/Menus/MainMenu.h
-        src/Core/Application/ApplicationListenerHandling.cpp
         src/UI/Menus/GameplayMenu.cpp
         src/UI/Menus/GameplayMenu.h
         src/UI/Menus/PauseMenu.cpp
@@ -39,6 +38,17 @@ set(SOURCE_FILES
         src/Utility/Singleton.h
         src/Core/Application/LowLevelApplication.cpp
         src/Core/Application/LowLevelApplication.h
+        src/Utility/Logger/Logger.cpp
+        src/Utility/Logger/Logger.h
+        src/Core/Config/ConfigApplication.h
+        src/Core/Config/ConfigSimulation.h
+        src/Core/Config/ConfigLocalization.h
+        src/Core/Config/Serializable.h
+        src/Core/Application/ApplicationShortcuts.cpp
+        src/Core/Application/ApplicationShortcuts.h
+        src/Core/Config/ConfigApplication.cpp
+        src/Core/Config/ConfigSimulation.cpp
+        src/Core/Config/ConfigLocalization.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

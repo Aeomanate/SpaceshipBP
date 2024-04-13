@@ -6,3 +6,5 @@ bin/*
 /CMakeSettings.json
 cmake-build*/*
 out/*
+/.idea/*
+/Game/bin-*/*
