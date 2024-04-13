@@ -4,3 +4,5 @@
 cmake*/*
 bin/*
 /CMakeSettings.json
+cmake-build*/*
+out/*

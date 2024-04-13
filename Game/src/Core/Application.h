@@ -1,7 +1,8 @@
-
+#ifndef SPACESHIPBP_APPLICATION_H
+#define SPACESHIPBP_APPLICATION_H
 
 #include <unordered_map>
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
 
 class Application
 {
@@ -30,3 +31,5 @@ private:
 
     sf::RenderWindow window;
 };
+
+#endif

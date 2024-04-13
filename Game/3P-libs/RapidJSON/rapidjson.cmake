@@ -1,7 +1,7 @@
 include(ExternalProject)
 ExternalProject_Add(
         RapidJSON
-        PREFIX "vendor/rapidjson"
+        PREFIX "_deps/rapidjson"
         GIT_REPOSITORY "https://github.com/Tencent/rapidjson.git"
         GIT_TAG v1.1.0
         TIMEOUT 10
@@ -17,3 +17,5 @@ ExternalProject_Add(
 # Prepare RapidJSON
 ExternalProject_Get_Property(RapidJSON source_dir)
 set(RAPIDJSON_INCLUDE_DIR ${source_dir}/include)
+
+include_directories(${RAPIDJSON_INCLUDE_DIR})

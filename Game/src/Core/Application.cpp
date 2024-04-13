@@ -22,7 +22,7 @@ void Application::handleInput()
     sf::Event e{ };
     while (window.pollEvent(e))
     {
-        if (!sfmlEventHandlerMap.contains(e.type))
+        if (sfmlEventHandlerMap.find(e.type) == sfmlEventHandlerMap.end())
         {
             continue;
         }

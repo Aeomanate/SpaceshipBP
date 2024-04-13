@@ -1,0 +1,11 @@
+#ifndef SPACESHIPBP_SIMULATION_H
+#define SPACESHIPBP_SIMULATION_H
+
+
+class Simulation
+{
+
+};
+
+
+#endif //SPACESHIPBP_SIMULATION_H
