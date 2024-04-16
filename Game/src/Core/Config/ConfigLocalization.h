@@ -1,16 +1,22 @@
 #ifndef SPACESHIPBP_CONFIGLOCALIZATION_H
 #define SPACESHIPBP_CONFIGLOCALIZATION_H
 
-#include "Serializable.h"
+#include <rapidjson/document.h>
+#include "Utility/Serialization/Serializable.h"
+#include "ConfigLocalizationLogLevel.h"
+#include "ConfigLocalizationFileOperations.h"
 #include <string>
+#include <type_traits>
 
-struct ConfigLocalization: public Serializable
+struct ConfigLocalization: public SerializableStruct
 {
-    void SaveTo(rapidjson::Value& value) override;
-    void LoadFrom(const rapidjson::Value& value) override;
+    ConfigLocalizationLogLevel logLevel;
+    ConfigLocalizationFileOperations fileOperations;
+    std::string parseJsonWarning = "Parse failed, incorrect JSON";
 
-    std::string configNotFound = "Config not found, creating one with default parameters";
-    std::string logOpenError = "Unable to create log file for out error";
 };
+
+
+
 
 #endif //SPACESHIPBP_CONFIGLOCALIZATION_H

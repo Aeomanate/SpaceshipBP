@@ -1,23 +1,23 @@
 #ifndef SPACESHIPBP_CONFIGAPPLICATION_H
 #define SPACESHIPBP_CONFIGAPPLICATION_H
 
-#include "Serializable.h"
-#include "SFML/Window/VideoMode.hpp"
-#include "SFML/Window/WindowStyle.hpp"
-#include <string>
+#include <SFML/Window/VideoMode.hpp>
+#include <SFML/Window/WindowStyle.hpp>
+#include "Utility/Serialization/Serializable.h"
+#include "ConfigSimulation.h"
+#include "ConfigLocalization.h"
+#include "ConfigWindow.h"
+#include "ConfigFile.h"
+#include "ConfigLogs.h"
 
-struct ConfigApplication: public Serializable
+struct ConfigApplication: public SerializableStruct
 {
-    void SaveTo(rapidjson::Value& value) override;
-    void LoadFrom(const rapidjson::Value& value) override;
+    ConfigConfig Config;
+    ConfigLogs Logs;
 
-    std::string configFolder = "../Config/res";
-    std::string configName = "ProgramConfig.json";
-    std::string logFolder = "..";
-
-    sf::VideoMode videoMode = sf::VideoMode(1920, 1080);
-    std::string windowName = "SpaceShip";
-    sf::Uint32 style = sf::Style::Fullscreen;
+    ConfigWindow window;
+    ConfigSimulation Simulation;
+    ConfigLocalization localization;
 };
 
 #endif //SPACESHIPBP_CONFIGAPPLICATION_H

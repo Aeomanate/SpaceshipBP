@@ -3,9 +3,15 @@
 
 Application::Application()
 {
-    ConfigApplication const& app = config.application;
-    Setup(app.videoMode, app.windowName, app.style);
+}
+
+void Application::Init()
+{
     ListenersInit();
+
+    config.LoadOrCreate();
+    ConfigWindow const& windowParams = config.Application.window;
+    Setup(windowParams.videoMode, windowParams.name, windowParams.style);
 }
 
 void Application::ListenersInit()
@@ -30,7 +36,7 @@ MenuManager& Application::GetMenuManager()
 
 
 
-Config const& Application::GetConfig()
+ApplicationConfigManager const& Application::GetConfig()
 {
     return GetInstance()->config;
 }

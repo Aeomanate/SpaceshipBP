@@ -1,10 +1,7 @@
-.git/*
-.vs/*
-.cmake/*
-cmake*/*
-bin/*
+/.vs/*
 /CMakeSettings.json
-cmake-build*/*
-out/*
+/cmake-build*
+/out/*
 /.idea/*
-/Game/bin-*/*
+/Game/bin-*
+/Game/Artifacts

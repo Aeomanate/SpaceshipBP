@@ -11,9 +11,9 @@ const Simulation& getSimulation()
     return Application::GetSimulation();
 }
 
-const Config& getConfig()
+const ConfigApplication& getConfig()
 {
-    return Application::GetConfig();
+    return Application::GetConfig().Application;
 }
 
 const ConfigLocalization& getLoc()

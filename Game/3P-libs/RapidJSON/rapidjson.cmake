@@ -15,7 +15,7 @@ ExternalProject_Add(
         UPDATE_COMMAND ""
 )
 # Prepare RapidJSON
-ExternalProject_Get_Property(RapidJSON source_dir)
-set(RAPIDJSON_INCLUDE_DIR ${source_dir}/include)
+ExternalProject_Get_Property(RapidJSON SOURCE_DIR)
+set(RAPIDJSON_INCLUDE_DIR ${SOURCE_DIR}/include)
 
-include_directories(${RAPIDJSON_INCLUDE_DIR})
+include_directories(SYSTEM ${RAPIDJSON_INCLUDE_DIR})

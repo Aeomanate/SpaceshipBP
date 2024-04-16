@@ -3,16 +3,20 @@
 
 #include <string>
 
-class Logger
+enum class LogLevel
 {
-public:
-    static void Log(const std::string& message);
-
-private:
-
+    VERBOSE,
+    NOTIFY,
+    WARNING,
+    ERROR,
+    FATAL_ERROR,
 };
 
-#define LOG(Message) Logger::LOG(Message)
+extern LogLevel LOG_LEVEL;
+
+void Log(std::string&& message, LogLevel logLevel = LOG_LEVEL);
+
+void Log(std::string_view message, std::string_view details, LogLevel logLevel = LOG_LEVEL);
 
 
 #endif //SPACESHIPBP_LOGGER_H

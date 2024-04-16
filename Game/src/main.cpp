@@ -2,5 +2,6 @@
 
 int main()
 {
+    Application::GetInstance()->Init();
     Application::GetInstance()->Run();
 }

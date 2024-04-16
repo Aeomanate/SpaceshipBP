@@ -1,10 +1,10 @@
 #include "LowLevelApplication.h"
-#include "Utility/WindowsRelated/WindowsRelated.h"
+#include "Utility/SystemRelated/SystemRelated.h"
 #include <Windows.h>
 
 void LowLevelApplication::Setup(sf::VideoMode videoMode, const std::string& applicationName, sf::Uint32 style)
 {
-    WindowsRelated::HideConsole();
+    SystemRelated::HideConsole();
     window.create(videoMode, applicationName, style);
     initSfmlEventHandler();
 }

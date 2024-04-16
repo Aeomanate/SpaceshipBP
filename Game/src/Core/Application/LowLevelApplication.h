@@ -8,8 +8,9 @@
 class LowLevelApplication
 {
 public:
-    void Run();
+    virtual void Init() = 0;
     void Setup(sf::VideoMode videoMode, const std::string& applicationName, sf::Uint32 style = sf::Style::Fullscreen);
+    void Run();
 
 protected: // Emitters
     DATA_EMITTER(KeyEvent, sf::Event::KeyEvent);

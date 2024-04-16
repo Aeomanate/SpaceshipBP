@@ -8,14 +8,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/Game/bin
 # CMake Options
 cmake_policy(SET CMP0135 NEW)
 
+
 # Compiler settings
-if (MSVC_VERSION GREATER_EQUAL "1900")
-    include(CheckCXXCompilerFlag)
-    CHECK_CXX_COMPILER_FLAG("/std:c++17" _cpp_standard_flag_supported)
-    if (_cpp_standard_flag_supported)
-        add_compile_options("/std:c++17")
-    endif()
+set(CMAKE_CXX_STANDARD 20)
+
+if(MSVC)
+    # warning level 4
+    add_compile_options(/W4)
+else()
+    # additional warnings
+    add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
+
+add_compile_definitions(_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
 
 # Include project.
 add_subdirectory(Game)

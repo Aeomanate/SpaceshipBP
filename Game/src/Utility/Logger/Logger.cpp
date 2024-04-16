@@ -1,36 +1,76 @@
 #include "Logger.h"
 
 #include <fstream>
-#include <filesystem>
 #include <iostream>
-
+#include "Utility/SystemRelated/SystemRelated.h"
 #include "Core/Application/ApplicationShortcuts.h"
-#include "Utility/WindowsRelated/WindowsRelated.h"
+#include <unordered_map>
 
-namespace fs = std::filesystem;
+LogLevel LOG_LEVEL = LogLevel::NOTIFY;
 
-void Logger::Log(const std::string& message)
+std::string getLogPrefix(LogLevel logLevel)
 {
-    fs::path logFolder(getConfig().application.logFolder);
-    std::string logFileName = "ProgramOutput.log";
+    static std::unordered_map<LogLevel, std::string> logPrefix {
+        { LogLevel::VERBOSE    , getLoc().logLevel.verbose    },
+        { LogLevel::NOTIFY     , getLoc().logLevel.notify     },
+        { LogLevel::WARNING    , getLoc().logLevel.warning    },
+        { LogLevel::ERROR      , getLoc().logLevel.error      },
+        { LogLevel::FATAL_ERROR, getLoc().logLevel.fatalError },
+    };
+
+    return logPrefix[logLevel];
+}
+
+bool isLogLevelAppropriate(LogLevel logLevel)
+{
+    return logLevel >= LOG_LEVEL;
+}
+
+void Log(std::string&& message, LogLevel logLevel)
+{
+    if(!isLogLevelAppropriate(logLevel))
+    {
+        return;
+    }
+
+    message = "[" + getLogPrefix(logLevel) + "] " + message;
+
+    fs::path logPath = getConfig().Logs.Folder / getConfig().Logs.Name;
+
+    if(SystemRelated::CreateDirWhenAbsent(getConfig().Logs.Folder) && isLogLevelAppropriate(logLevel))
+    {
+        message += (getLoc().fileOperations.createNotify + ": " += getConfig().Logs.Folder.string() + "\n");
+    }
+
+    if(!fs::exists(logPath) && isLogLevelAppropriate(logLevel))
+    {
+        message += (getLoc().fileOperations.createNotify + ": " += logPath.string() + "\n");
+    }
 
     std::ofstream log;
-    log.open(logFolder / logFileName, std::ios_base::app | std::ios_base::out);
+    log.open(logPath, std::ios_base::app);
 
-    if(!log.is_open())
+    if(!log.is_open() && isLogLevelAppropriate(LogLevel::WARNING))
     {
-        WindowsRelated::ShowConsole();
-        std::cerr << getLoc().configNotFound << std::endl;
-        std::cerr << "Output: \n";
+        message += getLoc().fileOperations.createFailed + ": " += logPath.string() + "\n";
+        SystemRelated::ShowConsole();
         std::cerr << message << '\n';
-        std::cerr << "\nPress any key to continue... ";
-
-        std::cin.get();
-
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
     }
 
     log << message << std::endl;
+}
+
+void Log(std::string_view message, std::string_view details, LogLevel logLevel)
+{
+    if(!isLogLevelAppropriate(logLevel))
+    {
+        return;
+    }
+
+    std::string fullMessage(message);
+    fullMessage += ": ";
+    fullMessage += details;
+
+    Log(std::move(fullMessage));
 }

@@ -11,8 +11,8 @@ set(TESTABLE_FILES
         src/Simulation/Simulation.h
         src/Simulation/Simulation.cpp
         src/Core/Types.h
-        src/Core/Config/Config.h
-        src/Core/Config/Config.cpp
+        src/Core/Config/ApplicationConfigManager.h
+        src/Core/Config/ApplicationConfigManager.cpp
 )
 
 set(SOURCE_FILES
@@ -43,14 +43,17 @@ set(SOURCE_FILES
         src/Core/Config/ConfigApplication.h
         src/Core/Config/ConfigSimulation.h
         src/Core/Config/ConfigLocalization.h
-        src/Core/Config/Serializable.h
+        src/Utility/Serialization/Serializable.h
         src/Core/Application/ApplicationShortcuts.cpp
         src/Core/Application/ApplicationShortcuts.h
-        src/Core/Config/ConfigApplication.cpp
-        src/Core/Config/ConfigSimulation.cpp
-        src/Core/Config/ConfigLocalization.cpp
-        src/Utility/WindowsRelated/WindowsRelated.cpp
-        src/Utility/WindowsRelated/WindowsRelated.h
+        src/Utility/SystemRelated/SystemRelated.cpp
+        src/Utility/SystemRelated/SystemRelated.h
+        src/Core/Config/ConfigWindow.h
+        src/Core/Config/ConfigFile.h
+        src/Core/Config/ConfigLogs.h
+        src/Utility/Serialization/SerializableExternalTypes.h
+        src/Core/Config/ConfigLocalizationLogLevel.h
+        src/Core/Config/ConfigLocalizationFileOperations.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
