@@ -3,12 +3,12 @@
 
 #include "Core/MenuManager/MenuManager.h"
 #include "Simulation/Simulation.h"
-#include "Core/Storage/Config/ConfigApplication.h"
-#include "Core/Storage/Localization/ApplicationLocalization.h"
+#include "Core/Storage/Config/GeneralConfig.h"
+#include "Core/Storage/Localization/GeneralLocalization.h"
 
 MenuManager& getMenuManager();
 const Simulation& getSimulation();
-const ConfigGeneral& getConfig();
-const ApplicationLocalization& getLoc(); // Get localization config
+const GeneralConfig& getConfig();
+const GeneralLocalization& getLoc(); // Get localization config
 
 #endif //SPACESHIPBP_APPLICATIONSHORTCUTS_H

@@ -1,16 +1,16 @@
-#ifndef SPACESHIPBP_CONFIGAPPLICATION_H
-#define SPACESHIPBP_CONFIGAPPLICATION_H
+#ifndef SPACESHIPBP_GENERALCONFIG_H
+#define SPACESHIPBP_GENERALCONFIG_H
 
 #include "SFML/Window/VideoMode.hpp"
 #include "SFML/Window/WindowStyle.hpp"
 #include "Utility/Serialization/Serializable.h"
 #include "ConfigSimulation.h"
-#include "Core/Storage/Localization/ApplicationLocalization.h"
+#include "Core/Storage/Localization/GeneralLocalization.h"
 #include "ConfigWindow.h"
 #include "ConfigFile.h"
 #include "ConfigLogs.h"
 
-SERIALIZABLE_S(ConfigGeneral, UserJsonConversions)
+SERIALIZABLE_S(GeneralConfig, UserJsonConversions)
 {
     ConfigConfig Config;
     ConfigLogs Logs;
@@ -19,4 +19,4 @@ SERIALIZABLE_S(ConfigGeneral, UserJsonConversions)
     ConfigSimulation Simulation;
 };
 
-#endif //SPACESHIPBP_CONFIGAPPLICATION_H
+#endif //SPACESHIPBP_GENERALCONFIG_H

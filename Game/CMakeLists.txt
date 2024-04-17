@@ -38,9 +38,9 @@ set(SOURCE_FILES
         src/Core/Application/LowLevelApplication.h
         src/Utility/Logger/Logger.cpp
         src/Utility/Logger/Logger.h
-        src/Core/Storage/Config/ConfigApplication.h
+        src/Core/Storage/Config/GeneralConfig.h
         src/Core/Storage/Config/ConfigSimulation.h
-        src/Core/Storage/Localization/ApplicationLocalization.h
+        src/Core/Storage/Localization/GeneralLocalization.h
         src/Utility/Serialization/Serializable.h
         src/Core/Application/ApplicationShortcuts.cpp
         src/Core/Application/ApplicationShortcuts.h

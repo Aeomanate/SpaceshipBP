@@ -3,9 +3,9 @@
 
 #include "SFML/Graphics.hpp"
 #include "Utility/Serialization/Serializable.h"
-#include "Core/Storage/Config/ConfigApplication.h"
+#include "Core/Storage/Config/GeneralConfig.h"
 #include "Core/Storage/Config/ConfigSimulation.h"
-#include "Core/Storage/Localization/ApplicationLocalization.h"
+#include "Core/Storage/Localization/GeneralLocalization.h"
 #include "Utility/Logger/Logger.h"
 #include "StorageRoot.h"
 
@@ -13,7 +13,7 @@ class ApplicationConfig: public StorageRoot
 {
 public:
     inline ApplicationConfig(): StorageRoot(&configGeneral) { };
-    ConfigGeneral configGeneral;
+    GeneralConfig configGeneral;
 };
 
 

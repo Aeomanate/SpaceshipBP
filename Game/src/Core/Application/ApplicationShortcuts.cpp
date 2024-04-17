@@ -11,12 +11,12 @@ const Simulation& getSimulation()
     return Application::GetSimulation();
 }
 
-const ConfigGeneral& getConfig()
+const GeneralConfig& getConfig()
 {
     return Application::GetConfig().configGeneral;
 }
 
-const ApplicationLocalization& getLoc()
+const GeneralLocalization& getLoc()
 {
     return Application::GetLoc();
 }

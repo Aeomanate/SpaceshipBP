@@ -1,5 +1,5 @@
-#ifndef SPACESHIPBP_APPLICATIONLOCALIZATION_H
-#define SPACESHIPBP_APPLICATIONLOCALIZATION_H
+#ifndef SPACESHIPBP_GENERALLOCALIZATION_H
+#define SPACESHIPBP_GENERALLOCALIZATION_H
 
 #include <rapidjson/document.h>
 #include "Utility/Serialization/Serializable.h"
@@ -8,7 +8,7 @@
 #include "Core/UserJsonConversions.h"
 #include <string>
 
-SERIALIZABLE_S(ApplicationLocalization, UserJsonConversions)
+SERIALIZABLE_S(GeneralLocalization, UserJsonConversions)
 {
     LocalizationLogLevel logLevel;
     LocalizationFileOperations fileOperations;
@@ -19,4 +19,4 @@ SERIALIZABLE_S(ApplicationLocalization, UserJsonConversions)
 
 
 
-#endif //SPACESHIPBP_APPLICATIONLOCALIZATION_H
+#endif //SPACESHIPBP_GENERALLOCALIZATION_H

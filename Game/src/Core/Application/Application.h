@@ -20,7 +20,7 @@ public:
     static MenuManager& GetMenuManager();
     static Simulation const& GetSimulation();
     static ApplicationConfig const& GetConfig();
-    static ApplicationLocalization const& GetLoc();
+    static GeneralLocalization const& GetLoc();
 
 private: // Game-related methods
     void Draw() override;
@@ -34,7 +34,7 @@ private: // Game-related objects
     MenuManager menuManager;
     Simulation simulation;
     ApplicationConfig config;
-    ApplicationLocalization localization;
+    GeneralLocalization localization;
 
 protected:
     void ListenersInit();

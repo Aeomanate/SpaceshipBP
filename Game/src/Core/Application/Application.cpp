@@ -34,7 +34,7 @@ MenuManager& Application::GetMenuManager()
     return GetInstance()->menuManager;
 }
 
-ApplicationLocalization const& Application::GetLoc()
+GeneralLocalization const& Application::GetLoc()
 {
     return GetInstance()->localization;
 }
