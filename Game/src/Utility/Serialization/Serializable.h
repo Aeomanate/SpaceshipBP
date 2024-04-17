@@ -79,6 +79,18 @@ namespace Serialization
             inline static constexpr const FromJsonFuncPtrType fromJson = GetFromJsonConverter();
             inline static constexpr const ToJsonFuncPtrType toJson = GetToJsonConverter();
         };
+
+        inline void callSIGSEGV([[maybe_unused]] std::string_view what)
+        {
+            static_cast<void(*)()>(nullptr)();
+        }
+
+        template <class NameStorage>
+        concept MustHaveName =
+        requires
+        {
+            {NameStorage::name}->std::convertible_to<const char*>;
+        };
     };
 
     /// A base class for any serializable variable for both user-defined and literal type
@@ -86,7 +98,8 @@ namespace Serialization
     {
         template <class Type, class UserDefinedJsonConversionSet>
         friend class SerializableVariable;
-        template <class UserDefinedJsonConversionSet>
+        template <class UserDefinedJsonConversionSet, class NameContainer>
+        requires Internal::MustHaveName<NameContainer>
         friend class SerializableStruct;
 
     public: // Main methods
@@ -111,6 +124,12 @@ namespace Serialization
         template <class OStream>
         friend OStream& operator<< (OStream&& out, SerializableBase& serializable)
         {
+            if(!out)
+            {
+                #ifndef NDEBUG
+                Internal::callSIGSEGV("Out thread is corrupted");
+                #endif
+            }
             out << static_cast<std::string>(serializable);
             return out;
         }
@@ -146,7 +165,7 @@ namespace Serialization
             if(isToJsonDocumentRan)
             {
                 #ifndef NDEBUG
-                static_cast<void(*)()>(nullptr)();
+                Internal::callSIGSEGV("ToJson() conversion ran twice at the same time");
                 #endif
             }
 
@@ -215,10 +234,13 @@ namespace Serialization
     /// It keep a set of addresses of nested SerializableVariable's
     /// for simplify looping through them and serialize/deserialize them without any user actions
     /// But it won't work if your struct will be like SerializableStruct... :: PlainStruct :: SerializableStruct...
-    template <class UserDefinedJsonConversionSet>
+    template <class UserDefinedJsonConversionSet, class NameContainer>
+    requires Internal::MustHaveName<NameContainer>
     class SerializableStruct : public SerializableBase
     {
     public:
+        inline SerializableStruct(): SerializableBase(NameContainer::name) { }
+
         void SetFromJson(const rapidjson::Value& valueExternal) override
         {
             for (SerializableBase* member: membersSet)
@@ -255,8 +277,14 @@ namespace Serialization
 // x also would be nice, but it conflicts with something in other libs
 // Who does use small 'o'? No one but me :D
 #define o ,
-#define SERIALIZABLE(Type, identifier, defaultValue) \
+#define SERIALIZABLE_V(Type, identifier, defaultValue) \
 Serialization::SerializableVariable<Type, ConversionSet> identifier = { #identifier, Type(defaultValue)}
 
+#define SERIALIZABLE_S(StructName, CustomJsonConversions)                                   \
+namespace __ ## StructName ## __ ## CustomJsonConversions ## __ {                           \
+    struct CustomNameContainer { static inline const char* name = #StructName; };           \
+}                                                                                           \
+struct StructName: public Serialization::SerializableStruct<CustomJsonConversions,          \
+__ ## StructName ## __ ## CustomJsonConversions ## __::CustomNameContainer>
 
 #endif //SPACESHIPBP_SERIALIZABLE_H

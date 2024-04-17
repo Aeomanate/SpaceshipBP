@@ -8,7 +8,7 @@
 #include "Core/UserJsonConversions.h"
 #include <string>
 
-struct ApplicationLocalization: public Serialization::SerializableStruct<UserJsonConversions>
+SERIALIZABLE_S(ApplicationLocalization, UserJsonConversions)
 {
     LocalizationLogLevel logLevel;
     LocalizationFileOperations fileOperations;

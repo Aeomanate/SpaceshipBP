@@ -8,11 +8,11 @@
 #include "Utility/Serialization/Serializable.h"
 
 
-struct ConfigWindow: public Serialization::SerializableStruct<UserJsonConversions>
+SERIALIZABLE_S(ConfigWindow, UserJsonConversions)
 {
-    SERIALIZABLE(sf::VideoMode, videoMode, 1920 o 1080);
-    SERIALIZABLE(std::string, name, "SpaceShip");
-    SERIALIZABLE(sf::Uint32, style, sf::Style::Fullscreen);
+    SERIALIZABLE_V(sf::VideoMode, videoMode, 1920 o 1080);
+    SERIALIZABLE_V(std::string, name, "SpaceShip");
+    SERIALIZABLE_V(sf::Uint32, style, sf::Style::Fullscreen);
 };
 
 #endif //SPACESHIPBP_CONFIGWINDOW_H
