@@ -8,7 +8,7 @@
 
 MenuManager& getMenuManager();
 const Simulation& getSimulation();
-const ConfigApplication& getConfig();
+const ConfigGeneral& getConfig();
 const ApplicationLocalization& getLoc(); // Get localization config
 
 #endif //SPACESHIPBP_APPLICATIONSHORTCUTS_H

@@ -12,8 +12,8 @@
 class ApplicationConfig: public StorageRoot
 {
 public:
-    inline ApplicationConfig(): StorageRoot(&applicationConfig) { };
-    ConfigApplication applicationConfig;
+    inline ApplicationConfig(): StorageRoot(&configGeneral) { };
+    ConfigGeneral configGeneral;
 };
 
 

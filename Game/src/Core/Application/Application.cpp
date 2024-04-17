@@ -10,7 +10,7 @@ void Application::Init()
     ListenersInit();
 
     config.LoadOrCreate();
-    ConfigWindow const& windowParams = config.applicationConfig.window;
+    ConfigWindow const& windowParams = config.configGeneral.window;
     Setup(windowParams.videoMode, windowParams.name, windowParams.style);
 }
 
