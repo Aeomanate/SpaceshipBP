@@ -10,7 +10,7 @@ set(TESTABLE_FILES
         src/Simulation/Simulation.h
         src/Simulation/Simulation.cpp
         src/Core/Types.h
-        src/Core/Storage/ApplicationConfig.h
+        src/Core/Storage/RootConfig.h
 )
 
 set(SOURCE_FILES
@@ -55,7 +55,7 @@ set(SOURCE_FILES
         src/Utility/Serialization/StdJsonConverters.h
         src/Core/Storage/StorageRoot.cpp
         src/Core/Storage/StorageRoot.h
-        src/Core/Storage/LocalizationRoot.h
+        src/Core/Storage/RootLocalization.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

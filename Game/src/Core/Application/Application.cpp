@@ -9,8 +9,8 @@ void Application::Init()
 {
     ListenersInit();
 
-    config.LoadOrCreate();
-    ConfigWindow const& windowParams = config.configGeneral.window;
+    rootConfig.LoadOrCreate();
+    ConfigWindow const& windowParams = rootConfig.configGeneral.window;
     Setup(windowParams.videoMode, windowParams.name, windowParams.style);
 }
 
@@ -36,14 +36,14 @@ MenuManager& Application::GetMenuManager()
 
 GeneralLocalization const& Application::GetLoc()
 {
-    return GetInstance()->localization;
+    return GetInstance()->rootLocalization.localization;
 }
 
 
 
-ApplicationConfig const& Application::GetConfig()
+RootConfig const& Application::GetConfig()
 {
-    return GetInstance()->config;
+    return GetInstance()->rootConfig;
 }
 
 void Application::Update()

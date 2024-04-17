@@ -7,8 +7,9 @@
 #include "Simulation/Simulation.h"
 #include "Utility/Singleton.h"
 #include "LowLevelApplication.h"
-#include "Core/Storage/ApplicationConfig.h"
 #include "Core/MenuManager/MenuManager.h"
+#include "Core/Storage/RootLocalization.h"
+#include "Core/Storage/RootConfig.h"
 
 class Application: public LowLevelApplication, public Singleton<Application>
 {
@@ -19,7 +20,7 @@ public:
 public:
     static MenuManager& GetMenuManager();
     static Simulation const& GetSimulation();
-    static ApplicationConfig const& GetConfig();
+    static RootConfig const& GetConfig();
     static GeneralLocalization const& GetLoc();
 
 private: // Game-related methods
@@ -33,8 +34,8 @@ private: // Listeners
 private: // Game-related objects
     MenuManager menuManager;
     Simulation simulation;
-    ApplicationConfig config;
-    GeneralLocalization localization;
+    RootConfig rootConfig;
+    RootLocalization rootLocalization;
 
 protected:
     void ListenersInit();

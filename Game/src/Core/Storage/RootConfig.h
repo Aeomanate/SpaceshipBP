@@ -1,5 +1,5 @@
-#ifndef SPACESHIPBP_APPLICATIONCONFIG_H
-#define SPACESHIPBP_APPLICATIONCONFIG_H
+#ifndef SPACESHIPBP_ROOTCONFIG_H
+#define SPACESHIPBP_ROOTCONFIG_H
 
 #include "SFML/Graphics.hpp"
 #include "Utility/Serialization/Serializable.h"
@@ -9,12 +9,12 @@
 #include "Utility/Logger/Logger.h"
 #include "StorageRoot.h"
 
-class ApplicationConfig: public StorageRoot
+class RootConfig: public StorageRoot
 {
 public:
-    inline ApplicationConfig(): StorageRoot(&configGeneral) { };
+    inline RootConfig(): StorageRoot(&configGeneral) { };
     GeneralConfig configGeneral;
 };
 
 
-#endif //SPACESHIPBP_APPLICATIONCONFIG_H
+#endif //SPACESHIPBP_ROOTCONFIG_H
