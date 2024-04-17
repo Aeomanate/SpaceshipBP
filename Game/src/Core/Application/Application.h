@@ -7,7 +7,7 @@
 #include "Simulation/Simulation.h"
 #include "Utility/Singleton.h"
 #include "LowLevelApplication.h"
-#include "Core/Config/ApplicationConfigManager.h"
+#include "Core/Storage/ApplicationConfig.h"
 #include "Core/MenuManager/MenuManager.h"
 
 class Application: public LowLevelApplication, public Singleton<Application>
@@ -19,7 +19,8 @@ public:
 public:
     static MenuManager& GetMenuManager();
     static Simulation const& GetSimulation();
-    static ApplicationConfigManager const& GetConfig();
+    static ApplicationConfig const& GetConfig();
+    static ApplicationLocalization const& GetLoc();
 
 private: // Game-related methods
     void Draw() override;
@@ -32,7 +33,8 @@ private: // Listeners
 private: // Game-related objects
     MenuManager menuManager;
     Simulation simulation;
-    ApplicationConfigManager config;
+    ApplicationConfig config;
+    ApplicationLocalization localization;
 
 protected:
     void ListenersInit();

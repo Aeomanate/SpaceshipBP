@@ -96,7 +96,7 @@ namespace Serialization
             : name { name }
         { }
 
-        inline operator std::string()
+        operator std::string()
         {
             rapidjson::StringBuffer buffer;
             rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
@@ -111,7 +111,8 @@ namespace Serialization
         template <class OStream>
         friend OStream& operator<< (OStream&& out, SerializableBase& serializable)
         {
-            return out << static_cast<std::string>(serializable);
+            out << static_cast<std::string>(serializable);
+            return out;
         }
 
         template <class IStream>

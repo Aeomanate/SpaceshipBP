@@ -1,9 +1,9 @@
-#ifndef SPACESHIPBP_CONFIGLOCALIZATIONFILEOPERATIONS_H
-#define SPACESHIPBP_CONFIGLOCALIZATIONFILEOPERATIONS_H
+#ifndef SPACESHIPBP_LOCALIZATIONFILEOPERATIONS_H
+#define SPACESHIPBP_LOCALIZATIONFILEOPERATIONS_H
 
 #include "Utility/Serialization/Serializable.h"
 
-struct ConfigLocalizationFileOperations
+struct LocalizationFileOperations
 {
     std::string absentNotify = "Absent file";
     std::string createNotify = "Creating absent file";
@@ -11,4 +11,4 @@ struct ConfigLocalizationFileOperations
 };
 
 
-#endif //SPACESHIPBP_CONFIGLOCALIZATIONFILEOPERATIONS_H
+#endif //SPACESHIPBP_LOCALIZATIONFILEOPERATIONS_H

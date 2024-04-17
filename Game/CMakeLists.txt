@@ -10,8 +10,7 @@ set(TESTABLE_FILES
         src/Simulation/Simulation.h
         src/Simulation/Simulation.cpp
         src/Core/Types.h
-        src/Core/Config/ApplicationConfigManager.h
-        src/Core/Config/ApplicationConfigManager.cpp
+        src/Core/Storage/ApplicationConfig.h
 )
 
 set(SOURCE_FILES
@@ -39,21 +38,24 @@ set(SOURCE_FILES
         src/Core/Application/LowLevelApplication.h
         src/Utility/Logger/Logger.cpp
         src/Utility/Logger/Logger.h
-        src/Core/Config/ConfigApplication.h
-        src/Core/Config/ConfigSimulation.h
-        src/Core/Config/ConfigLocalization.h
+        src/Core/Storage/Config/ConfigApplication.h
+        src/Core/Storage/Config/ConfigSimulation.h
+        src/Core/Storage/Localization/ApplicationLocalization.h
         src/Utility/Serialization/Serializable.h
         src/Core/Application/ApplicationShortcuts.cpp
         src/Core/Application/ApplicationShortcuts.h
         src/Utility/SystemRelated/SystemRelated.cpp
         src/Utility/SystemRelated/SystemRelated.h
-        src/Core/Config/ConfigWindow.h
-        src/Core/Config/ConfigFile.h
-        src/Core/Config/ConfigLogs.h
+        src/Core/Storage/Config/ConfigWindow.h
+        src/Core/Storage/Config/ConfigFile.h
+        src/Core/Storage/Config/ConfigLogs.h
         src/Core/UserJsonConversions.h
-        src/Core/Config/ConfigLocalizationLogLevel.h
-        src/Core/Config/ConfigLocalizationFileOperations.h
+        src/Core/Storage/Localization/LocalizationLogLevel.h
+        src/Core/Storage/Localization/LocalizationFileOperations.h
         src/Utility/Serialization/StdJsonConverters.h
+        src/Core/Storage/StorageRoot.cpp
+        src/Core/Storage/StorageRoot.h
+        src/Core/Storage/LocalizationRoot.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

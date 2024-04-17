@@ -13,10 +13,10 @@ const Simulation& getSimulation()
 
 const ConfigApplication& getConfig()
 {
-    return Application::GetConfig().Application;
+    return Application::GetConfig().applicationConfig;
 }
 
-const ConfigLocalization& getLoc()
+const ApplicationLocalization& getLoc()
 {
-    return getConfig().localization;
+    return Application::GetLoc();
 }

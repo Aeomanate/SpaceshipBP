@@ -1,18 +1,22 @@
-#include "ApplicationConfigManager.h"
+#include "StorageRoot.h"
 
 #include <filesystem>
 #include <fstream>
 #include "Utility/Logger/Logger.h"
 #include "Utility/SystemRelated/SystemRelated.h"
 #include "Core/Application/ApplicationShortcuts.h"
+#include "Utility/Serialization/Serializable.h"
 
+StorageRoot::StorageRoot(Serialization::SerializableBase* rootMemberVariable)
+: rootMemberVariable { rootMemberVariable }
+{ }
 
-ApplicationConfigManager::~ApplicationConfigManager()
+StorageRoot::~StorageRoot()
 {
-    Save();
+
 }
 
-void ApplicationConfigManager::LoadOrCreate()
+void StorageRoot::LoadOrCreate()
 {
     if(!Load())
     {
@@ -46,12 +50,12 @@ StreamType openFileStream(fs::path folder, std::string_view name)
     return std::move(configFromFileStream);
 }
 
-bool ApplicationConfigManager::Load()
+bool StorageRoot::Load()
 {
     fs::path folder = getConfig().Config.Folder;
     std::string name = getConfig().Config.Name;
 
-    if(!(openFileStream<std::ifstream>(folder, name) >> Application) || Application.HasParseError())
+    if(!(openFileStream<std::ifstream>(folder, name) >> *rootMemberVariable) || rootMemberVariable->HasParseError())
     {
         Log(getLoc().parseJsonWarning, (folder / name).string(), LogLevel::WARNING);
         return false;
@@ -60,16 +64,14 @@ bool ApplicationConfigManager::Load()
     return true;
 }
 
-void ApplicationConfigManager::Save()
+void StorageRoot::Save()
 {
 
     fs::path folder = getConfig().Config.Folder;
     std::string name = getConfig().Config.Name;
 
-    //if(!(openFileStream<std::ofstream>(folder, name) << Application))
+    if(!(openFileStream<std::ofstream>(folder, name) << *rootMemberVariable))
     {
 
     }
 }
-
-

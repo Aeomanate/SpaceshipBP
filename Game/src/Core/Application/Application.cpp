@@ -10,7 +10,7 @@ void Application::Init()
     ListenersInit();
 
     config.LoadOrCreate();
-    ConfigWindow const& windowParams = config.Application.window;
+    ConfigWindow const& windowParams = config.applicationConfig.window;
     Setup(windowParams.videoMode, windowParams.name, windowParams.style);
 }
 
@@ -34,9 +34,14 @@ MenuManager& Application::GetMenuManager()
     return GetInstance()->menuManager;
 }
 
+ApplicationLocalization const& Application::GetLoc()
+{
+    return GetInstance()->localization;
+}
 
 
-ApplicationConfigManager const& Application::GetConfig()
+
+ApplicationConfig const& Application::GetConfig()
 {
     return GetInstance()->config;
 }
@@ -65,3 +70,4 @@ void Application::OnKeyPressed(const sf::Event::KeyEvent& key)
         isLowLevelApplicationWork = false;
     }
 }
+

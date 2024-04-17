@@ -1,9 +1,9 @@
-#ifndef SPACESHIPBP_CONFIGLOCALIZATIONLOGLEVEL_H
-#define SPACESHIPBP_CONFIGLOCALIZATIONLOGLEVEL_H
+#ifndef SPACESHIPBP_LOCALIZATIONLOGLEVEL_H
+#define SPACESHIPBP_LOCALIZATIONLOGLEVEL_H
 
 #include "Utility/Serialization/Serializable.h"
 
-struct ConfigLocalizationLogLevel
+struct LocalizationLogLevel
 {
     std::string verbose = "Verbose";
     std::string notify = "Notify";
@@ -13,4 +13,4 @@ struct ConfigLocalizationLogLevel
 };
 
 
-#endif //SPACESHIPBP_CONFIGLOCALIZATIONLOGLEVEL_H
+#endif //SPACESHIPBP_LOCALIZATIONLOGLEVEL_H
