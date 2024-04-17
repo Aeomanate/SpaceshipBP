@@ -4,11 +4,11 @@
 #include <string>
 #include "SFML/Window/VideoMode.hpp"
 #include "SFML/Window/WindowStyle.hpp"
-#include "Core/UserJsonConversions.h"
+#include "Core/Storage/UserJsonConversions.h"
 #include "Utility/Serialization/Serializable.h"
 
 
-SERIALIZABLE_S(ConfigWindow, UserJsonConversions)
+SERIALIZABLE_STRUCT(ConfigWindow)
 {
     SERIALIZABLE_V(sf::VideoMode, videoMode, 1920 o 1080);
     SERIALIZABLE_V(std::string, name, "SpaceShip");

@@ -10,7 +10,7 @@
 #include "ConfigFile.h"
 #include "ConfigLogs.h"
 
-SERIALIZABLE_S(GeneralConfig, UserJsonConversions)
+SERIALIZABLE_STRUCT(GeneralConfig)
 {
     ConfigConfig Config;
     ConfigLogs Logs;

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <Core/EventsHandling/ListenersEmitters.h>
 #include <Utility/Serialization/Serializable.h>
-#include <Core/UserJsonConversions.h>
+#include "Core/Storage/UserJsonConversions.h"
 #include <rapidjson/document.h>
 
 TEST(UtilitySuite, EventHandling)

@@ -3,8 +3,9 @@
 
 #include <rapidjson/document.h>
 #include "Utility/Serialization/Serializable.h"
+#include "Core/Storage/UserJsonConversions.h"
 
-struct ConfigSimulation
+SERIALIZABLE_STRUCT(ConfigSimulation)
 {
 
 };

@@ -210,24 +210,28 @@ namespace Serialization
         template<class... Params>
         SerializableVariable(const char* name, Params&& ... params)
         : SerializableBase(name)
-        , object { std::forward<Params>(params)... }
+        , nestedObject { std::forward<Params>(params)... }
         { }
 
         operator const Type&() const
-        { return object; }
+        { return nestedObject; }
 
         operator rapidjson::Value() override
-        { return Internal::Converter<Type, UserDefinedJsonConversionSet>::toJson(object); }
+        { return Internal::Converter<Type, UserDefinedJsonConversionSet>::toJson(nestedObject); }
+
+        const Type& operator*() const
+        { return nestedObject; }
+
 
     protected:
         void SetFromJson(const rapidjson::Value& externalValue) override
         {
             if(auto it = externalValue.FindMember(name); it != externalValue.MemberEnd())
-            { Internal::Converter<Type, UserDefinedJsonConversionSet>::fromJson(object, it->value); }
+            { Internal::Converter<Type, UserDefinedJsonConversionSet>::fromJson(nestedObject, it->value); }
         }
 
     private:
-        Type object;
+        Type nestedObject;
     };
 
     /// Each struct in which contains SerializableVariable's must be derived from this class

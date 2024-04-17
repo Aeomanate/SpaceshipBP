@@ -7,6 +7,9 @@
 
 #include "SFML/Window/VideoMode.hpp"
 
+#define SERIALIZABLE_STRUCT(Name) SERIALIZABLE_S(Name, UserJsonConversions)
+#define SERIALIZABLE_LOC(Name, DefaultValue) SERIALIZABLE_V(std::string, Name, DefaultValue)
+
 struct UserJsonConversions {
     static inline void fromJson(sf::VideoMode& videoMode, const rapidjson::Value& value)
     {

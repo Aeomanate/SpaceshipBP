@@ -35,16 +35,16 @@ void Log(std::string&& message, LogLevel logLevel)
 
     message = "[" + getLogPrefix(logLevel) + "] " + message;
 
-    fs::path logPath = getConfig().Logs.Folder / getConfig().Logs.Name;
+    fs::path logPath = getConfig().Logs.Folder / *getConfig().Logs.Name;
 
     if(SystemRelated::CreateDirWhenAbsent(getConfig().Logs.Folder) && isLogLevelAppropriate(logLevel))
     {
-        message += (getLoc().fileOperations.createNotify + ": " += getConfig().Logs.Folder.string() + "\n");
+        message += (*getLoc().fileOperations.createNotify + ": " += getConfig().Logs.Folder.string() + "\n");
     }
 
     if(!fs::exists(logPath) && isLogLevelAppropriate(logLevel))
     {
-        message += (getLoc().fileOperations.createNotify + ": " += logPath.string() + "\n");
+        message += (*getLoc().fileOperations.createNotify + ": " += logPath.string() + "\n");
     }
 
     std::ofstream log;
@@ -52,7 +52,7 @@ void Log(std::string&& message, LogLevel logLevel)
 
     if(!log.is_open() && isLogLevelAppropriate(LogLevel::WARNING))
     {
-        message += getLoc().fileOperations.createFailed + ": " += logPath.string() + "\n";
+        message += *getLoc().fileOperations.createFailed + ": " += logPath.string() + "\n";
         SystemRelated::ShowConsole();
         std::cerr << message << '\n';
         return;

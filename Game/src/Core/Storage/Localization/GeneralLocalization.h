@@ -3,15 +3,15 @@
 
 #include <rapidjson/document.h>
 #include "Utility/Serialization/Serializable.h"
-#include "LocalizationLogLevel.h"
-#include "LocalizationFileOperations.h"
-#include "Core/UserJsonConversions.h"
+#include "LocLogLevel.h"
+#include "LocFileOperations.h"
+#include "Core/Storage/UserJsonConversions.h"
 #include <string>
 
-SERIALIZABLE_S(GeneralLocalization, UserJsonConversions)
+SERIALIZABLE_STRUCT(GeneralLocalization)
 {
-    LocalizationLogLevel logLevel;
-    LocalizationFileOperations fileOperations;
+    LocLogLevel logLevel;
+    LocFileOperations fileOperations;
     std::string parseJsonWarning = "Parse failed, incorrect JSON";
 
 };

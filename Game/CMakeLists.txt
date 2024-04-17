@@ -49,9 +49,9 @@ set(SOURCE_FILES
         src/Core/Storage/Config/ConfigWindow.h
         src/Core/Storage/Config/ConfigFile.h
         src/Core/Storage/Config/ConfigLogs.h
-        src/Core/UserJsonConversions.h
-        src/Core/Storage/Localization/LocalizationLogLevel.h
-        src/Core/Storage/Localization/LocalizationFileOperations.h
+        src/Core/Storage/UserJsonConversions.h
+        src/Core/Storage/Localization/LocLogLevel.h
+        src/Core/Storage/Localization/LocFileOperations.h
         src/Utility/Serialization/StdJsonConverters.h
         src/Core/Storage/StorageRoot.cpp
         src/Core/Storage/StorageRoot.h
