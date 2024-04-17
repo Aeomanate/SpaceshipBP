@@ -10,7 +10,7 @@
 #include "ConfigFile.h"
 #include "ConfigLogs.h"
 
-struct ConfigApplication: public Serialization::SerializableStruct
+struct ConfigApplication: public Serialization::SerializableStruct<UserJsonConversions>
 {
     ConfigConfig Config;
     ConfigLogs Logs;

@@ -86,6 +86,7 @@ namespace Serialization
     {
         template <class Type, class UserDefinedJsonConversionSet>
         friend class SerializableVariable;
+        template <class UserDefinedJsonConversionSet>
         friend class SerializableStruct;
 
     public: // Main methods
@@ -213,6 +214,7 @@ namespace Serialization
     /// It keep a set of addresses of nested SerializableVariable's
     /// for simplify looping through them and serialize/deserialize them without any user actions
     /// But it won't work if your struct will be like SerializableStruct... :: PlainStruct :: SerializableStruct...
+    template <class UserDefinedJsonConversionSet>
     class SerializableStruct : public SerializableBase
     {
     public:
@@ -226,6 +228,7 @@ namespace Serialization
         }
 
     protected:
+        using ConversionSet = UserDefinedJsonConversionSet;
         inline void EnableMemberSerialization(SerializableBase& structMember)
         {
             membersSet.insert(&structMember);
@@ -246,5 +249,13 @@ namespace Serialization
         std::unordered_set<SerializableBase*> membersSet;
     };
 }
+
+// The smallest letter for representing the comma. Why not?
+// x also would be nice, but it conflicts with something in other libs
+// Who does use small 'o'? No one but me :D
+#define o ,
+#define SERIALIZABLE(Type, identifier, defaultValue) \
+Serialization::SerializableVariable<Type, ConversionSet> identifier = { #identifier, Type(defaultValue)}
+
 
 #endif //SPACESHIPBP_SERIALIZABLE_H
