@@ -7,7 +7,10 @@ set(SOURCE_FILES
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
+# Install libraries
 include(3P-libs/GTest/googletest.cmake)
+add_dependencies(${PROJECT_NAME} RapidJSON)
+
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_NAME})
 

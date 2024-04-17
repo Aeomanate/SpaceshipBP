@@ -10,7 +10,7 @@
 #include "ConfigFile.h"
 #include "ConfigLogs.h"
 
-struct ConfigApplication: public SerializableStruct
+struct ConfigApplication: public Serialization::SerializableStruct
 {
     ConfigConfig Config;
     ConfigLogs Logs;

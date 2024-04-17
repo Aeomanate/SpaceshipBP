@@ -4,7 +4,7 @@
 #include <rapidjson/document.h>
 #include "Utility/Serialization/Serializable.h"
 
-struct ConfigSimulation: public SerializableStruct
+struct ConfigSimulation
 {
 
 };

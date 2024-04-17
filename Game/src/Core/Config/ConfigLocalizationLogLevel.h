@@ -3,7 +3,7 @@
 
 #include "Utility/Serialization/Serializable.h"
 
-struct ConfigLocalizationLogLevel: public SerializableStruct
+struct ConfigLocalizationLogLevel
 {
     std::string verbose = "Verbose";
     std::string notify = "Notify";

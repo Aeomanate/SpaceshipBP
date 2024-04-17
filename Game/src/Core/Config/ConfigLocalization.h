@@ -6,9 +6,8 @@
 #include "ConfigLocalizationLogLevel.h"
 #include "ConfigLocalizationFileOperations.h"
 #include <string>
-#include <type_traits>
 
-struct ConfigLocalization: public SerializableStruct
+struct ConfigLocalization
 {
     ConfigLocalizationLogLevel logLevel;
     ConfigLocalizationFileOperations fileOperations;

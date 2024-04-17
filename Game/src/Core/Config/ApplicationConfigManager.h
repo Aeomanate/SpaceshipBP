@@ -1,7 +1,7 @@
 #ifndef SPACESHIPBP_APPLICATIONCONFIGMANAGER_H
 #define SPACESHIPBP_APPLICATIONCONFIGMANAGER_H
 
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include "Utility/Serialization/Serializable.h"
 #include "ConfigApplication.h"
 #include "ConfigSimulation.h"
@@ -11,6 +11,7 @@
 class ApplicationConfigManager
 {
 public:
+    ~ApplicationConfigManager();
     void LoadOrCreate();
     bool Load();
     void Save();

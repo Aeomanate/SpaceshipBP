@@ -3,7 +3,7 @@
 
 #include "Utility/Serialization/Serializable.h"
 
-struct ConfigLocalizationFileOperations: public SerializableStruct
+struct ConfigLocalizationFileOperations
 {
     std::string absentNotify = "Absent file";
     std::string createNotify = "Creating absent file";

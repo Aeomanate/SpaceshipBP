@@ -2,14 +2,15 @@
 
 #include <filesystem>
 #include <fstream>
-#include <iterator>
-#include <rapidjson/prettywriter.h>
-#include <rapidjson/document.h>
-#include <rapidjson/istreamwrapper.h>
 #include "Utility/Logger/Logger.h"
 #include "Utility/SystemRelated/SystemRelated.h"
 #include "Core/Application/ApplicationShortcuts.h"
 
+
+ApplicationConfigManager::~ApplicationConfigManager()
+{
+    Save();
+}
 
 void ApplicationConfigManager::LoadOrCreate()
 {
@@ -19,63 +20,56 @@ void ApplicationConfigManager::LoadOrCreate()
     }
 }
 
-bool ApplicationConfigManager::Load()
+template <class StreamType>
+StreamType openFileStream(fs::path folder, std::string_view name)
 {
-    if(SystemRelated::CreateDirWhenAbsent(getConfig().Config.Folder))
+    StreamType configFromFileStream;
+
+    if(SystemRelated::CreateDirWhenAbsent(folder))
     {
-        Log(getLoc().fileOperations.createNotify, getConfig().Config.Folder.string());
-        return false;
+        Log(getLoc().fileOperations.createNotify, folder.string());
+        return std::move(configFromFileStream);
     }
 
-    fs::path configPath = getConfig().Config.Folder / Application.Config.Name;
+    fs::path configPath = folder / name;
+    if(!fs::exists(configPath))
+    {
+        Log(getLoc().fileOperations.createNotify, configPath.string());
+    }
 
-    std::ifstream inputConfigStream(configPath);
-    if (!inputConfigStream)
+    configFromFileStream.open(configPath);
+    if (!configFromFileStream)
     {
         Log(getLoc().fileOperations.createFailed, configPath.string(), LogLevel::WARNING);
-        return false;
     }
 
-    std::string inputConfigRawJson;
-    inputConfigRawJson.resize(static_cast<size_t>(fs::file_size(configPath)));
-    inputConfigStream.read(inputConfigRawJson.data(), inputConfigRawJson.size());
+    return std::move(configFromFileStream);
+}
 
-    rapidjson::Document document;
-    document.ParseInsitu(inputConfigRawJson.data());
-    // Serializable::StoreNewDocumentAllocator(document.GetAllocator());
+bool ApplicationConfigManager::Load()
+{
+    fs::path folder = getConfig().Config.Folder;
+    std::string name = getConfig().Config.Name;
 
-    if(document.HasParseError())
+    if(!(openFileStream<std::ifstream>(folder, name) >> Application) || Application.HasParseError())
     {
-        Log(getLoc().parseJsonWarning, configPath.string(), LogLevel::WARNING);
+        Log(getLoc().parseJsonWarning, (folder / name).string(), LogLevel::WARNING);
         return false;
     }
-
-    Application.SetFromJson(document);
 
     return true;
 }
 
 void ApplicationConfigManager::Save()
 {
-    fs::path configPath = getConfig().Config.Folder / Application.Config.Name;
 
-    if(SystemRelated::CreateDirWhenAbsent(getConfig().Config.Folder))
+    fs::path folder = getConfig().Config.Folder;
+    std::string name = getConfig().Config.Name;
+
+    //if(!(openFileStream<std::ofstream>(folder, name) << Application))
     {
-        Log(getLoc().fileOperations.createNotify, getConfig().Config.Folder.string());
-    }
 
-    if(!fs::exists(configPath))
-    {
-        Log(getLoc().fileOperations.createNotify, configPath.string());
     }
-
-    std::ofstream newConfig(configPath);
-    if (!newConfig)
-    {
-        Log(getLoc().fileOperations.createFailed, configPath.string(), LogLevel::WARNING);
-        return;
-    }
-
-    newConfig << Application;
 }
+
 

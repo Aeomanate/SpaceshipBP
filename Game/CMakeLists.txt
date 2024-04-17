@@ -3,7 +3,6 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 # Install libraries
 include(3P-libs/SFML/SFML.cmake)
-include(3P-libs/RapidJSON/rapidjson.cmake)
 
 set(TESTABLE_FILES
         src/Core/EventsHandling/ListenersEmitters.h
@@ -51,9 +50,10 @@ set(SOURCE_FILES
         src/Core/Config/ConfigWindow.h
         src/Core/Config/ConfigFile.h
         src/Core/Config/ConfigLogs.h
-        src/Utility/Serialization/SerializableExternalTypes.h
+        src/Core/UserJsonConversions.h
         src/Core/Config/ConfigLocalizationLogLevel.h
         src/Core/Config/ConfigLocalizationFileOperations.h
+        src/Utility/Serialization/StdJsonConverters.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

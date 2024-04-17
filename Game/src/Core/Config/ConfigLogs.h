@@ -5,7 +5,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-struct ConfigLogs: public SerializableStruct
+struct ConfigLogs
 {
     fs::path Folder = "../Artifacts";
     std::string Name = "Log.log";

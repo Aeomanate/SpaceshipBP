@@ -6,7 +6,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-struct ConfigConfig: public SerializableStruct
+struct ConfigConfig
 {
     fs::path Folder = "../Artifacts";
     std::string Name = "Config.Json";
