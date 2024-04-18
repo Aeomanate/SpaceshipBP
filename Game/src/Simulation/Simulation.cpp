@@ -8,11 +8,11 @@ Simulation::Simulation()
 
 void Simulation::OnKeyPressed(const sf::Event::KeyEvent&)
 {
-    std::cout << "Simulation key pressed\n";
+    std::cout << "simulation key pressed\n";
 
 }
 
 void Simulation::OnMouseButtonClicked(const sf::Event::MouseButtonEvent&)
 {
-    std::cout << "Simulation mouse clicked\n";
+    std::cout << "simulation mouse clicked\n";
 }

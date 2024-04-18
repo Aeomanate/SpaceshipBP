@@ -3,10 +3,11 @@
 
 #include <rapidjson/document.h>
 #include "Utility/Serialization/Serializable.h"
-#include "Core/Storage/UserJsonConversions.h"
+#include "Core/Storage/GameJsonConversions.h"
 
-SERIALIZABLE_STRUCT(ConfigSimulation)
+SERI_S(ConfigSimulation)
 {
+    SERI_C(ConfigSimulation)
 
 };
 #endif //SPACESHIPBP_CONFIGSIMULATION_H

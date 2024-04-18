@@ -5,12 +5,14 @@
 namespace fs = std::filesystem;
 
 #include "Utility/Serialization/Serializable.h"
-#include "Core/Storage/UserJsonConversions.h"
+#include "Core/Storage/GameJsonConversions.h"
 
-SERIALIZABLE_STRUCT(ConfigLogs)
+SERI_S(ConfigLogs)
 {
-    fs::path Folder = "../Artifacts";
-    SERIALIZABLE_V(std::string, Name, "Log.log");
+    SERI_C(ConfigLogs)
+
+    fs::path Folder = "../Artifacts/Logs";
+    SERI_STR_V(name, "LogInternal.log");
 };
 
 #endif //SPACESHIPBP_CONFIGLOGS_H

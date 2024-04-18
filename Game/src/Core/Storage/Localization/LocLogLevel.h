@@ -2,15 +2,17 @@
 #define SPACESHIPBP_LOCLOGLEVEL_H
 
 #include "Utility/Serialization/Serializable.h"
-#include "Core/Storage/UserJsonConversions.h"
+#include "Core/Storage/GameJsonConversions.h"
 
-SERIALIZABLE_STRUCT(LocLogLevel)
+SERI_S(LocLogLevel)
 {
-    SERIALIZABLE_LOC(verbose, "Verbose");
-    SERIALIZABLE_LOC(notify, "Notify");
-    SERIALIZABLE_LOC(warning, "Warning");
-    SERIALIZABLE_LOC(error, "Error");
-    SERIALIZABLE_LOC(fatalError, "Fatal Error");
+    SERI_C(LocLogLevel)
+
+    SERI_STR_V(verbose, "V");
+    SERI_STR_V(notify, "N");
+    SERI_STR_V(warning, "W");
+    SERI_STR_V(error, "E");
+    SERI_STR_V(fatalError, "FE");
 };
 
 

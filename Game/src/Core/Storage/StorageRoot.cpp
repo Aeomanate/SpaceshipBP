@@ -27,37 +27,51 @@ void StorageRoot::LoadOrCreate()
 template <class StreamType>
 StreamType openFileStream(fs::path folder, std::string_view name)
 {
-    StreamType configFromFileStream;
+    StreamType stream;
 
-    if(SystemRelated::CreateDirWhenAbsent(folder))
+    if(!fs::exists(folder))
     {
-        Log(*getLoc().fileOperations.createNotify, folder.string());
-        return std::move(configFromFileStream);
+        Log(getLoc().fileOperations.absentNotify, folder.string());
+    }
+
+    if(!SystemRelated::CreateDirWhenAbsent(folder))
+    {
+        Log(getLoc().fileOperations.openOrCreateFailedWarning, folder.string(), LogLevel::WARNING);
+        return std::move(stream);
     }
 
     fs::path configPath = folder / name;
     if(!fs::exists(configPath))
     {
-        Log(*getLoc().fileOperations.createNotify, configPath.string());
+        Log(getLoc().fileOperations.absentNotify, configPath.string());
     }
 
-    configFromFileStream.open(configPath);
-    if (!configFromFileStream)
+    Log(getLoc().fileOperations.tryOpenOrCreateNotify, configPath.string());
+
+    stream.open(configPath);
+    if (!stream)
     {
-        Log(*getLoc().fileOperations.createFailed, configPath.string(), LogLevel::WARNING);
+        Log(getLoc().fileOperations.openOrCreateFailedWarning, configPath.string(), LogLevel::WARNING);
     }
 
-    return std::move(configFromFileStream);
+    return std::move(stream);
 }
 
 bool StorageRoot::Load()
 {
-    fs::path folder = getConfig().Config.folder;
-    std::string filename = getConfig().Config.Name;
+    fs::path folder = getConfig().config.folder;
+    std::string filename = getConfig().config.Name;
 
-    if(!(openFileStream<std::ifstream>(folder, filename) >> *rootMemberVariable) || rootMemberVariable->HasParseError())
+    std::ifstream in = openFileStream<std::ifstream>(folder, filename);
+    if(!in)
     {
-        Log(getLoc().parseJsonWarning, (folder / filename).string(), LogLevel::WARNING);
+        Log(getLoc().fileOperations.absentNotify, folder.string(), LogLevel::WARNING);
+        return false;
+    }
+
+    if(!(in >> *rootMemberVariable) || rootMemberVariable->HasParseError())
+    {
+        Log(getLoc().fileOperations.jsonParseWarning, (folder / filename).string(), LogLevel::WARNING);
         return false;
     }
 
@@ -67,11 +81,24 @@ bool StorageRoot::Load()
 void StorageRoot::Save()
 {
 
-    fs::path folder = getConfig().Config.folder;
-    std::string filename = getConfig().Config.Name;
+    fs::path folder = getConfig().config.folder;
+    std::string filename = getConfig().config.Name;
 
-    if(!(openFileStream<std::ofstream>(folder, filename) << *rootMemberVariable))
+    if(!fs::exists(folder))
     {
-        Log(*getLoc().fileOperations.createFailed, (folder / filename).string(), LogLevel::WARNING);
+        Log(getLoc().fileOperations.absentNotify, folder.string());
+    }
+
+    std::ofstream out = openFileStream<std::ofstream>(folder, filename);
+
+    if (!out)
+    {
+        Log(getLoc().fileOperations.openOrCreateFailedWarning, (folder / filename).string(), LogLevel::WARNING);
+        return;
+    }
+
+    if(!(out << *rootMemberVariable))
+    {
+        Log(getLoc().fileOperations.jsonWriteWarning, (folder / filename).string(), LogLevel::WARNING);
     }
 }

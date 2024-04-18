@@ -5,18 +5,19 @@
 #include "SFML/Window/WindowStyle.hpp"
 #include "Utility/Serialization/Serializable.h"
 #include "ConfigSimulation.h"
-#include "Core/Storage/Localization/GeneralLocalization.h"
 #include "ConfigWindow.h"
 #include "ConfigFile.h"
 #include "ConfigLogs.h"
 
-SERIALIZABLE_STRUCT(GeneralConfig)
+SERI_S(GeneralConfig)
 {
-    ConfigConfig Config;
-    ConfigLogs Logs;
+    SERI_C(GeneralConfig)
 
-    ConfigWindow window;
-    ConfigSimulation Simulation;
+    SERI_COMPOSITE_V(ConfigFile, config);
+    SERI_COMPOSITE_V(ConfigLogs, logs);
+
+    SERI_COMPOSITE_V(ConfigWindow, window);
+    SERI_COMPOSITE_V(ConfigSimulation, simulation);
 };
 
 #endif //SPACESHIPBP_GENERALCONFIG_H

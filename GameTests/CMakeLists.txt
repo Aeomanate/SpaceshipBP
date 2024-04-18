@@ -3,6 +3,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 set(SOURCE_FILES
         src/Utility.cpp
+        src/Serialization.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

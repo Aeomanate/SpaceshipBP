@@ -1,6 +1,4 @@
 #include "SystemRelated.h"
-#include "Utility/Logger/Logger.h"
-#include "Core/Application/ApplicationShortcuts.h"
 
 #include <Windows.h>
 
@@ -18,8 +16,8 @@ bool SystemRelated::CreateDirWhenAbsent(fs::path directory)
 {
     if(!fs::exists(directory))
     {
-        fs::create_directory(directory);
-        return true;
+        fs::create_directories(directory);
     }
-    return false;
+
+    return fs::exists(directory);
 }

@@ -49,13 +49,15 @@ set(SOURCE_FILES
         src/Core/Storage/Config/ConfigWindow.h
         src/Core/Storage/Config/ConfigFile.h
         src/Core/Storage/Config/ConfigLogs.h
-        src/Core/Storage/UserJsonConversions.h
+        src/Core/Storage/GameJsonConversions.h
         src/Core/Storage/Localization/LocLogLevel.h
         src/Core/Storage/Localization/LocFileOperations.h
-        src/Utility/Serialization/StdJsonConverters.h
+        src/Utility/Serialization/ImptStdJsonConverters.h
         src/Core/Storage/StorageRoot.cpp
         src/Core/Storage/StorageRoot.h
         src/Core/Storage/RootLocalization.h
+        src/Utility/Serialization/ImplMacroses.h
+        src/Utility/Serialization/Serializable.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

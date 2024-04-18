@@ -9,7 +9,7 @@ class RootLocalization: public StorageRoot
 public:
     inline RootLocalization(): StorageRoot(&localization) { };
 
-    GeneralLocalization localization;
+    SERI_ROOT_V(GeneralLocalization, localization);
 };
 
 

@@ -5,15 +5,15 @@
 #include "Utility/Serialization/Serializable.h"
 #include "LocLogLevel.h"
 #include "LocFileOperations.h"
-#include "Core/Storage/UserJsonConversions.h"
+#include "Core/Storage/GameJsonConversions.h"
 #include <string>
 
-SERIALIZABLE_STRUCT(GeneralLocalization)
+SERI_S(GeneralLocalization)
 {
-    LocLogLevel logLevel;
-    LocFileOperations fileOperations;
-    std::string parseJsonWarning = "Parse failed, incorrect JSON";
+    SERI_C(GeneralLocalization)
 
+    SERI_COMPOSITE_V(LocLogLevel, logLevel);
+    SERI_COMPOSITE_V(LocFileOperations, fileOperations);
 };
 
 

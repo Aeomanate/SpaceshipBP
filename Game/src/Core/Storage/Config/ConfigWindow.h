@@ -4,15 +4,17 @@
 #include <string>
 #include "SFML/Window/VideoMode.hpp"
 #include "SFML/Window/WindowStyle.hpp"
-#include "Core/Storage/UserJsonConversions.h"
+#include "Core/Storage/GameJsonConversions.h"
 #include "Utility/Serialization/Serializable.h"
 
 
-SERIALIZABLE_STRUCT(ConfigWindow)
+SERI_S(ConfigWindow)
 {
-    SERIALIZABLE_V(sf::VideoMode, videoMode, 1920 o 1080);
-    SERIALIZABLE_V(std::string, name, "SpaceShip");
-    SERIALIZABLE_V(sf::Uint32, style, sf::Style::Fullscreen);
+    SERI_C(ConfigWindow)
+
+    SERI_STR_V(name, "SpaceShip");
+    SERI_V(sf::VideoMode, videoMode, 1920 o 1080);
+    SERI_V(sf::Uint32, style, sf::Style::Fullscreen);
 };
 
 #endif //SPACESHIPBP_CONFIGWINDOW_H

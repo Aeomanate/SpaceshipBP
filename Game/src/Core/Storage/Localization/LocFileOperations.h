@@ -2,13 +2,18 @@
 #define SPACESHIPBP_LOCFILEOPERATIONS_H
 
 #include "Utility/Serialization/Serializable.h"
-#include "Core/Storage/UserJsonConversions.h"
+#include "Core/Storage/GameJsonConversions.h"
 
-SERIALIZABLE_STRUCT(LocFileOperations)
+SERI_S(LocFileOperations)
 {
-    SERIALIZABLE_LOC(absentNotify, "Absent file");
-    SERIALIZABLE_LOC(createNotify, "Creating absent file");
-    SERIALIZABLE_LOC(createFailed, "Failed creating file");
+    SERI_C(LocFileOperations)
+
+    SERI_STR_V(absentNotify, "Absent file");
+    SERI_STR_V(createNotify, "Creating absent file");
+    SERI_STR_V(tryOpenOrCreateNotify, "Trying to open or create file");
+    SERI_STR_V(openOrCreateFailedWarning, "Failed open or create file");
+    SERI_STR_V(jsonParseWarning, "Parse failed");
+    SERI_STR_V(jsonWriteWarning, "Saving failed");
 };
 
 

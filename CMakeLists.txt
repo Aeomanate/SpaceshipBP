@@ -22,6 +22,7 @@ else()
 endif()
 
 add_compile_definitions(_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
+add_compile_definitions(PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE=GameJsonConversions)
 
 # Include project.
 add_subdirectory(Game)

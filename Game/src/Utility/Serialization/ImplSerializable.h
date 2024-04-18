@@ -1,0 +1,295 @@
+#ifndef SPACESHIPBP_SERIALIZABLE_IMPL_H
+#define SPACESHIPBP_SERIALIZABLE_IMPL_H
+
+#include <string>
+#include <unordered_set>
+#include <type_traits>
+#include <fstream>
+#include <assert.h>
+#include <rapidjson/encodedstream.h>
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/istreamwrapper.h>
+#include "ImptStdJsonConverters.h"
+
+namespace Serialization
+{
+    using JsonVal = rapidjson::Value;
+    using JsonDoc = rapidjson::Document;
+    using AllocType = JsonDoc::AllocatorType;
+
+    /// Main concepts that must be implemented by UserType for to/from json conversion availability
+    template<class UserType, class ExternalJsonConverters>
+    concept HasFromJsonUserCast = requires(UserType& userValue)
+    { { ExternalJsonConverters::fromJson(userValue, JsonVal()) } -> std::convertible_to<void>; };
+
+    template<class UserType, class ExternalJsonConverters>
+    concept HasToJsonUserCast = requires(UserType& userValue, AllocType& allocator)
+    { { ExternalJsonConverters::toJson(userValue, allocator) } -> std::convertible_to<JsonVal>; };
+
+    namespace Internal
+    {
+        // Base converter templates for literal types
+        template<class SomeLiteralType>
+        void fromJsonLiteral(SomeLiteralType& userValue, const JsonVal& initializer)
+        { userValue = initializer.template Get<SomeLiteralType>(); }
+
+        template<class SomeLiteralType>
+        JsonVal toJsonLiteral(const SomeLiteralType& userValue, AllocType&)
+        { return JsonVal(userValue); }
+
+        // Composition: SerializableStruct in SerializableStruct
+        // or SerializableVariable in SerializableStruct
+        template <class SeriStruct>
+        concept SerializableComposition =
+        requires (const SeriStruct& cVal, SeriStruct& rVal, const JsonVal& initializer, AllocType& allocator)
+        {
+            rVal.SetFromJson(initializer);
+            static_cast<JsonVal>(cVal, allocator);
+        };
+
+        template<SerializableComposition SerializableStruct>
+        void fromJsonComposite(SerializableStruct& serializableStruct, const JsonVal& initializer)
+        { serializableStruct.SetFromJson(initializer); }
+
+        template<SerializableComposition SerializableStruct>
+        JsonVal toJsonComposite(const SerializableStruct& serializableStruct, AllocType&)
+        { return static_cast<JsonVal>(serializableStruct); }
+
+
+        // Compile-time helper for choosing right converter function based on passed type (custom or literal)
+        template<class UserType, class ExternalJsonConverters>
+        struct Converter
+        {
+            using FromJsonFuncPtrType = void (*)(UserType&, const JsonVal&);
+            using ToJsonFuncPtrType = JsonVal(*)(const UserType&, AllocType&);
+
+            static constexpr FromJsonFuncPtrType GetFromJson()
+            {
+                if constexpr (HasFromJsonUserCast<UserType, ExternalJsonConverters>)
+                { return &ExternalJsonConverters::fromJson; }
+                else if constexpr (HasFromJsonUserCast<UserType, StdConverters>)
+                { return &StdConverters::fromJson; }
+                else if constexpr (SerializableComposition<UserType>)
+                { return &fromJsonComposite; }
+                else
+                {
+                    static_assert(std::is_arithmetic_v<UserType> || std::is_same_v<UserType, bool>,
+                                "Custom user type must define a fromJsonLiteral converter");
+                    return &fromJsonLiteral;
+                }
+            }
+
+            static constexpr ToJsonFuncPtrType GetToJson()
+            {
+                if constexpr (HasToJsonUserCast<UserType, ExternalJsonConverters>)
+                { return &ExternalJsonConverters::toJson; }
+                else if constexpr (HasToJsonUserCast<UserType, StdConverters>)
+                { return &StdConverters::toJson; }
+                else if constexpr (SerializableComposition<UserType>)
+                { return &toJsonComposite; }
+                else
+                {
+                    static_assert(std::is_arithmetic_v<UserType> || std::is_same_v<UserType, bool>,
+                                  "Custom user type must define a toJson converter");
+                    return &toJsonLiteral;
+                }
+            }
+        };
+    };
+
+
+
+    /// A base class for any serializable variable for both user-defined and literal type
+    class SerializableBase
+    {
+        template <class Type, class UserDefinedJsonConversionSet>
+        friend class SerializableVariable;
+        template <class UserDefinedJsonConversionSet>
+        friend class SerializableStruct;
+
+    public: // Main methods
+        explicit SerializableBase(const char* name)
+            : name { name }
+        { }
+
+        virtual ~SerializableBase() = default;
+
+        operator std::string()
+        {
+            rapidjson::StringBuffer buffer;
+            rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+            writer.SetFormatOptions(rapidjson::kFormatSingleLineArray);
+
+            ToJson().Accept(writer);
+
+            return buffer.GetString();
+        }
+
+        template <class OStream>
+        friend OStream& operator<< (OStream&& out, SerializableBase& serializable)
+        {
+            assert(out && "Out thread is corrupted");
+            out << static_cast<std::string>(serializable);
+            return out;
+        }
+
+        template <class IStream>
+        friend IStream& operator>> (IStream&& in, SerializableBase& serializable)
+        {
+            rapidjson::IStreamWrapper inStreamWrapper = in;
+            rapidjson::AutoUTFInputStream<unsigned, rapidjson::IStreamWrapper> encodedStream = inStreamWrapper;
+
+            JsonDoc document;
+            document.ParseStream(encodedStream);
+            StoreNewDocumentAllocator(document.GetAllocator());
+
+            serializable.isParseError = document.HasParseError();
+            if(serializable.isParseError)
+            {
+                in.setstate(std::ios_base::failbit);
+                return in;
+            }
+
+            serializable.SetFromJson(document.GetObject());
+
+            return in;
+        }
+
+        bool HasParseError() const
+        { return isParseError; }
+
+    protected: // Convert methods
+        JsonDoc ToJson()
+        {
+            assert(name != nullptr && "Internal name error");
+            assert(!isToJsonDocumentRan && "ToJson() conversion ran twice recursively");
+
+            isToJsonDocumentRan = true;
+
+            JsonDoc document;
+            StoreNewDocumentAllocator(document.GetAllocator());
+
+            JsonVal value = *this;
+            // TODO Move name to the template parameter of derived types,
+            //      because it is only one place that the name is used.
+            document.SetObject().AddMember(rapidjson::StringRef(name), value, *docAllocator);
+
+            isToJsonDocumentRan = false;
+
+            return document;
+        }
+
+        virtual operator JsonVal() = 0;
+
+        virtual void SetFromJson(const JsonVal& externalValue) = 0;
+
+    protected:
+        // Each stored object via this wrapper must have a name for to json conversion
+        const char* name = nullptr;
+
+        // Store allocator for all converting-to-json process
+        // TODO For multithreading it must be checked for stored once because user can call
+        //      ToJson()->Document when another ToJson()->Document is already running
+        inline static void StoreNewDocumentAllocator(AllocType& allocator)
+        { docAllocator = &allocator; }
+        inline static AllocType* docAllocator = nullptr;
+
+        inline static bool isToJsonDocumentRan = false;
+        bool isParseError = false;
+    };
+
+
+    /// Each struct in which contains SerializableVariable's must be derived from this class
+    /// It keep a set of addresses of nested SerializableVariable's
+    /// for simplify looping through them and serialize/deserialize them without any user actions
+    /// But it won't work if your struct will be like SerializableStruct... :: PlainStruct :: SerializableStruct...
+    template <class UserDefinedJsonConversionSet>
+    class SerializableStruct : public SerializableBase
+    {
+    public:
+        inline SerializableStruct(const char* name): SerializableBase(name) { }
+
+        inline void EnableMemberSerialization(SerializableBase* structMember)
+        { membersSet.insert(structMember); }
+
+    protected:
+        using ConversionSet = UserDefinedJsonConversionSet;
+
+        operator JsonVal() override
+        {
+            assert(name != nullptr && "Internal name error");
+            JsonVal value(rapidjson::kObjectType);
+            for (SerializableBase* serializable: membersSet)
+            {
+                JsonVal nestedValue  = *serializable;
+                value.AddMember(rapidjson::StringRef(serializable->name), nestedValue, *docAllocator);
+            }
+            return value;
+        }
+
+        void SetFromJson(const JsonVal& valueExternal) override
+        {
+            assert(name != nullptr && "Internal name error");
+            for (SerializableBase* member: membersSet)
+            {
+                if (auto it = valueExternal.FindMember(member->name); it != valueExternal.MemberEnd())
+                { member->SetFromJson(it->value); }
+            }
+        }
+
+    protected:
+        std::unordered_set<SerializableBase*> membersSet;
+    };
+
+
+    /// Each plain data struct must use it for be available for serialization
+    /// Concepts HasFromJsonUserCast<UserType>, HasToJsonUserCast<UserType> must be satisfied
+    template <class UserType, class ExternalConversions>
+    class SerializableVariable : public SerializableBase
+    {
+    public:
+        // SerializableVariable declared in SerializableStruct
+        template<class NestedObjectType>
+        SerializableVariable(const char* name, NestedObjectType&& nestedObjectType,
+                             SerializableStruct<ExternalConversions>* outerSerializableStruct)
+        : SerializableBase(name)
+        , nestedObject { nestedObjectType }
+        { outerSerializableStruct->EnableMemberSerialization(this); }
+
+        // SerializableVariable declared alone
+        template<class NestedObjectType>
+        SerializableVariable(const char* name, NestedObjectType&& nestedObjectType)
+        : SerializableBase(name)
+        , nestedObject { nestedObjectType }
+        { }
+        operator JsonVal() override
+        { return Internal::Converter<UserType, ExternalConversions>::GetToJson()(nestedObject, *docAllocator); }
+
+        operator const UserType&() const
+        { return nestedObject; }
+
+        const UserType& operator*() const
+        { return nestedObject; }
+        UserType& operator*()
+        { return nestedObject; }
+
+        const UserType* operator->() const
+        { return &nestedObject; }
+        UserType* operator->()
+        { return &nestedObject; }
+
+    protected:
+        void SetFromJson(const JsonVal& externalValue) override
+        {
+            if(auto it = externalValue.FindMember(name); it != externalValue.MemberEnd())
+            { Internal::Converter<UserType, ExternalConversions>::GetFromJson()(nestedObject, it->value); }
+        }
+
+    private:
+        UserType nestedObject;
+    };
+}
+
+#endif //SPACESHIPBP_SERIALIZABLE_IMPL_H

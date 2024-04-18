@@ -5,13 +5,15 @@
 namespace fs = std::filesystem;
 
 #include "Utility/Serialization/Serializable.h"
-#include "Core/Storage/UserJsonConversions.h"
+#include "Core/Storage/GameJsonConversions.h"
 
 
-SERIALIZABLE_STRUCT(ConfigConfig)
+SERI_S(ConfigFile)
 {
-    fs::path folder = "../Artifacts";
-    SERIALIZABLE_V(std::string, Name, "Config.Json");
+    SERI_C(ConfigFile)
+
+    fs::path folder = "../Artifacts/Config";
+    SERI_STR_V(Name, "config.json");
 };
 
 #endif //SPACESHIPBP_CONFIGFILE_H
