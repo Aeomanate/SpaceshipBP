@@ -19,7 +19,7 @@ void BaseMenu::OnKeyPressed(const sf::Event::KeyEvent& key)
     }
 }
 
-void BaseMenu::Update()
+void BaseMenu::Update(float dt)
 {
 
 }

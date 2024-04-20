@@ -15,7 +15,7 @@ public: // SFML interface
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public: // Update interface
-    void Update() override;
+    void Update(float dt) override;
 
 public: // Emitters
     SIMPLE_EMITTER(CloseRequest);

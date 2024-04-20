@@ -58,6 +58,29 @@ set(SOURCE_FILES
         src/Core/Storage/RootLocalization.h
         src/Utility/Serialization/ImplMacroses.h
         src/Utility/Serialization/Serializable.h
+        src/Simulation/ECS/System.cpp
+        src/Simulation/ECS/System.h
+        src/Simulation/ECS/Entity.cpp
+        src/Simulation/ECS/Entity.h
+        src/Simulation/ECS/Component.cpp
+        src/Simulation/ECS/Component.h
+        src/Simulation/Features/Movable/CPosition.h
+        src/Simulation/Features/Movable/CSpeed.h
+        src/Simulation/Features/Visual/CSprite.h
+        src/Simulation/Features/Visual/SSpriteAnimator.cpp
+        src/Simulation/Features/Visual/SSpriteAnimator.h
+        src/Simulation/Features/Movable/EntityMover.cpp
+        src/Simulation/Features/Movable/SEntityMover.h
+        src/Simulation/Features/Visual/SEntityDrawer.cpp
+        src/Simulation/Features/Visual/SEntityDrawer.h
+        src/Simulation/Features/Movable/CMass.h
+        src/Simulation/Features/Movable/CAppliedForces.h
+        src/Simulation/Features/CollisionDetection/SCollisionDetector.cpp
+        src/Simulation/Features/CollisionDetection/SCollisionDetector.h
+        src/Simulation/Entities/Player.h
+        src/Simulation/Entities/Asteroid.h
+        src/Simulation/Entities/Timer.h
+        src/Simulation/Entities/Projectile.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
