@@ -7,63 +7,50 @@
 #include <unordered_map>
 using namespace std::string_literals;
 
-LogLevel LOG_LEVEL = LogLevel::NOTIFY;
-
-const std::string& getLogPrefix(LogLevel logLevel)
+void Logger::Log(const std::string& message, const std::string& details, Logger::Level logLevel)
 {
-    static std::unordered_map<LogLevel, std::string> logPrefix {
-        { LogLevel::VERBOSE    , *getLoc().logLevel.verbose    },
-        { LogLevel::NOTIFY     , *getLoc().logLevel.notify     },
-        { LogLevel::WARNING    , *getLoc().logLevel.warning    },
-        { LogLevel::ERROR      , *getLoc().logLevel.error      },
-        { LogLevel::FATAL_ERROR, *getLoc().logLevel.fatalError },
-    };
-
-    return logPrefix[logLevel];
-}
-
-#define PREFIXED(str, level) \
-    ((("["s += getLogPrefix(level)) += "] \t") += str)
-#define EXPLAINED(str, details) \
-    ((str += ": ") += details)
-
-bool isLogLevelAppropriate(LogLevel logLevel)
-{
-    return logLevel >= LOG_LEVEL;
-}
-
-void warningToConsole(std::string& str)
-{
-    SystemRelated::ShowConsole();
-    std::cerr << str << '\n';
-}
-
-void LogInternal(std::string& message, LogLevel logLevel)
-{
-    if(!isLogLevelAppropriate(logLevel))
+    if(!IsLogLevelAppropriate(logLevel))
     {
         return;
     }
 
-    message = PREFIXED(message, logLevel);
+    // For prevent recursive call
+    if(!currentLogMessage.empty())
+    {
+        currentLogMessage += prefixed(explained(std::string(message), details), logLevel);
+        return;
+    }
+    currentLogMessage = prefixed(explained(std::string(message), details), logLevel);
+    LogInternal();
+    currentLogMessage.clear();
+}
 
-    fs::path logFolder = getConfig().logs.Folder;
-    std::string filename = getConfig().logs.name;
+bool Logger::IsLogLevelAppropriate(Level logLevel)
+{
+    return logLevel >= GlobalLogLevel;
+}
+
+void Logger::LogInternal()
+{
+    fs::path logFolder = getConfig().path.logFolder;
+    std::string filename = getConfig().path.logName;
     fs::path logPath = logFolder / filename;
 
     if(!fs::exists(logFolder))
     {
-        (message += "\n-> ") += EXPLAINED(PREFIXED(*getLoc().fileOperations.createNotify, LogLevel::NOTIFY), logFolder.string());
+        (currentLogMessage += "\n-> ")
+            += explained(prefixed(*getLoc().fileOperations.createNotify, Level::NOTIFY), logFolder.string());
     }
 
-    if(!SystemRelated::CreateDirWhenAbsent(getConfig().logs.Folder))
+    if(!SystemRelated::CreateDirWhenAbsent(logFolder))
     {
-        if(!isLogLevelAppropriate(LogLevel::WARNING))
+        if(!IsLogLevelAppropriate(Level::WARNING))
         {
             return;
         }
-        (message += "\n-> ") += EXPLAINED(PREFIXED(*getLoc().fileOperations.openOrCreateFailedWarning, LogLevel::WARNING), logFolder.string());
-        warningToConsole(message);
+        (currentLogMessage += "\n-> ")
+            += explained(prefixed(*getLoc().fileOperations.openOrCreateFailedWarning, Level::WARNING), logFolder.string());
+        showInConsole(currentLogMessage);
         return;
     }
 
@@ -72,24 +59,55 @@ void LogInternal(std::string& message, LogLevel logLevel)
 
     if(!log.is_open())
     {
-        if(!isLogLevelAppropriate(LogLevel::WARNING))
+        if(!IsLogLevelAppropriate(Level::WARNING))
         {
             return;
         }
-        (message += "\n-> ") += EXPLAINED(PREFIXED(*getLoc().fileOperations.openOrCreateFailedWarning, LogLevel::WARNING), logPath.string());
-        warningToConsole(message);
+        (currentLogMessage += "\n-> ")
+            += explained(prefixed(*getLoc().fileOperations.openOrCreateFailedWarning, Level::WARNING), logPath.string());
+        showInConsole(currentLogMessage);
         return;
     }
 
-    log << message << std::endl;
+    log << currentLogMessage << std::endl;
 }
 
-void Log(std::string message, const std::string& details, LogLevel logLevel)
+void Logger::showInConsole(std::string& str)
 {
-    if(!isLogLevelAppropriate(logLevel))
-    {
-        return;
-    }
+    SystemRelated::ShowConsole();
+    std::cerr << str << '\n';
+}
 
-    LogInternal(EXPLAINED(message, details), logLevel);
+const std::string& Logger::getLogPrefix(Level logLevel)
+{
+    static std::vector<std::string> logPrefix {
+        { *getLoc().logLevel.verbose    },
+        { *getLoc().logLevel.notify     },
+        { *getLoc().logLevel.warning    },
+        { *getLoc().logLevel.error      },
+        { *getLoc().logLevel.fatalError },
+    };
+
+    return logPrefix[static_cast<int>(logLevel)];
+}
+
+std::string Logger::prefixed(std::string str, Level level) {
+    std::string temp = "[";
+    temp += getLogPrefix(level);
+    temp += "] \t";
+    temp += str;
+
+    return std::move(temp);
+}
+
+std::string Logger::explained(std::string str, const std::string& details) {
+    str += ": ";
+    str += details;
+    return std::move(str);
+}
+
+
+void Log(const std::string& message, const std::string& details, Logger::Level logLevel)
+{
+    Logger::Log(message, details, logLevel);
 }

@@ -20,3 +20,8 @@ const GeneralLocalization& getLoc()
 {
     return Application::GetLoc();
 }
+
+Random& getRnd()
+{
+    return Application::GetRnd();
+}

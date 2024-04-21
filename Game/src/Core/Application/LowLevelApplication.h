@@ -19,6 +19,7 @@ protected: // Emitters
 protected: // Interface for derived class
     virtual void Draw() = 0;
     virtual void Update() = 0;
+    virtual void FinishWork() = 0;
 
 protected:
     bool isLowLevelApplicationWork = true;

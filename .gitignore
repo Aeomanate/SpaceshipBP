@@ -4,4 +4,4 @@
 /out/*
 /.idea/*
 /Game/bin-*
-/Game/Artifacts
+/Game/res/gen

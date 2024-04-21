@@ -10,22 +10,28 @@
 #include "Core/MenuManager/MenuManager.h"
 #include "Core/Storage/RootLocalization.h"
 #include "Core/Storage/RootConfig.h"
+#include "Utility/MemoryTextureStorage/TextureProvider.h"
+#include "Utility/Math/Random/Random.h"
 
 class Application: public LowLevelApplication, public Singleton<Application>
 {
     friend class Singleton<Application>;
 public:
     void Init() override;
+    ~Application() override;
 
 public:
     static MenuManager& GetMenuManager();
-    static Simulation const& GetSimulation();
-    static RootConfig const& GetConfig();
-    static GeneralLocalization const& GetLoc();
+    static const Simulation& GetSimulation();
+    static const RootConfig& GetConfig();
+    static const GeneralLocalization& GetLoc();
+    static const TextureProvider& GetTextureProvider();
+    static Random& GetRnd();
 
 private: // Game-related methods
     void Draw() override;
     void Update() override;
+    void FinishWork() override;
 
 private: // Listeners
     SIMPLE_LISTENER(LastMenuClosed);
@@ -34,9 +40,11 @@ private: // Listeners
 private: // Game-related objects
     MenuManager menuManager;
     Simulation simulation;
+    TextureProvider textureProvider;
+    Random random;
+
     RootConfig rootConfig;
     RootLocalization rootLocalization;
-
 protected:
     void ListenersInit();
     Application();

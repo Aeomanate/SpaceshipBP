@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_set>
+#include <vector>
 #include <type_traits>
 #include <fstream>
 #include <assert.h>
@@ -11,7 +12,8 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/prettywriter.h>
 #include <rapidjson/istreamwrapper.h>
-#include "ImptStdJsonConverters.h"
+#include "ImplStdJsonConverters.h"
+#include "Utility/Logger/Logger.h"
 
 namespace Serialization
 {
@@ -101,10 +103,13 @@ namespace Serialization
 
 
 
+    template <class UserType, class UserDefinedJsonConversionSet>
+    class SerializableVariable;
+
     /// A base class for any serializable variable for both user-defined and literal type
     class SerializableBase
     {
-        template <class Type, class UserDefinedJsonConversionSet>
+        template <class UserType, class UserDefinedJsonConversionSet>
         friend class SerializableVariable;
         template <class UserDefinedJsonConversionSet>
         friend class SerializableStruct;
@@ -152,7 +157,24 @@ namespace Serialization
                 return in;
             }
 
-            serializable.SetFromJson(document.GetObject());
+            const JsonVal& jsonRoot = document.GetObject();
+
+            JsonVal::ConstMemberIterator currentStructObjectIt = jsonRoot.FindMember(serializable.name.c_str());
+            if(currentStructObjectIt == jsonRoot.MemberEnd())
+            {
+                serializable.isParseError = true;
+                in.setstate(std::ios_base::failbit);
+                return in;
+            }
+            const JsonVal& currentStructJson = currentStructObjectIt->value;
+
+            // TODO Make versioning for each json field definition
+            if(!serializable.SetFromJson(currentStructJson))
+            {
+                serializable.isParseError = true;
+                in.setstate(std::ios_base::failbit);
+                return in;
+            }
 
             return in;
         }
@@ -160,10 +182,15 @@ namespace Serialization
         bool HasParseError() const
         { return isParseError; }
 
+        template <class UserType, class ExternalConversions>
+        SerializableVariable<UserType, ExternalConversions>& AsSeriVar()
+        {
+            return static_cast<SerializableVariable<UserType, ExternalConversions>&>(*this);
+        }
+
     protected: // Convert methods
         JsonDoc ToJson()
         {
-            assert(name != nullptr && "Internal name error");
             assert(!isToJsonDocumentRan && "ToJson() conversion ran twice recursively");
 
             isToJsonDocumentRan = true;
@@ -172,9 +199,9 @@ namespace Serialization
             StoreNewDocumentAllocator(document.GetAllocator());
 
             JsonVal value = *this;
-            // TODO Move name to the template parameter of derived types,
-            //      because it is only one place that the name is used.
-            document.SetObject().AddMember(rapidjson::StringRef(name), value, *docAllocator);
+            // TODO Move filename to the template parameter of derived types,
+            //      because it is only one place that the filename is used.
+            document.SetObject().AddMember(rapidjson::StringRef(name.c_str()), value, *docAllocator);
 
             isToJsonDocumentRan = false;
 
@@ -183,11 +210,11 @@ namespace Serialization
 
         virtual operator JsonVal() = 0;
 
-        virtual void SetFromJson(const JsonVal& externalValue) = 0;
+        virtual bool SetFromJson(const JsonVal& externalValue) = 0;
 
     protected:
-        // Each stored object via this wrapper must have a name for to json conversion
-        const char* name = nullptr;
+        // Each stored object via this wrapper must have a filename for to json conversion
+        std::string name = "Need to be replaced";
 
         // Store allocator for all converting-to-json process
         // TODO For multithreading it must be checked for stored once because user can call
@@ -197,7 +224,8 @@ namespace Serialization
         inline static AllocType* docAllocator = nullptr;
 
         inline static bool isToJsonDocumentRan = false;
-        bool isParseError = false;
+        // TODO Differentiate parse errors for better diagnostic
+        inline static bool isParseError = false;
     };
 
 
@@ -205,46 +233,57 @@ namespace Serialization
     /// It keep a set of addresses of nested SerializableVariable's
     /// for simplify looping through them and serialize/deserialize them without any user actions
     /// But it won't work if your struct will be like SerializableStruct... :: PlainStruct :: SerializableStruct...
-    template <class UserDefinedJsonConversionSet>
+    template <class ExternalConversions>
     class SerializableStruct : public SerializableBase
     {
     public:
         inline SerializableStruct(const char* name): SerializableBase(name) { }
 
         inline void EnableMemberSerialization(SerializableBase* structMember)
-        { membersSet.insert(structMember); }
+        { members.emplace_back(structMember); }
+
+
+        template <class UserType>
+        void AssignToMember(size_t index, UserType&& userValue)
+        {
+            members[index]->AsSeriVar<UserType, ExternalConversions>() = std::move(userValue);
+        }
 
     protected:
-        using ConversionSet = UserDefinedJsonConversionSet;
+        using ConversionSet = ExternalConversions;
 
         operator JsonVal() override
         {
-            assert(name != nullptr && "Internal name error");
             JsonVal value(rapidjson::kObjectType);
-            for (SerializableBase* serializable: membersSet)
+            for (SerializableBase* serializable: members)
             {
                 JsonVal nestedValue  = *serializable;
-                value.AddMember(rapidjson::StringRef(serializable->name), nestedValue, *docAllocator);
+                value.AddMember(rapidjson::StringRef(serializable->name.c_str()), nestedValue, *docAllocator);
             }
             return value;
         }
 
-        void SetFromJson(const JsonVal& valueExternal) override
+        bool SetFromJson(const JsonVal& currentStructJson) override
         {
-            assert(name != nullptr && "Internal name error");
-            for (SerializableBase* member: membersSet)
+            bool isSetupSuccess = true;
+
+            for (SerializableBase* member: members)
             {
-                if (auto it = valueExternal.FindMember(member->name); it != valueExternal.MemberEnd())
-                { member->SetFromJson(it->value); }
+                if (auto it = currentStructJson.FindMember(member->name.c_str()); it != currentStructJson.MemberEnd())
+                {
+                    isSetupSuccess &= member->SetFromJson(it->value);
+                }
             }
+
+            return isSetupSuccess;
         }
 
     protected:
-        std::unordered_set<SerializableBase*> membersSet;
+        std::vector<SerializableBase*> members;
     };
 
 
-    /// Each plain data struct must use it for be available for serialization
+    /// Each plain data struct must use it for be available for serialization.
     /// Concepts HasFromJsonUserCast<UserType>, HasToJsonUserCast<UserType> must be satisfied
     template <class UserType, class ExternalConversions>
     class SerializableVariable : public SerializableBase
@@ -280,11 +319,21 @@ namespace Serialization
         UserType* operator->()
         { return &nestedObject; }
 
-    protected:
-        void SetFromJson(const JsonVal& externalValue) override
+        template <class UserInitializer>
+        requires std::is_convertible_v<UserInitializer, UserType>
+        SerializableVariable& operator=(UserInitializer&& userValue)
         {
-            if(auto it = externalValue.FindMember(name); it != externalValue.MemberEnd())
-            { Internal::Converter<UserType, ExternalConversions>::GetFromJson()(nestedObject, it->value); }
+            // TODO Prevent at runtime assigning to nestedObject other type than UserType
+            nestedObject = std::move(userValue);
+            [[maybe_unused]] int x = 12;
+            return *this;
+        }
+
+    protected:
+        bool SetFromJson(const JsonVal& externalValue) override
+        {
+            Internal::Converter<UserType, ExternalConversions>::GetFromJson()(nestedObject, externalValue);
+            return true;
         }
 
     private:

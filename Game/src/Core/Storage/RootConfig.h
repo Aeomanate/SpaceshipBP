@@ -13,6 +13,7 @@ class RootConfig: public StorageRoot
 {
 public:
     inline RootConfig(): StorageRoot(&configGeneral) { };
+
     SERI_ROOT_V(GeneralConfig, configGeneral);
 };
 

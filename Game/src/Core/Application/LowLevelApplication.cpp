@@ -17,6 +17,8 @@ void LowLevelApplication::Run()
         HandleInput();
         Update();
     }
+
+    FinishWork();
 }
 
 void LowLevelApplication::HandleInput()

@@ -14,10 +14,20 @@ void SystemRelated::HideConsole()
 
 bool SystemRelated::CreateDirWhenAbsent(fs::path directory)
 {
-    if(!fs::exists(directory))
+    if(fs::exists(directory))
     {
-        fs::create_directories(directory);
+        return true;
+    } else
+    {
+        Log(getLoc().fileOperations.absentNotify, directory.string());
     }
 
-    return fs::exists(directory);
+    bool isCreated = fs::create_directories(directory);
+
+    if(!isCreated)
+    {
+        Log(getLoc().fileOperations.openOrCreateFailedWarning, directory.string(), Logger::Level::WARNING);
+    }
+
+    return isCreated;
 }

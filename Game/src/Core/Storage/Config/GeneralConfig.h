@@ -6,15 +6,13 @@
 #include "Utility/Serialization/Serializable.h"
 #include "ConfigSimulation.h"
 #include "ConfigWindow.h"
-#include "ConfigFile.h"
-#include "ConfigLogs.h"
+#include "ConfigPath.h"
 
 SERI_S(GeneralConfig)
 {
     SERI_C(GeneralConfig)
 
-    SERI_COMPOSITE_V(ConfigFile, config);
-    SERI_COMPOSITE_V(ConfigLogs, logs);
+    SERI_COMPOSITE_V(ConfigFile, path);
 
     SERI_COMPOSITE_V(ConfigWindow, window);
     SERI_COMPOSITE_V(ConfigSimulation, simulation);

@@ -29,7 +29,7 @@ namespace ECS
             });
         }
 
-        inline static ValueType& Data(auto key)
+        inline static ValueType& Data(KeyType key)
         {
             return entitiesWithData.find(key)->second;
         }
@@ -46,7 +46,7 @@ namespace ECS
 
 
     private:
-        static EntityWithDataStorage entitiesWithData;
+        static inline EntityWithDataStorage entitiesWithData;
     };
 }
 

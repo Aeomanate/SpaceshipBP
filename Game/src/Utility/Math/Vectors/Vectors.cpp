@@ -1,45 +1,53 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-//
-// Created by Lyosha12 on 07.03.2019.
-//
-
+#include <numbers>
 #include <cmath>
-#include "Vectors.hpp"
-#include "../Random/Random.hpp"
+#include "Vectors.h"
+#include "Utility/Math/Random/Random.h"
+#include "Core/Application/ApplicationShortcuts.h"
 
-float pseudoscalarProduction(sf::Vector2f A, sf::Vector2f B) {
+// Pseudo scalar product
+float pdot(sf::Vector2f A, sf::Vector2f B) {
     return A.x*B.y - A.y*B.x;
 }
-float scalarProduction(sf::Vector2f A, sf::Vector2f B) {
+
+float dot(sf::Vector2f A, sf::Vector2f B) {
     return A.x * B.x + A.y * B.y;
 }
 
-float length(sf::Vector2f A) {
-    return static_cast<float>(sqrt(A.x * A.x + A.y * A.y));
+float len2(sf::Vector2f A)
+{
+    return A.x * A.x + A.y * A.y;
 }
 
-sf::Vector2f normalize(sf::Vector2f A) {
-    float a_length = length(A);
+float len(sf::Vector2f A) {
+    return sqrtf(len2(A));
+}
+
+sf::Vector2f norm(sf::Vector2f A) {
+    float a_length = len(A);
     A.x /= a_length;
     A.y /= a_length;
     return A;
 }
 
-float angle(sf::Vector2f A, sf::Vector2f B) {
-    float cos = scalarProduction(A, B) / (length(A) * length(B));
-    float angle = static_cast<float>(acos(cos) * 180/M_PI);
-    
-    if((pseudoscalarProduction(A, B) > 0)) {
+float angleDeg(sf::Vector2f A, sf::Vector2f B) {
+    float cos = dot(A, B) / (len(A) * len(B));
+    float angle = acosf(cos) * 180 / std::numbers::pi_v<float>;
+
+    if(pdot(A, B) > 0)
+    {
         angle = 360 - angle;
     }
-    
+
     return angle; // Clockwise rotate degree.
 }
 
 sf::Vector2f randUnitVector() {
-    return normalize(sf::Vector2f {
-        static_cast<float>(pow(-1.0f, random() % 2) * (random() % 100)),
-        static_cast<float>(pow(-1.0f, random() % 2) * (random() % 100))
-    });
+    float signX = getRnd()(0, 2) ? 1 : -1;
+    float signY = getRnd()(0, 2) ? 1 : -1;
+
+    return norm(
+        sf::Vector2f {
+            signX * getRnd()(0, 100),
+            signY * getRnd()(0, 100)
+        });
 }

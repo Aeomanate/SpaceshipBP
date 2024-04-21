@@ -47,12 +47,11 @@ set(SOURCE_FILES
         src/Utility/SystemRelated/SystemRelated.cpp
         src/Utility/SystemRelated/SystemRelated.h
         src/Core/Storage/Config/ConfigWindow.h
-        src/Core/Storage/Config/ConfigFile.h
-        src/Core/Storage/Config/ConfigLogs.h
+        src/Core/Storage/Config/ConfigPath.h
         src/Core/Storage/GameJsonConversions.h
         src/Core/Storage/Localization/LocLogLevel.h
         src/Core/Storage/Localization/LocFileOperations.h
-        src/Utility/Serialization/ImptStdJsonConverters.h
+        src/Utility/Serialization/ImplStdJsonConverters.h
         src/Core/Storage/StorageRoot.cpp
         src/Core/Storage/StorageRoot.h
         src/Core/Storage/RootLocalization.h
@@ -77,10 +76,18 @@ set(SOURCE_FILES
         src/Simulation/Features/Movable/CAppliedForces.h
         src/Simulation/Features/CollisionDetection/SCollisionDetector.cpp
         src/Simulation/Features/CollisionDetection/SCollisionDetector.h
-        src/Simulation/Entities/Player.h
-        src/Simulation/Entities/Asteroid.h
-        src/Simulation/Entities/Timer.h
-        src/Simulation/Entities/Projectile.h
+        src/Simulation/Entities/EPlayer.h
+        src/Simulation/Entities/EAsteroid.h
+        src/Simulation/Entities/ETimer.h
+        src/Simulation/Entities/EProjectile.h
+        src/Utility/MemoryTextureStorage/TextureProvider.h
+        src/Utility/MemoryTextureStorage/TextureProvider.cpp
+        src/Core/Storage/Config/ConfigTextures.h
+        src/Core/Storage/Config/ConfigTexture.h
+        src/Utility/Math/Vectors/Vectors.h
+        src/Utility/Math/Vectors/Vectors.h
+        src/Utility/Math/Vectors/Vectors.cpp
+        src/Utility/Math/Random/Random.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

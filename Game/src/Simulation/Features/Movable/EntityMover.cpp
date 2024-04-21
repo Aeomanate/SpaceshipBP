@@ -13,7 +13,7 @@ void SEntityMover::Update(float dt)
     {
         CAppliedForces& f = CAppliedForces::Data(entity);
         CSpeed& v = CSpeed::Data(entity);
-        float m = CMass::Data(entity).m;
+        float& m = CMass::Data(entity).m;
 
         sf::Vector2f a = f / m;
         v += a * dt * 0.5f;

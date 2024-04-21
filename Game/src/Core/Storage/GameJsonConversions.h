@@ -6,6 +6,7 @@
 #include "Utility/Serialization/Serializable.h"
 
 #include "SFML/Window/VideoMode.hpp"
+#include "Core/Storage/Config/ConfigTextures.h"
 
 struct GameJsonConversions
 {
@@ -16,10 +17,9 @@ struct GameJsonConversions
         if(wit != json.MemberEnd() && hit != json.MemberEnd())
         {
             videoMode.width = wit->value.Get<decltype(sf::VideoMode().width)>();
-            videoMode.width = hit->value.Get<decltype(sf::VideoMode().height)>();
+            videoMode.height = hit->value.Get<decltype(sf::VideoMode().height)>();
         }
     }
-
     SERI_toJson(sf::VideoMode, videoMode)
     {
 
@@ -30,6 +30,30 @@ struct GameJsonConversions
 
         return value;
     }
+
+    template <class T>
+    SERI_fromJson(sf::Vector2<T>, vector2)
+    {
+        auto x = json.FindMember("x");
+        auto y = json.FindMember("y");
+        if(x != json.MemberEnd() && y != json.MemberEnd())
+        {
+            vector2.x = x->value.Get<T>();
+            vector2.y = y->value.Get<T>();
+        }
+    }
+    template <class T>
+    SERI_toJson(sf::Vector2<T>, vector2)
+    {
+
+        rapidjson::Value value(rapidjson::kObjectType);
+
+        value.SERI_ADD("x", vector2.x);
+        value.SERI_ADD("y", vector2.y);
+
+        return value;
+    }
+
 };
 
 #endif //SPACESHIPBP_GAMEJSONCONVERSIONS_H

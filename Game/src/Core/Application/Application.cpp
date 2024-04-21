@@ -9,7 +9,13 @@ void Application::Init()
 {
     ListenersInit();
 
+    rootConfig.Init(getConfig().path.configFolder, getConfig().path.configName);
     rootConfig.LoadOrCreate();
+
+    rootLocalization.Init(getConfig().path.localizationFolder, getConfig().path.localizationName);
+    rootLocalization.LoadOrCreate();
+
+
     ConfigWindow const& windowParams = rootConfig.configGeneral.window;
     Setup(windowParams.videoMode, windowParams.name, windowParams.style);
 }
@@ -39,12 +45,21 @@ GeneralLocalization const& Application::GetLoc()
     return GetInstance()->rootLocalization.localization;
 }
 
-
-
 RootConfig const& Application::GetConfig()
 {
     return GetInstance()->rootConfig;
 }
+
+TextureProvider const& Application::GetTextureProvider()
+{
+    return GetInstance()->textureProvider;
+}
+
+Random& Application::GetRnd()
+{
+    return GetInstance()->random;
+}
+
 
 void Application::Update()
 {
@@ -57,7 +72,6 @@ void Application::Draw()
     window.display();
 }
 
-
 void Application::OnLastMenuClosed()
 {
     isLowLevelApplicationWork = false;
@@ -69,5 +83,16 @@ void Application::OnKeyPressed(const sf::Event::KeyEvent& key)
     {
         isLowLevelApplicationWork = false;
     }
+}
+
+Application::~Application()
+{
+
+}
+
+void Application::FinishWork()
+{
+    rootConfig.Save();
+    rootLocalization.Save();
 }
 
