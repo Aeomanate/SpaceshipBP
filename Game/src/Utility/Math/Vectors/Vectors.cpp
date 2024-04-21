@@ -1,7 +1,6 @@
 #include <numbers>
 #include <cmath>
 #include "Vectors.h"
-#include "Utility/Math/Random/Random.h"
 #include "Core/Application/ApplicationShortcuts.h"
 
 // Pseudo scalar product
@@ -42,8 +41,8 @@ float angleDeg(sf::Vector2f A, sf::Vector2f B) {
 }
 
 sf::Vector2f randUnitVector() {
-    float signX = getRnd()(0, 2) ? 1 : -1;
-    float signY = getRnd()(0, 2) ? 1 : -1;
+    float signX = getRnd()(0, 2) ? 1.0f : -1.0f;
+    float signY = getRnd()(0, 2) ? 1.0f : -1.0f;
 
     return norm(
         sf::Vector2f {
