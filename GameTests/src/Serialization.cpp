@@ -52,24 +52,15 @@ SERI_S(Outer)
 {
     SERI_C(Outer)
     SERI_COMPOSITE_V(Inner, compositeStruct1);
-    SERI_COMPOSITE_V(Inner, compositeStruct2);
-};
-SERI_S(OuterOuter)
-{
-    SERI_C(OuterOuter)
-    SERI_COMPOSITE_V(Outer, compositeStruct1);
-    SERI_COMPOSITE_V(Outer, compositeStruct2);
-};
-SERI_S(OuterOuterOuter)
-{
-    SERI_C(OuterOuterOuter)
-    SERI_COMPOSITE_V(OuterOuter, compositeStruct1);
-    SERI_COMPOSITE_V(OuterOuter, compositeStruct2);
+    SERI_COMPOSITE_V_MEMBERS_INIT(
+        Inner, compositeStruct2,
+        777
+    );
 };
 
 TEST(UtilitySuite, SerializationComposite)
 {
-    OuterOuterOuter myRoot = { "myRoot" "ROOT" };
+    SERI_ROOT_V(Outer, myRoot);
 
     std::stringstream stream;
 
@@ -77,7 +68,7 @@ TEST(UtilitySuite, SerializationComposite)
 
     std::string json = stream.str();
 
-    // stream >> myRoot;
+    stream >> myRoot;
 
     ASSERT_EQ(myRoot.HasParseError(), false);
 }
