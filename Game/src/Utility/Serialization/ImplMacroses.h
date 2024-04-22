@@ -18,8 +18,8 @@ namespace Serialization { struct EmptyUserConversions { }; }
 // and 3P-libs types that doesn't have inner serialization definitions.
 // Must be only struct member defined with SERI_S or SERI_ROOT_V
 #define SERI_V(NonSerializableT, name, value) \
-    Serialization::SerializableVariable<NonSerializableT, ExternalJsonConversions> name = \
-    { #name, NonSerializableT(value), this }
+    using SeriVarType_##name = Serialization::SerializableVariable<NonSerializableT, ExternalJsonConversions>; \
+    SeriVarType_##name name = { #name, NonSerializableT(value), this }
 
 // For creating a std::string serializable variable
 #define SERI_STR_V(Name, DefaultValue) \

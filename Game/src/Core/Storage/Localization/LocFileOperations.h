@@ -15,6 +15,7 @@ SERI_S(LocFileOperations)
     SERI_STR_V(jsonParseWarning, "Parse failed");
     SERI_STR_V(jsonWriteWarning, "Saving failed");
     SERI_STR_V(textureOpenFailedWarning, "Texture open failed");
+    SERI_STR_V(textureOpeningNotify, "Texture loading");
 };
 
 

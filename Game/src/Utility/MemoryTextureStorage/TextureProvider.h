@@ -21,6 +21,7 @@ private:
     sf::Sprite sprite;
     sf::Vector2u fullSize;
     sf::Vector2u frameSize;
+    sf::Vector2u frameCount;
 
     int repeatsCount = 0;
     int repeatsCurrent = 0;
@@ -28,13 +29,15 @@ private:
 
     sf::Time frameInterval;
     sf::Clock clock;
-
 };
+
 
 class TextureProvider
 {
 public:
     void LoadTextures();
+
+    FrameByFrame CreateFrameByFrame(const ConfigTexture& configTexture);
 
 private:
     void LoadTexture(const ConfigTexture& configTexture);

@@ -17,6 +17,7 @@ void Logger::Log(const std::string& message, const std::string& details, Logger:
     // For prevent recursive call
     if(!currentLogMessage.empty())
     {
+        currentLogMessage += "\n-> ";
         currentLogMessage += prefixed(explained(std::string(message), details), logLevel);
         return;
     }

@@ -7,7 +7,6 @@ FrameByFrame::FrameByFrame(const ConfigTexture& configTexture)
     sprite.setOrigin(sf::Vector2f(frameSize) / 2.0f);
 }
 
-
 void FrameByFrame::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite, states);
 }
@@ -24,15 +23,17 @@ void FrameByFrame::advanceFrame() {
 }
 
 
-
 void TextureProvider::LoadTextures()
 {
-    getConfig().path.textureNames;
+    getConfig().path.textureNames.Visit([this](const ConfigTexture& configTexture){
+        LoadTexture(configTexture);
+    });
 }
 
 void TextureProvider::LoadTexture(const ConfigTexture& configTexture)
 {
-    sf::Texture texture;
+    Log(getLoc().fileOperations.textureOpeningNotify, configTexture.name);
+    sf::Texture& texture = textures.insert({*configTexture.name, sf::Texture{}}).first->second;
 
     const fs::path& folder = getConfig().path.texturesFolder;
     std::string name = (folder / *configTexture.name).string();
