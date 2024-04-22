@@ -282,8 +282,9 @@ namespace Serialization
             members[index]->AsSeriVar<UserType, ExternalConversions>() = std::move(userValue);
         }
 
-        /// Visit either SeriVar or SeriStruct.
-        /// It will be resolved by function parameter type
+        /// Visit each either SeriVar or UserSeriStruct inside an outer UserSeriStruct.
+        /// Just pass a lambda with an appropriate ref-parameter.
+        /// Parameter type must be the reference to either UserSeriStruct or UserSeriStruct::SeriVarType_xxx
         template<
             class VisitorFunc,
             class VisitorParamRef = typename Internal::LambdaTraits<VisitorFunc>::template ArgType<0>,
