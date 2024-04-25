@@ -3,10 +3,11 @@
 
 #include <unordered_map>
 #include <ranges>
-#include "Entity.h"
+
 
 namespace ECS
 {
+    class Entity;
     namespace r = std::ranges;
     namespace rv = r::views;
 
@@ -17,7 +18,7 @@ namespace ECS
         using ValueType = Derived;
         using EntityWithDataStorage = std::unordered_map<KeyType, ValueType>;
     public:
-        inline static auto AllKeys()
+        inline static auto AllEntities()
         {
             return rv::all(entitiesWithData);
         }

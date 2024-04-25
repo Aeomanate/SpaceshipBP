@@ -7,7 +7,7 @@ class Random
 {
 public:
     template<class T, class U, class Common = std::common_type_t<T, U>>
-    Common operator() (T begin, U end)
+    Common Range(T begin, U end)
     {
         if constexpr (std::is_floating_point<Common>())
         {

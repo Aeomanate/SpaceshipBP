@@ -98,13 +98,13 @@ std::string Logger::prefixed(std::string str, Level level) {
     temp += "] \t";
     temp += str;
 
-    return std::move(temp);
+    return temp;
 }
 
 std::string Logger::explained(std::string str, const std::string& details) {
     str += ": ";
     str += details;
-    return std::move(str);
+    return str;
 }
 
 

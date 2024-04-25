@@ -12,8 +12,10 @@ SERI_S(ConfigTexture)
     SERI_C(ConfigTexture)
 
     SERI_STR_V(name, "MustBeReplaced");
-    SERI_V(sf::Vector2u, frameSize, sf::Vector2u());
-    SERI_V(uint32_t, frameCount, 0);
+    SERI_V(sf::Vector2u, frameSizePx, sf::Vector2u());
+    SERI_V(sf::Uint32, framesTotal, 0);
+    SERI_V(sf::Uint32, frameIntervalMs, 50);
+    SERI_V(sf::Int32, repeatsCount, -1);
 };
 
 #endif //SPACESHIPBP_CONFIGTEXTURE_H

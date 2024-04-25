@@ -1,5 +1,5 @@
-#ifndef SPACESHIPBP_MENUMANAGER_H
-#define SPACESHIPBP_MENUMANAGER_H
+#ifndef SPACESHIPBP_MENULAYER_H
+#define SPACESHIPBP_MENULAYER_H
 
 #include <stack>
 #include <memory>
@@ -7,13 +7,17 @@
 #include "Core/EventsHandling/ListenersEmitters.h"
 #include "UI/Menus/BaseMenu.h"
 
-class MenuManager
+class MenuLayer
 {
 public:
-    MenuManager();
+    MenuLayer();
 
     template <class MenuType>
-    void SpawnMenu();
+    void SpawnMenu()
+    {
+        menuStack.push(std::make_unique<MenuType>());
+        listenerCloseMenuRequest.SubscribeEmitter(menuStack.top()->emitterCloseRequest);
+    }
 
     BaseMenu* TopMenu();
 
@@ -30,12 +34,4 @@ private:
     std::stack<std::unique_ptr<BaseMenu>> menuStack;
 };
 
-
-template <class MenuType>
-void MenuManager::SpawnMenu()
-{
-    menuStack.push(std::make_unique<MenuType>());
-    listenerCloseMenuRequest.SubscribeEmitter(menuStack.top()->emitterCloseRequest);
-}
-
-#endif //SPACESHIPBP_MENUMANAGER_H
+#endif //SPACESHIPBP_MENULAYER_H

@@ -9,7 +9,7 @@
 
 void SEntityMover::Update(float dt)
 {
-    for(auto& [entity, pos]: CPosition::AllKeys() | CSpeed::Filter() | CAppliedForces::Filter() | CMass::Filter())
+    for(auto& [entity, pos]: CPosition::AllEntities() | CSpeed::Filter() | CAppliedForces::Filter() | CMass::Filter())
     {
         CAppliedForces& f = CAppliedForces::Data(entity);
         CSpeed& v = CSpeed::Data(entity);

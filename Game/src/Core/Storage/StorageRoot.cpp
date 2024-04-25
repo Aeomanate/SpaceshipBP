@@ -22,7 +22,8 @@ void StorageRoot::LoadOrCreate()
 bool StorageRoot::Load()
 {
     std::ifstream in = SystemRelated::StreamOpen<std::ifstream>(folder, filename);
-    if(!in || !(in >> *rootMemberVariable))
+    in >> *rootMemberVariable;
+    if(rootMemberVariable->HasParseError())
     {
         Log(getLoc().fileOperations.jsonParseWarning, (folder / filename).string(), Logger::Level::WARNING);
         return false;
@@ -34,7 +35,8 @@ bool StorageRoot::Load()
 bool StorageRoot::Save()
 {
     std::ofstream out = SystemRelated::StreamOpen<std::ofstream>(folder, filename);
-    if(!out || !(out << *rootMemberVariable))
+    out << *rootMemberVariable;
+    if(!out)
     {
         Log(getLoc().fileOperations.jsonWriteWarning, (folder / filename).string(), Logger::Level::WARNING);
         return false;

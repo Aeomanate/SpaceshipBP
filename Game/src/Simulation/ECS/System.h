@@ -9,6 +9,7 @@ namespace ECS
     class System : public Updatable
     {
     public:
+        virtual ~System() = default;
 
     };
 }

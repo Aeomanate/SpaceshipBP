@@ -1,9 +1,9 @@
 #include "ApplicationShortcuts.h"
 #include "Application.h"
 
-MenuManager& getMenuManager()
+MenuLayer& getMenuLayer()
 {
-    return Application::GetMenuManager();
+    return Application::GetMenuLayer();
 }
 
 const Simulation& getSimulation()
@@ -13,12 +13,22 @@ const Simulation& getSimulation()
 
 const GeneralConfig& getConfig()
 {
-    return Application::GetConfig().configGeneral;
+    return Application::GetConfig();
 }
 
 const GeneralLocalization& getLoc()
 {
     return Application::GetLoc();
+}
+
+const TextureProvider& getTextureProvider()
+{
+    return Application::GetTextureProvider();
+}
+
+LevelProvider& getLevelProvider()
+{
+    return Application::GetLevelProvider();
 }
 
 Random& getRnd()

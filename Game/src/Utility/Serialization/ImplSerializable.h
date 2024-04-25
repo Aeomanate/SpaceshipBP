@@ -6,6 +6,7 @@
 #include <vector>
 #include <type_traits>
 #include <fstream>
+#include <functional>
 #include <assert.h>
 #include <rapidjson/encodedstream.h>
 #include <rapidjson/document.h>
@@ -108,7 +109,7 @@ namespace Serialization
         // For converting visitor function to lambda correctly
         template <typename Return, typename... Args>
         struct __LambdaTraits {
-            __LambdaTraits(std::function<Return(Args...)> f) {}
+            __LambdaTraits(std::template function<Return(Args...)>) {}
             using return_type = Return;
             using arg_types = std::tuple<Args...>;
 

@@ -41,12 +41,12 @@ float angleDeg(sf::Vector2f A, sf::Vector2f B) {
 }
 
 sf::Vector2f randUnitVector() {
-    float signX = getRnd()(0, 2) ? 1.0f : -1.0f;
-    float signY = getRnd()(0, 2) ? 1.0f : -1.0f;
+    float signX = getRnd().Range(0, 2) ? 1.0f : -1.0f;
+    float signY = getRnd().Range(0, 2) ? 1.0f : -1.0f;
 
     return norm(
         sf::Vector2f {
-            signX * getRnd()(0, 100),
-            signY * getRnd()(0, 100)
+            signX * getRnd().Range(0, 100),
+            signY * getRnd().Range(0, 100)
         });
 }

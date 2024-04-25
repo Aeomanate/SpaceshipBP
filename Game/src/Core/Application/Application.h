@@ -7,25 +7,26 @@
 #include "Simulation/Simulation.h"
 #include "Utility/Singleton.h"
 #include "LowLevelApplication.h"
-#include "Core/MenuManager/MenuManager.h"
+#include "Core/GameLayers/MenuLayer.h"
 #include "Core/Storage/RootLocalization.h"
 #include "Core/Storage/RootConfig.h"
-#include "Utility/MemoryTextureStorage/TextureProvider.h"
+#include "Utility/Visual/TextureProvider.h"
 #include "Utility/Math/Random/Random.h"
+#include "Simulation/Levels/LevelProvider.h"
 
 class Application: public LowLevelApplication, public Singleton<Application>
 {
     friend class Singleton<Application>;
 public:
     void Init() override;
-    ~Application() override;
 
 public:
-    static MenuManager& GetMenuManager();
+    static MenuLayer& GetMenuLayer();
     static const Simulation& GetSimulation();
-    static const RootConfig& GetConfig();
+    static const GeneralConfig& GetConfig();
     static const GeneralLocalization& GetLoc();
     static const TextureProvider& GetTextureProvider();
+    static LevelProvider& GetLevelProvider();
     static Random& GetRnd();
 
 private: // Game-related methods
@@ -38,15 +39,19 @@ private: // Listeners
     DATA_LISTENER(KeyPressed, sf::Event::KeyEvent);
 
 private: // Game-related objects
-    MenuManager menuManager;
+    MenuLayer menuLayer;
     Simulation simulation;
     TextureProvider textureProvider;
+    LevelProvider levelProvider;
     Random random;
 
     RootConfig rootConfig;
     RootLocalization rootLocalization;
 protected:
-    void ListenersInit();
+    void InitListeners();
+    void InitStorages();
+    void InitGameRelated();
+
     Application();
 
 };

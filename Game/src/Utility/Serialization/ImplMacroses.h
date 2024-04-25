@@ -83,10 +83,9 @@ namespace Serialization { struct EmptyUserConversions { }; }
 #define SERI_COMPOSITE_V(SerializableT, name) \
     SerializableT##Template<ExternalJsonConversions> name = { #name, this }
 
-// For composition when you need initialize each field of inner SerializableStruct
+// For composition when you need to initialize each field of inner SerializableStruct
 #define SERI_COMPOSITE_V_MEMBERS_INIT(SerializableStructT, name, ...) \
     SerializableStructT name = { #name, this, __VA_ARGS__ }
-
 
 // For main variable definition of the serializable hierarchy
 // TODO Make custom ConversionSet available for entire serializable hierarchy without global define of user struct

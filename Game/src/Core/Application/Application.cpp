@@ -1,4 +1,6 @@
 #include "Application.h"
+#include "ApplicationShortcuts.h"
+using namespace std::string_literals;
 
 
 Application::Application()
@@ -7,27 +9,35 @@ Application::Application()
 
 void Application::Init()
 {
-    ListenersInit();
+    Log("\n\n"s + *getLoc().application.started, "");
 
-    rootConfig.Init(getConfig().path.configFolder, getConfig().path.configName);
-    rootConfig.LoadOrCreate();
-
-    rootLocalization.Init(getConfig().path.localizationFolder, getConfig().path.localizationName);
-    rootLocalization.LoadOrCreate();
+    InitListeners();
+    InitStorages();
 
 
     ConfigWindow const& windowParams = rootConfig.configGeneral.window;
     Setup(windowParams.videoMode, windowParams.name, windowParams.style);
 }
 
-void Application::ListenersInit()
+void Application::InitListeners()
 {
     listenerKeyPressed.SubscribeEmitter(emitterKeyEvent);
+    listenerLastMenuClosed.SubscribeEmitter(menuLayer.emitterLastMenuClosed);
+}
 
-    listenerLastMenuClosed.SubscribeEmitter(menuManager.emitterLastMenuClosed);
+void Application::InitStorages()
+{
+    rootConfig.Init(getConfig().path.configFolder, getConfig().path.configName);
+    rootConfig.LoadOrCreate();
 
-    simulation.listenerKeyPressed.SubscribeEmitter(emitterKeyEvent);
-    simulation.listenerMouseButtonClicked.SubscribeEmitter(emitterMouseClicked);
+    rootLocalization.Init(getConfig().path.localizationFolder, getConfig().path.localizationName);
+    rootLocalization.LoadOrCreate();
+}
+
+void Application::InitGameRelated()
+{
+    textureProvider.LoadTextures();
+
 }
 
 Simulation const& Application::GetSimulation()
@@ -35,9 +45,9 @@ Simulation const& Application::GetSimulation()
     return GetInstance()->simulation;
 }
 
-MenuManager& Application::GetMenuManager()
+MenuLayer& Application::GetMenuLayer()
 {
-    return GetInstance()->menuManager;
+    return GetInstance()->menuLayer;
 }
 
 GeneralLocalization const& Application::GetLoc()
@@ -45,10 +55,11 @@ GeneralLocalization const& Application::GetLoc()
     return GetInstance()->rootLocalization.localization;
 }
 
-RootConfig const& Application::GetConfig()
+GeneralConfig const& Application::GetConfig()
 {
-    return GetInstance()->rootConfig;
+    return GetInstance()->rootConfig.configGeneral;
 }
+
 
 TextureProvider const& Application::GetTextureProvider()
 {
@@ -60,6 +71,10 @@ Random& Application::GetRnd()
     return GetInstance()->random;
 }
 
+LevelProvider& Application::GetLevelProvider()
+{
+    return GetInstance()->levelProvider;
+}
 
 void Application::Update()
 {
@@ -70,6 +85,14 @@ void Application::Draw()
 {
     window.clear(sf::Color::Black);
     window.display();
+}
+
+void Application::FinishWork()
+{
+    Log(getLoc().application.closed, "");
+
+    rootConfig.Save();
+    rootLocalization.Save();
 }
 
 void Application::OnLastMenuClosed()
@@ -83,16 +106,5 @@ void Application::OnKeyPressed(const sf::Event::KeyEvent& key)
     {
         isLowLevelApplicationWork = false;
     }
-}
-
-Application::~Application()
-{
-
-}
-
-void Application::FinishWork()
-{
-    rootConfig.Save();
-    rootLocalization.Save();
 }
 

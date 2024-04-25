@@ -1,15 +1,24 @@
 #ifndef SPACESHIPBP_SIMULATION_H
 #define SPACESHIPBP_SIMULATION_H
 
+#include <memory>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Window/Event.hpp>
 #include "Core/EventsHandling/ListenersEmitters.h"
-#include "SFML/Window/Event.hpp"
+#include "Utility/Updatable.h"
+#include "Simulation/Levels/Level.h"
 
-class Simulation
+class Simulation: public Updatable, sf::Drawable
 {
 public:
     Simulation();
+    void Init();
+
+public:
+    void Update(float dt) override;
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public: // Emitters
 
@@ -20,7 +29,7 @@ public: // Public listeners
 private: // Private listeners
 
 private:
-
+    Level* currentLevel;
 };
 
 

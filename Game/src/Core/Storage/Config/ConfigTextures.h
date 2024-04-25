@@ -27,7 +27,7 @@ SERI_S(ConfigTextures)
 
     SERI_COMPOSITE_V_MEMBERS_INIT(
         ConfigTexture, background,
-        "background.png"s,
+        "Background.jpg"s,
         sf::Vector2u {1920 , 1080},
         1
     );
