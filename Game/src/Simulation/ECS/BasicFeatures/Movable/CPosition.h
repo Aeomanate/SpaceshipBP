@@ -5,9 +5,9 @@
 #include "Simulation/ECS/Component.h"
 #include "SFML/System/Vector2.hpp"
 
-struct CPosition: public sf::Vector2f, public ECS::Component<CPosition>
+struct CPosition: public ECS::Component<CPosition>
 {
-
+    sf::Vector2f value;
 };
 
 

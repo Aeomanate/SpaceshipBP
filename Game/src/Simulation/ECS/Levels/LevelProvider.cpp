@@ -26,7 +26,17 @@ Level& LevelProvider::LoadNextLevel()
     return *currentLevel;
 }
 
-const ConfigLevel& LevelProvider::getCurrentLevelConfig() const
+const ConfigLevel& LevelProvider::GetCurrentLevelConfig() const
 {
     return *currentLevelConfig;
+}
+
+const Level& LevelProvider::GetCurrentLevel() const
+{
+    return *currentLevel;
+}
+
+Level& LevelProvider::GetCurrentLevel()
+{
+    return *currentLevel;
 }

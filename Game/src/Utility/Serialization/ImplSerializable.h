@@ -240,7 +240,7 @@ namespace Serialization
         // Store allocator for all converting-to-json process
         // TODO For multithreading it must be checked for stored once because user can call
         //      ToJson()->Document when another ToJson()->Document is already running
-        inline static void StoreNewDocumentAllocator(AllocType& allocator)
+        static inline void StoreNewDocumentAllocator(AllocType& allocator)
         {
             docAllocator = &allocator;
         }
@@ -249,12 +249,12 @@ namespace Serialization
         // Each stored object via this wrapper must have a filename for to json conversion
         std::string name = "Need to be replaced";
 
-        inline static AllocType* docAllocator = nullptr;
+        static inline AllocType* docAllocator = nullptr;
 
-        inline static bool isToJsonDocumentRan = false;
+        static inline bool isToJsonDocumentRan = false;
 
         // TODO Differentiate parse errors for better diagnostic
-        inline static bool isParseError = false;
+        static inline bool isParseError = false;
 
         SeriObjectType seriObjectType;
     };

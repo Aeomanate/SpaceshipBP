@@ -4,7 +4,7 @@
 #include "Utility/Serialization/Serializable.h"
 #include <string>
 
-class GameJsonConversions;
+struct GameJsonConversions;
 
 SERI_S(LocApplication)
 {

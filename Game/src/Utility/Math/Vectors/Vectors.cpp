@@ -50,3 +50,13 @@ sf::Vector2f randUnitVector() {
             signY * getRnd().Range(0, 100)
         });
 }
+
+sf::Vector2f fabs(sf::Vector2f A)
+{
+    return sf::Vector2f { fabs(A.x), fabs(A.y) };
+}
+
+bool operator< (sf::Vector2f A, sf::Vector2f B)
+{
+    return A.x < B.x && A.y < B.y;
+}

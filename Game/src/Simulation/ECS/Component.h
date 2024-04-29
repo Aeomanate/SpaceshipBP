@@ -14,33 +14,34 @@ namespace ECS
     template<class Derived>
     class Component
     {
+    public:
         using KeyType = Entity*;
         using ValueType = Derived;
         using EntityWithDataStorage = std::unordered_map<KeyType, ValueType>;
     public:
-        inline static auto AllEntities()
+        static inline auto AllEntities()
         {
             return rv::all(entitiesWithData);
         }
 
-        inline static auto Filter()
+        static inline auto Filter()
         {
             return rv::filter([] (auto node) {
                 return entitiesWithData.contains(node.first);
             });
         }
 
-        inline static ValueType& Data(KeyType key)
+        static inline ValueType& Data(KeyType key)
         {
             return entitiesWithData.find(key)->second;
         }
 
-        inline static void Claim(Entity* entity, Derived&& data)
+        static inline void Claim(Entity* entity)
         {
-            entitiesWithData.insert(entity, std::move(data));
+            entitiesWithData.insert({entity, ValueType{}});
         }
 
-        inline static void Reject(Entity* entity)
+        static inline void Reject(Entity* entity)
         {
             entitiesWithData.erase(entity);
         }

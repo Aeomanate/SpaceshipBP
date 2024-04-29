@@ -5,7 +5,7 @@
 
 struct EPlayer: public ECS::Entity
 {
-
+    EPlayer();
 };
 
 #endif //SPACESHIPBP_EPLAYER_H

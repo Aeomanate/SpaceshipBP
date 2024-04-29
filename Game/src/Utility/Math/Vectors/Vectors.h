@@ -21,4 +21,12 @@ float angleDeg(sf::Vector2f A, sf::Vector2f B);
 // Generate random vector with length equals to 1
 sf::Vector2f randUnitVector();
 
+
+// Absolute value for each component
+sf::Vector2f fabs(sf::Vector2f A);
+inline const sf::Vector2f VECTOR_SEMI_ZERO = { 0.0001f, 0.0001f };
+
+// Compare less for component
+bool operator< (sf::Vector2f A, sf::Vector2f B);
+
 #endif //SPACESHIPBP_VECTORS_H

@@ -5,9 +5,9 @@
 #include "SFML/System/Vector2.hpp"
 #include "Simulation/ECS/Component.h"
 
-struct CAppliedForces: public sf::Vector2f, public ECS::Component<CAppliedForces>
+struct CAppliedForces: public ECS::Component<CAppliedForces>
 {
-
+    sf::Vector2f value;
 };
 
 

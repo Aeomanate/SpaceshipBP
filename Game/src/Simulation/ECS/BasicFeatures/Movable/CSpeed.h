@@ -7,9 +7,9 @@
 #include "Simulation/ECS/Component.h"
 #include "SFML/System/Vector2.hpp"
 
-struct CSpeed: public sf::Vector2f, public ECS::Component<CSpeed>
+struct CSpeed: public ECS::Component<CSpeed>
 {
-
+    sf::Vector2f value;
 };
 
 

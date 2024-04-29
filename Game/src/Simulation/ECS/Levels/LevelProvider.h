@@ -14,7 +14,9 @@ public:
     Level& LoadLevel(const ConfigLevel& configLevel);
     Level& LoadNextLevel();
 
-    const ConfigLevel& getCurrentLevelConfig() const;
+    const ConfigLevel& GetCurrentLevelConfig() const;
+    const Level& GetCurrentLevel() const;
+    Level& GetCurrentLevel();
 
 private:
     ConfigLevel* currentLevelConfig;

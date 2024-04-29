@@ -8,7 +8,7 @@
 #include <SFML/Window/Event.hpp>
 #include "Core/EventsHandling/ListenersEmitters.h"
 #include "Utility/Updatable.h"
-#include "Simulation/Levels/Level.h"
+#include "Simulation/ECS/Levels/Level.h"
 
 class Simulation: public Updatable, sf::Drawable
 {

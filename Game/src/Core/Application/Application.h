@@ -12,7 +12,7 @@
 #include "Core/Storage/RootConfig.h"
 #include "Utility/Visual/TextureProvider.h"
 #include "Utility/Math/Random/Random.h"
-#include "Simulation/Levels/LevelProvider.h"
+#include "Simulation/ECS/Levels/LevelProvider.h"
 
 class Application: public LowLevelApplication, public Singleton<Application>
 {

@@ -16,7 +16,6 @@ namespace ECS
         {
             using DefinedUserComponent = Component<typename UserComponent::ValueType>;
             DefinedUserComponent::Claim(this);
-
             return *this;
         }
 
@@ -26,7 +25,6 @@ namespace ECS
         {
             using DefinedUserComponent = Component<typename UserComponent::ValueType>;
             DefinedUserComponent::Reject(this);
-
             return *this;
         }
     };

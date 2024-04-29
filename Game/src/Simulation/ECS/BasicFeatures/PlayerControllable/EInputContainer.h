@@ -3,9 +3,12 @@
 
 #include "Simulation/ECS/Entity.h"
 
-struct EInputContainer: ECS::Entity
+struct EInputContainer: public ECS::Entity
 {
+    EInputContainer()
+    {
 
+    }
 };
 
 #endif //SPACESHIPBP_EINPUTCONTAINER_H

@@ -3,7 +3,7 @@
 
 #include "Simulation/ECS/Component.h"
 
-struct CPlayerControllableTab: public ECS::Component<CPlayerControllableTab>
+struct CPlayerControllableTag: public ECS::Component<CPlayerControllableTag>
 {
 
 };

@@ -91,11 +91,11 @@ set(SOURCE_FILES
         src/Core/Storage/Localization/LocApplication.h
         src/Utility/Visual/TextureProvider.cpp
         src/Utility/Visual/TextureProvider.h
-        src/Simulation/Levels/Level.cpp
-        src/Simulation/Levels/Level.h
+        src/Simulation/ECS/Levels/Level.cpp
+        src/Simulation/ECS/Levels/Level.h
         src/Simulation/Entities/EBackground.h
-        src/Simulation/Levels/LevelProvider.cpp
-        src/Simulation/Levels/LevelProvider.h
+        src/Simulation/ECS/Levels/LevelProvider.cpp
+        src/Simulation/ECS/Levels/LevelProvider.h
         src/Core/Storage/Config/ConfigLevel.h
         src/Core/Storage/Config/ConfigLevels.h
         src/Core/Storage/Localization/LocSimulation.h
@@ -119,16 +119,29 @@ set(SOURCE_FILES
         src/Simulation/ECS/BasicFeatures/LifetimeControl/SDespawner.cpp
         src/Simulation/ECS/BasicFeatures/LifetimeControl/SDespawner.h
         src/Simulation/ECS/BasicFeatures/LifetimeControl/CVisualAttenuation.h
-        src/Simulation/ECS/BasicFeatures/LifetimeControl/SVisualAttenuationController.cpp
-        src/Simulation/ECS/BasicFeatures/LifetimeControl/SVisualAttenuationController.h
+        src/Simulation/ECS/BasicFeatures/LifetimeControl/SVisualAttenuation.cpp
+        src/Simulation/ECS/BasicFeatures/LifetimeControl/SVisualAttenuation.h
         src/Simulation/ECS/BasicFeatures/LifetimeControl/ESpawnerContainer.h
         src/Simulation/ECS/BasicFeatures/PlayerControllable/CPlayerControllableTag.h
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/CInputQueue.h
+        src/Simulation/ECS/BasicFeatures/PlayerControllable/CMovementDirectionQueue.h
         src/Simulation/ECS/BasicFeatures/PlayerControllable/SInputInjector.cpp
         src/Simulation/ECS/BasicFeatures/PlayerControllable/SInputInjector.h
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/EInputContainer.h
         src/Simulation/ECS/BasicFeatures/PlayerControllable/SInputApplier.cpp
         src/Simulation/ECS/BasicFeatures/PlayerControllable/SInputApplier.h
+        src/Simulation/ECS/Levels/CLevelState.h
+        src/Simulation/ECS/Levels/ELevelState.h
+        src/Simulation/ECS/Levels/SLevelStateForwarder.cpp
+        src/Simulation/ECS/Levels/SLevelStateForwarder.h
+        src/Simulation/Levels/Level1.cpp
+        src/Simulation/Levels/Level1.h
+        src/Simulation/Entities/EPlayer.cpp
+        src/Simulation/ECS/BasicFeatures/PlayerControllable/CMouseClickQueue.h
+        src/Simulation/ECS/BasicFeatures/PlayerControllable/CMousePosQueue.h
+        src/Simulation/ECS/BasicFeatures/PlayerControllable/EInputContainer.h
+        src/Simulation/Features/Shooting/CCannon.h
+        src/Core/Storage/Config/ConfigSimulationKeys.h
+        src/Simulation/Features/Shooting/CRequestFire.h
+        src/Simulation/ECS/BasicFeatures/Movable/CRequestMovement.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

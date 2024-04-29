@@ -19,7 +19,7 @@ namespace Serialization { struct EmptyUserConversions { }; }
 // Must be only struct member defined with SERI_S or SERI_ROOT_V
 #define SERI_V(NonSerializableT, name, value) \
     using SeriVarType_##name = Serialization::SerializableVariable<NonSerializableT, ExternalJsonConversions>; \
-    SeriVarType_##name name = { #name, NonSerializableT(value), this }
+    SeriVarType_##name name { #name, NonSerializableT(value), this }
 
 // For creating a std::string serializable variable
 #define SERI_STR_V(Name, DefaultValue) \
@@ -81,7 +81,7 @@ namespace Serialization { struct EmptyUserConversions { }; }
 
 // For composite of folded SerializableStruct
 #define SERI_COMPOSITE_V(SerializableT, name) \
-    SerializableT##Template<ExternalJsonConversions> name = { #name, this }
+    SerializableT##Template<ExternalJsonConversions> name { #name, this }
 
 // For composition when you need to initialize each field of inner SerializableStruct
 #define SERI_COMPOSITE_V_MEMBERS_INIT(SerializableStructT, name, ...) \
@@ -90,7 +90,7 @@ namespace Serialization { struct EmptyUserConversions { }; }
 // For main variable definition of the serializable hierarchy
 // TODO Make custom ConversionSet available for entire serializable hierarchy without global define of user struct
 #define SERI_ROOT_V(SerializableT, name) \
-    SerializableT##Template<PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE> name = { #name "ROOT" }
+    SerializableT##Template<PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE> name { #name "ROOT" }
 
 // Simple declaration define for 3P-lib conversion function
 // Use 'json' variable for operate on your 3P-lib type
