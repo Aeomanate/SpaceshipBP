@@ -3,7 +3,7 @@
 
 
 #include "Simulation/ECS/Component.h"
-#include "SFML/System/Vector2.hpp"
+#include <SFML/System/Vector2.hpp>
 
 struct CPosition: public ECS::Component<CPosition>
 {

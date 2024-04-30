@@ -2,8 +2,8 @@
 #define SPACESHIPBP_CONFIGWINDOW_H
 
 #include <string>
-#include "SFML/Window/VideoMode.hpp"
-#include "SFML/Window/WindowStyle.hpp"
+#include <SFML/Window/VideoMode.hpp>
+#include <SFML/Window/WindowStyle.hpp>
 #include "Core/Storage/GameJsonConversions.h"
 #include "Utility/Serialization/Serializable.h"
 

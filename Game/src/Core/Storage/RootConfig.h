@@ -1,7 +1,7 @@
 #ifndef SPACESHIPBP_ROOTCONFIG_H
 #define SPACESHIPBP_ROOTCONFIG_H
 
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include "Utility/Serialization/Serializable.h"
 #include "Core/Storage/Config/GeneralConfig.h"
 #include "Core/Storage/Config/ConfigSimulation.h"

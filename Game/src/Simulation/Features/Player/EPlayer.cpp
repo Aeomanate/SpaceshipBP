@@ -1,6 +1,6 @@
 #include "EPlayer.h"
-#include "Simulation/ECS/BasicFeatures/PlayerControllable/CPlayerControllableTag.h"
-#include "Simulation/ECS/BasicFeatures/PlayerControllable/CMovementDirectionQueue.h"
+#include "Simulation/ECS/BasicFeatures/Input/CPlayerControllableTag.h"
+#include "Simulation/ECS/BasicFeatures/Input/CQueuePlayerMoveDirections.h"
 #include "Simulation/ECS/BasicFeatures/Movable/CMass.h"
 #include "Simulation/ECS/BasicFeatures/Movable/CPosition.h"
 #include "Simulation/ECS/BasicFeatures/Movable/CSpeed.h"
@@ -11,7 +11,6 @@
 EPlayer::EPlayer()
 {
     ClaimComponent<CPlayerControllableTag>();
-    ClaimComponent<CMovementDirectionQueue>();
 
     ClaimComponent<CMass>();
     ClaimComponent<CPosition>();

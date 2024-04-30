@@ -2,7 +2,7 @@
 #define SPACESHIPBP_CONFIGLEVEL_H
 
 #include "Utility/Serialization/Serializable.h"
-#include "SFML/System/Vector2.hpp"
+#include <SFML/System/Vector2.hpp>
 
 struct GameJsonConversions;
 

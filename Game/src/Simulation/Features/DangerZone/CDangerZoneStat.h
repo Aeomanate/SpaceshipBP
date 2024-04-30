@@ -2,8 +2,8 @@
 #define SPACESHIPBP_CDANGERZONESTAT_H
 
 #include "Simulation/ECS/Component.h"
-#include "SFML/System/Vector2.hpp"
-#include "SFML/Config.hpp"
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Config.hpp>
 
 struct CDangerZoneStat: public ECS::Component<CDangerZoneStat>
 {

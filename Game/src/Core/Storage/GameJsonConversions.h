@@ -2,10 +2,8 @@
 #define SPACESHIPBP_GAMEJSONCONVERSIONS_H
 
 #include <string>
-#include "rapidjson/document.h"
+#include <SFML/Window/VideoMode.hpp>
 #include "Utility/Serialization/Serializable.h"
-
-#include "SFML/Window/VideoMode.hpp"
 #include "Core/Storage/Config/ConfigTextures.h"
 
 struct GameJsonConversions

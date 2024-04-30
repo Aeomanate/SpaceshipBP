@@ -2,7 +2,7 @@
 #define SPACESHIPBP_CHITCONFIRMED_H
 
 #include "Simulation/ECS/Component.h"
-#include "SFML/Config.hpp"
+#include <SFML/Config.hpp>
 
 struct CHitConfirmed: public ECS::Component<CHitConfirmed>
 {

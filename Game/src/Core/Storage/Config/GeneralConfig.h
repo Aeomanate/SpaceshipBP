@@ -1,8 +1,8 @@
 #ifndef SPACESHIPBP_GENERALCONFIG_H
 #define SPACESHIPBP_GENERALCONFIG_H
 
-#include "SFML/Window/VideoMode.hpp"
-#include "SFML/Window/WindowStyle.hpp"
+#include <SFML/Window/VideoMode.hpp>
+#include <SFML/Window/WindowStyle.hpp>
 #include "Utility/Serialization/Serializable.h"
 #include "ConfigSimulation.h"
 #include "ConfigWindow.h"

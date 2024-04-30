@@ -2,7 +2,7 @@
 #define SPACESHIPBP_CPLAYERSCORE_H
 
 #include "Simulation/ECS/Component.h"
-#include "SFML/Config.hpp"
+#include <SFML/Config.hpp>
 
 struct CPlayerScore: public ECS::Component<CPlayerScore>
 {

@@ -2,7 +2,7 @@
 #define SPACESHIPBP_APPLICATION_H
 
 #include <unordered_map>
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include "Core/EventsHandling/ListenersEmitters.h"
 #include "Simulation/Simulation.h"
 #include "Utility/Singleton.h"
@@ -17,6 +17,7 @@
 class Application: public LowLevelApplication, public Singleton<Application>
 {
     friend class Singleton<Application>;
+
 public:
     void Init() override;
 

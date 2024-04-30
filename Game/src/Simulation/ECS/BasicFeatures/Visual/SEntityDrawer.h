@@ -2,7 +2,7 @@
 #define SPACESHIPBP_SENTITYDRAWER_H
 
 
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include "Simulation/ECS/System.h"
 
 class SEntityDrawer: public ECS::System

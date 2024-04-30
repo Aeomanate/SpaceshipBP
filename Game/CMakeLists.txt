@@ -57,11 +57,8 @@ set(SOURCE_FILES
         src/Core/Storage/RootLocalization.h
         src/Utility/Serialization/ImplMacroses.h
         src/Utility/Serialization/Serializable.h
-        src/Simulation/ECS/System.cpp
         src/Simulation/ECS/System.h
-        src/Simulation/ECS/Entity.cpp
         src/Simulation/ECS/Entity.h
-        src/Simulation/ECS/Component.cpp
         src/Simulation/ECS/Component.h
         src/Simulation/ECS/BasicFeatures/Movable/CPosition.h
         src/Simulation/ECS/BasicFeatures/Movable/CSpeed.h
@@ -76,8 +73,8 @@ set(SOURCE_FILES
         src/Simulation/ECS/BasicFeatures/Movable/CAppliedForces.h
         src/Simulation/ECS/BasicFeatures/CollisionDetection/SCollisionDetector.cpp
         src/Simulation/ECS/BasicFeatures/CollisionDetection/SCollisionDetector.h
-        src/Simulation/Entities/EPlayer.h
-        src/Simulation/Entities/EAsteroid.h
+        src/Simulation/Features/Player/EPlayer.h
+        src/Simulation/Features/DangerZone/EAsteroid.h
         src/Simulation/Entities/ETimer.h
         src/Simulation/Features/Shooting/EProjectile.h
         src/Utility/Visual/FrameByFrame.h
@@ -109,8 +106,8 @@ set(SOURCE_FILES
         src/Simulation/Features/Score/SScoreTracker.h
         src/Simulation/Features/DangerZone/SDangerZoneAsteroidSpawner.cpp
         src/Simulation/Features/DangerZone/SDangerZoneAsteroidSpawner.h
-        src/Simulation/Features/Shooting/SHitHandler.cpp
-        src/Simulation/Features/Shooting/SHitHandler.h
+        src/Simulation/Features/Shooting/SHandlerHit.cpp
+        src/Simulation/Features/Shooting/SHandlerHit.h
         src/Simulation/Features/Shooting/CHitConfirmed.h
         src/Simulation/ECS/BasicFeatures/LifetimeControl/CToSpawnQueue.h
         src/Simulation/ECS/BasicFeatures/LifetimeControl/CToDespawnMark.h
@@ -122,26 +119,33 @@ set(SOURCE_FILES
         src/Simulation/ECS/BasicFeatures/LifetimeControl/SVisualAttenuation.cpp
         src/Simulation/ECS/BasicFeatures/LifetimeControl/SVisualAttenuation.h
         src/Simulation/ECS/BasicFeatures/LifetimeControl/ESpawnerContainer.h
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/CPlayerControllableTag.h
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/CMovementDirectionQueue.h
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/SInputInjector.cpp
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/SInputInjector.h
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/SInputApplier.cpp
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/SInputApplier.h
+        src/Simulation/ECS/BasicFeatures/Input/CPlayerControllableTag.h
+        src/Simulation/ECS/BasicFeatures/Input/CQueuePlayerMoveDirections.h
+        src/Simulation/ECS/BasicFeatures/Input/SInputInjector.cpp
+        src/Simulation/ECS/BasicFeatures/Input/SInputInjector.h
         src/Simulation/ECS/Levels/CLevelState.h
         src/Simulation/ECS/Levels/ELevelState.h
         src/Simulation/ECS/Levels/SLevelStateForwarder.cpp
         src/Simulation/ECS/Levels/SLevelStateForwarder.h
         src/Simulation/Levels/Level1.cpp
         src/Simulation/Levels/Level1.h
-        src/Simulation/Entities/EPlayer.cpp
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/CMouseClickQueue.h
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/CMousePosQueue.h
-        src/Simulation/ECS/BasicFeatures/PlayerControllable/EInputContainer.h
+        src/Simulation/Features/Player/EPlayer.cpp
+        src/Simulation/ECS/BasicFeatures/Input/CQueueMouseClicks.h
+        src/Simulation/ECS/BasicFeatures/Input/CQueueMouseMoves.h
+        src/Simulation/ECS/BasicFeatures/Input/EInputContainer.h
         src/Simulation/Features/Shooting/CCannon.h
         src/Core/Storage/Config/ConfigSimulationKeys.h
         src/Simulation/Features/Shooting/CRequestFire.h
         src/Simulation/ECS/BasicFeatures/Movable/CRequestMovement.h
+        src/Simulation/Features/Shooting/SHandlerPlayerShoot.cpp
+        src/Simulation/Features/Shooting/SHandlerPlayerShoot.h
+        src/Simulation/ECS/BasicFeatures/Input/SInputCleaner.cpp
+        src/Simulation/ECS/BasicFeatures/Input/SInputCleaner.h
+        src/Simulation/ECS/BasicFeatures/Input/CQueueBase.h
+        src/Simulation/Features/Player/SInputReader.h
+        src/Simulation/Features/Player/SInputReader.cpp
+        src/Core/Storage/Config/ConfigPlayer.h
+        src/Core/Storage/Config/ConfigPlayerCannon.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

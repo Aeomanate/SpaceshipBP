@@ -2,7 +2,7 @@
 #define SPACESHIPBP_CAPPLIEDFORCES_H
 
 
-#include "SFML/System/Vector2.hpp"
+#include <SFML/System/Vector2.hpp>
 #include "Simulation/ECS/Component.h"
 
 struct CAppliedForces: public ECS::Component<CAppliedForces>

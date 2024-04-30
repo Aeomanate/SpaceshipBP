@@ -11,13 +11,13 @@ void SEntityMover::Update(float dt)
 {
     for(auto& [entity, pos]: CPosition::AllEntities() | CSpeed::Filter() | CAppliedForces::Filter() | CMass::Filter())
     {
-        CAppliedForces& f = CAppliedForces::Data(entity);
-        CSpeed& v = CSpeed::Data(entity);
+        sf::Vector2f& f = CAppliedForces::Data(entity).value;
+        sf::Vector2f& v = CSpeed::Data(entity).value;
         float& m = CMass::Data(entity).m;
 
         sf::Vector2f a = f / m;
         v += a * dt * 0.5f;
-        pos += v * dt;
+        pos.value += v * dt;
         v += a * dt * 0.5f;
     }
 }

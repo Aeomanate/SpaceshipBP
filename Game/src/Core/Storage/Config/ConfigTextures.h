@@ -42,7 +42,8 @@ SERI_S(ConfigTextures)
         ConfigTexture, beam,
         "Beam.png"s,
         sf::Vector2u {10 o 40},
-        8
+        8,
+        sf::Vector2i {-1, 0}
     );
 
     SERI_COMPOSITE_V_MEMBERS_INIT(

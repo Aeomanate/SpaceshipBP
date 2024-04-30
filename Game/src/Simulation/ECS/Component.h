@@ -18,6 +18,7 @@ namespace ECS
         using KeyType = Entity*;
         using ValueType = Derived;
         using EntityWithDataStorage = std::unordered_map<KeyType, ValueType>;
+
     public:
         static inline auto AllEntities()
         {

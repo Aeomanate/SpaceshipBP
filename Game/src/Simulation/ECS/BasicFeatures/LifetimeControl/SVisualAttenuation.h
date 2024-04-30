@@ -6,8 +6,11 @@
 
 class SVisualAttenuation: public ECS::System
 {
-public:
+protected:
     void Update(float dt) override;
+
+public:
+
 
 };
 

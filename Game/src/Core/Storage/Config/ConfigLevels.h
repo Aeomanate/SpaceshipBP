@@ -1,7 +1,7 @@
 #ifndef SPACESHIPBP_CONFIGLEVELS_H
 #define SPACESHIPBP_CONFIGLEVELS_H
 #include "Utility/Serialization/Serializable.h"
-#include "SFML/System/Vector2.hpp"
+#include <SFML/System/Vector2.hpp>
 #include "ConfigLevel.h"
 
 using namespace std::string_literals;

@@ -16,8 +16,11 @@ public:
     Simulation();
     void Init();
 
-public:
+protected:
     void Update(float dt) override;
+
+public:
+
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public: // Emitters
