@@ -4,13 +4,15 @@
 
 #include "Simulation/ECS/System.h"
 
-class SSpawner: ECS::System
+class SSpawner: public ECS::System
 {
 protected:
     void Update(float dt) override;
 
 public:
-
+    SSpawner()
+    : ECS::System(ECS::System::Order::PRE_GAMEPLAY)
+    { }
 
 };
 

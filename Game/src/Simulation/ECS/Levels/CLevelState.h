@@ -5,7 +5,8 @@
 
 enum class LevelState
 {
-    RAN,
+    STARTING,
+    RUNNING,
     COMPLETED
 };
 

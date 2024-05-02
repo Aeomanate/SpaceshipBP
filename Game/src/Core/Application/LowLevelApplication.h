@@ -8,7 +8,7 @@
 class LowLevelApplication
 {
 public:
-    virtual void Init() = 0;
+    virtual LowLevelApplication& Init() = 0;
     void Setup(sf::VideoMode videoMode, const std::string& applicationName, sf::Uint32 style = sf::Style::Fullscreen);
     void Run();
 

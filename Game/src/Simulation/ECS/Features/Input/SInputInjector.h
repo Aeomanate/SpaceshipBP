@@ -3,7 +3,7 @@
 
 
 #include <optional>
-#include <SFML/Window/Event.hpp>
+#include "SFML/Window/Event.hpp"
 #include "Simulation/ECS/System.h"
 #include "CQueuePlayerMoveDirections.h"
 #include "CQueueMouseClicks.h"
@@ -29,6 +29,10 @@ protected:
     void Update(float dt) override;
 
 public:
+    SInputInjector()
+    : ECS::System(ECS::System::Order::PRE_GAMEPLAY)
+    { }
+
     void InjectMovement(sf::Vector2f direction);
     void InjectMouseClick(sf::Vector2f position);
     void InjectMousePosition(sf::Vector2f position);

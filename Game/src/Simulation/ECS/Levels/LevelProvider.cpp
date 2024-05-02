@@ -6,9 +6,11 @@ void LevelProvider::Init()
 
 }
 
-Level& LevelProvider::LoadLevel(const ConfigLevel& configLevel)
+Level* LevelProvider::LoadLevel(const ConfigLevel& configLevel)
 {
     Log(getLoc().simulation.levelLoadingNotify, configLevel.name);
+
+    // TODO Implement fabric of levels by their names
     currentLevel = std::make_unique<Level>();
     if(currentLevel)
     {
@@ -18,12 +20,12 @@ Level& LevelProvider::LoadLevel(const ConfigLevel& configLevel)
     {
         Log(getLoc().simulation.levelLoadingFailedWarning, configLevel.name, Logger::Level::WARNING);
     }
-    return  *currentLevel.get();
+    return  currentLevel.get();
 }
 
-Level& LevelProvider::LoadNextLevel()
+Level* LevelProvider::LoadNextLevel()
 {
-    return *currentLevel;
+    return nullptr;
 }
 
 const ConfigLevel& LevelProvider::GetCurrentLevelConfig() const

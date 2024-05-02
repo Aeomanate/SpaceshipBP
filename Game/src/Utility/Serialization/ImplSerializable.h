@@ -319,6 +319,29 @@ namespace Serialization
             }
         }
 
+        /// When you want to find certain object in the SeriStruct
+        /// isFound is a unary comparator that must accept a reference to finding object
+        /// e.g. (const SeriStructType& seriStructVal)
+        template<
+            class VisitorPredicate,
+            class VisitorParamRef = typename Internal::LambdaTraits<VisitorPredicate>::template ArgType<0>,
+            class VisitorParam = std::remove_cvref_t<VisitorParamRef>
+        >
+        VisitorParamRef Find(VisitorPredicate isFound) const
+        {
+            std::remove_reference_t<VisitorParamRef>* seriObjPtr = nullptr;
+
+            Visit([&seriObjPtr, &isFound] (VisitorParamRef member) {
+                if(isFound(member))
+                {
+                    seriObjPtr = &member;
+                    return;
+                }
+            });
+
+            return *seriObjPtr;
+        }
+
     protected:
         operator JsonVal() override
         {
@@ -396,6 +419,9 @@ namespace Serialization
         { return &nestedObject; }
         ObjectType* operator->()
         { return &nestedObject; }
+
+        bool operator==(const SerializableVariable& other) const
+        { return this->nestedObject == other.nestedObject; }
 
         template <class UserInitializer>
         requires std::is_convertible_v<UserInitializer, ObjectType>

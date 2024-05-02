@@ -2,10 +2,12 @@
 #define SPACESHIPBP_SSPRITEANIMATOR_H
 
 
-#include "Simulation/ECS/Component.h"
+#include "Simulation/ECS/System.h"
 
-class SSpriteAnimator: public ECS::Component<SSpriteAnimator>
+class SSpriteAnimator: public ECS::System
 {
+protected:
+    void Update(float dt) override;
 
 };
 

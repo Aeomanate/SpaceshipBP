@@ -23,15 +23,14 @@ void FrameByFrame::draw(sf::RenderTarget& target, sf::RenderStates states) const
 }
 
 void FrameByFrame::AdvanceFrame(float dt) {
-    if(repeatsCurrent == repeatsCount)
+    if(framesTotal == 1 || repeatsCurrent == repeatsCount )
     {
         return;
     }
 
+    timeSinceLastAdvance += dt;
     if(timeSinceLastAdvance < frameIntervalMs)
-    {
-        timeSinceLastAdvance += dt;
-    }
+    { return; }
     timeSinceLastAdvance -= frameIntervalMs;
 
     sf::Uint32 nextFrame = curFrame + 1;

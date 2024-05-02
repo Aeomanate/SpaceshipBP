@@ -2,7 +2,7 @@
 #define SPACESHIPBP_CQUEUEPLAYERMOVEDIRECTIONS_H
 
 #include "CQueueBase.h"
-#include <SFML/System/Vector2.hpp>
+#include "SFML/System/Vector2.hpp"
 
 struct CQueuePlayerMoveDirections: CQueueBase<sf::Vector2f>
 {

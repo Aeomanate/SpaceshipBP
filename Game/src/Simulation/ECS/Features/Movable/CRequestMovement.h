@@ -2,11 +2,11 @@
 #define SPACESHIPBP_CREQUESTMOVEMENT_H
 
 #include "Simulation/ECS/Component.h"
-#include <SFML/System/Vector2.hpp>
+#include "SFML/System/Vector2.hpp"
 
-struct CRequestMovement: public ECS::Component<CRequestMovement>
+struct CRequestMovement: public ECS::SimpleComponent<sf::Vector2f>
 {
-    sf::Vector2f direction;
+
 };
 
 #endif //SPACESHIPBP_CREQUESTMOVEMENT_H

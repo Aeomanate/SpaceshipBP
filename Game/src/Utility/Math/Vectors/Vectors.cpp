@@ -53,7 +53,7 @@ sf::Vector2f randUnitVector() {
 
 sf::Vector2f fabs(sf::Vector2f A)
 {
-    return sf::Vector2f { fabs(A.x), fabs(A.y) };
+    return sf::Vector2f { fabsf(A.x), fabsf(A.y) };
 }
 
 bool operator< (sf::Vector2f A, sf::Vector2f B)

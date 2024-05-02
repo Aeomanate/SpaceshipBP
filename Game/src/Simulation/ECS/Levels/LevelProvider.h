@@ -11,8 +11,8 @@ class LevelProvider
 public:
     void Init();
 
-    Level& LoadLevel(const ConfigLevel& configLevel);
-    Level& LoadNextLevel();
+    Level* LoadLevel(const ConfigLevel& configLevel);
+    Level* LoadNextLevel();
 
     const ConfigLevel& GetCurrentLevelConfig() const;
     const Level& GetCurrentLevel() const;

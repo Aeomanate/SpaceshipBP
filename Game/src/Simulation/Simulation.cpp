@@ -9,7 +9,7 @@ Simulation::Simulation()
 
 void Simulation::Init()
 {
-    // currentLevel = getLevelProvider().LoadLevel(getConfig().simulation.configLevels.level1);
+    currentLevel = getLevelProvider().LoadLevel(getConfig().simulation.configLevels.level1);
 }
 
 void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -20,7 +20,6 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Simulation::OnKeyPressed(const sf::Event::KeyEvent&)
 {
     std::cout << "simulation key pressed\n";
-
 }
 
 void Simulation::OnMouseButtonClicked(const sf::Event::MouseButtonEvent&)

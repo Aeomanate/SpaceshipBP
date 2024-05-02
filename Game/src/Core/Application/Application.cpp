@@ -7,16 +7,18 @@ Application::Application()
 {
 }
 
-void Application::Init()
+Application& Application::Init()
 {
     Log("\n\n"s + *getLoc().application.started, "");
 
     InitListeners();
     InitStorages();
-
+    InitGameRelated();
 
     ConfigWindow const& windowParams = rootConfig.configGeneral.window;
     Setup(windowParams.videoMode, windowParams.name, windowParams.style);
+
+    return *this;
 }
 
 void Application::InitListeners()
@@ -37,6 +39,7 @@ void Application::InitStorages()
 void Application::InitGameRelated()
 {
     textureProvider.LoadTextures();
+    simulation.Init();
 
 }
 
@@ -78,12 +81,13 @@ LevelProvider& Application::GetLevelProvider()
 
 void Application::Update()
 {
-
+    simulation.Update(1/59.f);
 }
 
 void Application::Draw()
 {
     window.clear(sf::Color::Black);
+    window.draw(simulation);
     window.display();
 }
 

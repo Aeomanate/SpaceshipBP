@@ -10,13 +10,12 @@
 #include "Utility/Updatable.h"
 #include "Simulation/ECS/Levels/Level.h"
 
-class Simulation: public Updatable, sf::Drawable
+class Simulation: public Updatable, public sf::Drawable
 {
 public:
     Simulation();
     void Init();
 
-protected:
     void Update(float dt) override;
 
 public:

@@ -10,7 +10,9 @@ protected:
     void Update(float dt) override;
 
 public:
-
+    SInputCleaner()
+    : ECS::System(ECS::System::Order::PRE_GAMEPLAY)
+    { }
 };
 
 

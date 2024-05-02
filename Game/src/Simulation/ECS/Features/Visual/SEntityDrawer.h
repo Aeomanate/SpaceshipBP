@@ -2,18 +2,21 @@
 #define SPACESHIPBP_SENTITYDRAWER_H
 
 
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
 #include "Simulation/ECS/System.h"
 
 class SEntityDrawer: public ECS::System
 {
-public:
-    SEntityDrawer(sf::RenderTarget* renderTarget);
-
+protected:
     void Update(float) override;
 
+public:
+    SEntityDrawer();
+
+    sf::Sprite GetDrawnState();
+
 private:
-    sf::RenderTarget* renderTarget;
+    sf::RenderTexture renderTexture;
 };
 
 

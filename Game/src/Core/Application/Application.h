@@ -19,7 +19,7 @@ class Application: public LowLevelApplication, public Singleton<Application>
     friend class Singleton<Application>;
 
 public:
-    void Init() override;
+    Application& Init() override;
 
 public:
     static MenuLayer& GetMenuLayer();

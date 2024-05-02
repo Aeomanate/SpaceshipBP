@@ -6,26 +6,42 @@
 
 namespace ECS
 {
+    template <class UserComponent>
+    using ResolveComponentBase = Component<typename UserComponent::ValueType>;
+
     class Entity
     {
+
     public:
+        template <class UserComponent, class... Params>
+        requires BeComponent<UserComponent>
+        UserComponent& Claim(Params&&... initFieldsPack)
+        {
+            using BaseOfUserComponent = ResolveComponentBase<UserComponent>;
+            return static_cast<UserComponent&>(BaseOfUserComponent::Claim(this, std::forward<Params>(initFieldsPack)...));
+        }
 
         template <class UserComponent>
-        requires std::is_base_of_v<Component<typename UserComponent::ValueType>, UserComponent>
-        Entity& ClaimComponent()
+        requires BeComponent<UserComponent>
+        Entity& Reject()
         {
-            using DefinedUserComponent = Component<typename UserComponent::ValueType>;
-            DefinedUserComponent::Claim(this);
+            using BaseOfUserComponent = ResolveComponentBase<UserComponent>;
+            BaseOfUserComponent::Reject(this);
             return *this;
         }
 
         template <class UserComponent>
-        requires std::is_base_of_v<Component<typename UserComponent::ValueType>, UserComponent>
-        Entity& RejectComponent()
+        requires BeComponent<UserComponent>
+        std::optional<UserComponent> TryGetDataAs()
         {
-            using DefinedUserComponent = Component<typename UserComponent::ValueType>;
-            DefinedUserComponent::Reject(this);
-            return *this;
+            return ResolveComponentBase<UserComponent>::template TryGetDataAs<UserComponent>(this);
+        }
+
+        template <class UserComponent>
+        requires BeComponent<UserComponent>
+        UserComponent& Get()
+        {
+            return ResolveComponentBase<UserComponent>::Data(this);
         }
     };
 

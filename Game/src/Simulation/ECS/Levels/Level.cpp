@@ -1,60 +1,38 @@
 #include "Level.h"
 #include "Core/Application/ApplicationShortcuts.h"
-
-void LevelData::InjectDataStorages(std::vector<LevelDataStorage*> levelDataStorages)
-{
-    std::size_t totalEntities = 0;
-    std::size_t totalSystems = 0;
-    for(const auto& levelDataStorage: levelDataStorages)
-    {
-        totalEntities += levelDataStorage->entities.size();
-        totalSystems += levelDataStorage->systems.size();
-    }
-
-    entities.reserve(totalEntities);
-    systems.reserve(totalSystems);
-
-    for(auto& levelDataStorage: levelDataStorages)
-    {
-        for(auto& entity: levelDataStorage->entities)
-        {
-            entities.emplace_back(entity.get());
-        }
-
-        for(auto& system: levelDataStorage->systems)
-        {
-            systems.emplace_back(system.get());
-        }
-    }
-
-    std::ranges::sort(systems, [] (const ECS::System* a, const ECS::System* b) { return *a < *b; });
-}
-
-
+#include "Simulation/ECS/Features/Visual/SEntityDrawer.h"
+#include "Simulation/ECS/Features/Input/SInputInjector.h"
 
 Level::Level()
 {
-    renderTexture.create(getConfig().window.videoMode->width, getConfig().window.videoMode->height);
-    renderTexture.setSmooth(true);
 }
 
-Level::Level(LevelDataStorageTransit&& transitData)
-: dataStorageTransit { std::move(transitData) }
-{ }
+Level::Level(Level&& otherLevel)
+: dataStorageTransit { std::move(otherLevel.dataStorageTransit) }
+, entityDrawer { std::move(otherLevel.entityDrawer) }
+, inputInjector { std::move(otherLevel.inputInjector) }
+{
+    otherLevel.levelSystemsCache.clear();
+    otherLevel.dataStorageLocal.systems.clear();
+    otherLevel.dataStorageLocal.entities.clear();
+}
 
 void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    target.draw(sf::Sprite(renderTexture.getTexture()), states);
+    target.draw(entityDrawer->GetDrawnState(), states);
 }
 
 void Level::Update(float dt)
 {
-    renderTexture.clear(sf::Color::Transparent);
-    for (auto& system: levelData.systems)
+    if(levelSystemsCache.empty())
+    {
+        CacheSystems();
+    }
+
+    for (auto& system: levelSystemsCache)
     {
         system->Update(dt);
     }
-    renderTexture.display();
 }
 
 LevelState Level::GetCachedLevelState() const
@@ -72,10 +50,28 @@ SInputInjector& Level::GetInputInjector()
     return *inputInjector;
 }
 
-void Level::InjectStorages()
+void Level::CacheSystems()
 {
-    levelData.InjectDataStorages({
-        &dataStorageLocal,
-        &dataStorageTransit
-    });
+    std::vector<LevelDataStorage*> levelDataStorages {
+        &dataStorageTransit,
+        &dataStorageLocal
+    };
+
+    std::size_t totalSystems = 0;
+    for(const auto& levelDataStorage: levelDataStorages)
+    {
+        totalSystems += levelDataStorage->systems.size();
+    }
+
+    levelSystemsCache.reserve(totalSystems);
+
+    for(auto& levelDataStorage: levelDataStorages)
+    {
+        for(auto& system: levelDataStorage->systems)
+        {
+            levelSystemsCache.emplace_back(system.get());
+        }
+    }
+
+    std::ranges::stable_sort(levelSystemsCache, [] (const ECS::System* a, const ECS::System* b) { return *a < *b; });
 }

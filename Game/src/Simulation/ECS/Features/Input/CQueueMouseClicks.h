@@ -2,7 +2,7 @@
 #define SPACESHIPBP_CQUEUEMOUSECLICKS_H
 
 #include "CQueueBase.h"
-#include <SFML/System/Vector2.hpp>
+#include "SFML/System/Vector2.hpp"
 
 struct CQueueMouseClicks: public CQueueBase<sf::Vector2f>
 {

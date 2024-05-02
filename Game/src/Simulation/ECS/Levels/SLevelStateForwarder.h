@@ -6,8 +6,13 @@
 
 class SLevelStateForwarder: public ECS::System
 {
-public:
+protected:
     void Update(float) override;
+
+public:
+    SLevelStateForwarder()
+    : ECS::System(ECS::System::Order::POST_GAMEPLAY)
+    { }
 };
 
 

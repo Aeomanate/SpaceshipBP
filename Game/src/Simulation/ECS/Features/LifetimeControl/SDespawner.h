@@ -10,7 +10,9 @@ protected:
     void Update(float dt) override;
 
 public:
-
+    SDespawner()
+    : ECS::System(ECS::System::Order::POST_GAMEPLAY)
+    { }
 
 };
 

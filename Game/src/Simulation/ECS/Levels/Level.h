@@ -10,13 +10,14 @@
 #include "Simulation/ECS/System.h"
 #include "Core/EventsHandling/ListenersEmitters.h"
 #include "Core/Storage/Config/ConfigLevel.h"
-#include "Simulation/ECS/BasicFeatures/Visual/SEntityDrawer.h"
 #include "CLevelState.h"
-#include "Simulation/ECS/BasicFeatures/Input/SInputInjector.h"
+
+class SEntityDrawer;
+class SInputInjector;
 
 struct LevelDataStorage
 {
-    friend struct LevelData;
+    friend struct LevelSystems;
 
     enum class MigrationPolicy
     {
@@ -24,13 +25,13 @@ struct LevelDataStorage
         TRANSIT
     };
 
-    template <class EorS>
-    void Add()
+    template <class EorS, class... Params>
+    void Add(Params&&... initPack)
     {
         if constexpr (std::is_base_of_v<ECS::System, EorS>)
-        { systems.emplace_back(std::make_unique<EorS>()); }
+        { systems.emplace_back(std::make_unique<EorS>(std::forward<Params>(initPack)...)); }
         else
-        { entities.emplace_back(std::make_unique<EorS>()); }
+        { entities.emplace_back(std::make_unique<EorS>(std::forward<Params>(initPack)...)); }
     }
 
     std::vector<std::unique_ptr<ECS::Entity>> entities;
@@ -43,14 +44,6 @@ struct LevelDataStorageTransit: public LevelDataStorage
 struct LevelDataStorageLocal: public LevelDataStorage
 { };
 
-struct LevelData
-{
-    void InjectDataStorages(std::vector<LevelDataStorage*> levelDataStorages);
-
-    std::vector<ECS::Entity*> entities;
-    std::vector<ECS::System*> systems;
-};
-
 class Level: public Updatable, public sf::Drawable
 {
 public:
@@ -62,44 +55,51 @@ public:
     virtual ~Level() = default;
 
     Level();
-    explicit Level(LevelDataStorageTransit&& transitData);
+    explicit Level(Level&& otherLevel);
 
     LevelState GetCachedLevelState() const;
     void SetCachedLevelState(LevelState);
 
-    template <class EorS, LevelDataStorage::MigrationPolicy MIGRATION_POLICY>
-    void Add()
+    template <class EorS, LevelDataStorage::MigrationPolicy MIGRATION_POLICY, class... Params>
+    void Add(Params&&... initPack)
     {
-        if constexpr (MIGRATION_POLICY == LevelDataStorage::MigrationPolicy::LOCAL)
-        {
-            dataStorageLocal.Add<EorS>();
-        }
-        else if constexpr (MIGRATION_POLICY == LevelDataStorage::MigrationPolicy::TRANSIT){
-            dataStorageTransit.Add<EorS>();
-        }
+        auto choiceLevelDataStorage = [this] () -> LevelDataStorage& {
+            if constexpr (MIGRATION_POLICY == LevelDataStorage::MigrationPolicy::LOCAL)
+            { return this->dataStorageLocal;   }
+            else if constexpr (MIGRATION_POLICY == LevelDataStorage::MigrationPolicy::TRANSIT)
+            { return this->dataStorageTransit; }
+        };
+
+        choiceLevelDataStorage().template Add<EorS>(std::forward<Params>(initPack)...);
+
+        auto catchSystem = [&choiceLevelDataStorage] <class System> (System*& systemPtr) {
+            if constexpr (std::is_base_of_v<System, EorS> || std::is_convertible_v<System, EorS>)
+            { systemPtr = static_cast<System*>(choiceLevelDataStorage().systems.back().get()); }
+        };
+
+        catchSystem(entityDrawer);
+        catchSystem(inputInjector);
     }
+
 
     SInputInjector& GetInputInjector();
 
 public: // Emitters
     DATA_EMITTER(LevelCompleted, LevelDataStorageTransit);
 
-protected:
-    void InjectStorages();
-
-protected:
-    LevelData levelData;
+private:
+    // Called when firstly entered into an update loop.
+    void CacheSystems();
 
 private:
     LevelState cachedLevelState;
 
     LevelDataStorageTransit dataStorageTransit;
     LevelDataStorageLocal dataStorageLocal;
+    std::vector<ECS::System*> levelSystemsCache;
 
-    sf::RenderTexture renderTexture;
-    SEntityDrawer* entityDrawer;
-
-    SInputInjector* inputInjector;
+    SEntityDrawer* entityDrawer = nullptr;
+    SInputInjector* inputInjector = nullptr;
 };
 
 

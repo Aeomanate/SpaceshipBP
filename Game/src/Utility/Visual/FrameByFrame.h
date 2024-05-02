@@ -11,8 +11,9 @@ public:
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-private:
     void AdvanceFrame(float dt);
+
+private:
     sf::IntRect CalcSpriteRect();
 
 private:
