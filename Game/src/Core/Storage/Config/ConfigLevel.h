@@ -3,6 +3,7 @@
 
 #include "Utility/Serialization/Serializable.h"
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Config.hpp>
 
 struct GameJsonConversions;
 

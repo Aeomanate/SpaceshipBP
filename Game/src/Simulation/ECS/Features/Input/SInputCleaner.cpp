@@ -5,12 +5,15 @@
 
 void SInputCleaner::Update(float)
 {
-    auto popHandledElement = [] <class T> (std::queue<T>& queue)
+    auto popHandledElement = [] <class T> (std::optional<ECS::SimpleComponent<std::queue<T>>>&& component)
     {
-        queue.pop();
+        if(component && !component.value()->empty())
+        {
+            component.value()->pop();
+        }
     };
 
-    popHandledElement(CQueueMouseMoves::AllEntities().begin()->second.queue);
-    popHandledElement(CQueueMouseClicks::AllEntities().begin()->second.queue);
-    popHandledElement(CQueuePlayerMoveDirections::AllEntities().begin()->second.queue);
+    popHandledElement(CQueueMouseMoves::TryGetFirst());
+    popHandledElement(CQueueMouseClicks::TryGetFirst());
+    popHandledElement(CQueuePlayerMoveDirections::TryGetFirst());
 }

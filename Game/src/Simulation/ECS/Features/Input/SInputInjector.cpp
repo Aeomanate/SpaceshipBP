@@ -7,7 +7,7 @@ void SInputInjector::Update(float)
     {
         if(action.value)
         {
-            CQueue::AllEntities().begin()->second.queue.push(*action.value);
+            CQueue::TryGetFirst().value()->push(*action.value);
             action.value = std::nullopt;
         }
     };

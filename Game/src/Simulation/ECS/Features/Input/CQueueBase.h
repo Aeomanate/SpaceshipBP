@@ -5,10 +5,9 @@
 #include "Simulation/ECS/Component.h"
 
 template <class T>
-struct CQueueBase: public ECS::Component<CQueueBase<T>>
+struct CQueueBase: public ECS::SimpleComponent<std::queue<T>>
 {
-public:
-    std::queue<T> queue;
+
 };
 
 #endif //SPACESHIPBP_CQUEUEBASE_H

@@ -4,8 +4,8 @@
 
 void SHandlerPlayerShoot::Update(float dt)
 {
-    auto& clicksPos = CQueueMouseClicks::AllEntities().begin()->second;
-    if(!clicksPos.queue.empty())
+    auto clicksPos = CQueueMouseClicks::TryGetFirst();
+    if(clicksPos && !clicksPos.value()->empty())
     {
         auto& [player, cannon] = *CCannon::AllEntities().begin();
 

@@ -3,9 +3,9 @@
 
 #include <unordered_map>
 #include <string>
-#include "Level.h"
 #include "Core/Storage/Config/ConfigLevel.h"
 
+class Level;
 class LevelProvider
 {
 public:

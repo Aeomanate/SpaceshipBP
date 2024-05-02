@@ -24,6 +24,18 @@ namespace ECS
         using ConstIterator = EntityWithDataStorage::const_iterator;
 
     public:
+        static inline std::optional<ValueType> TryGetFirst()
+        {
+            Iterator it = entitiesWithData.begin();
+            if(it != entitiesWithData.end()) {
+                return { it->second };
+            }
+            else
+            {
+                return std::nullopt;
+            }
+        }
+
         static inline auto AllEntities()
         {
             return rv::all(entitiesWithData);

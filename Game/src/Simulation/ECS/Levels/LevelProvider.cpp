@@ -1,5 +1,6 @@
 #include "LevelProvider.h"
 #include "Core/Application/ApplicationShortcuts.h"
+#include "Simulation/Levels/Level1.h"
 
 void LevelProvider::Init()
 {
@@ -11,7 +12,7 @@ Level* LevelProvider::LoadLevel(const ConfigLevel& configLevel)
     Log(getLoc().simulation.levelLoadingNotify, configLevel.name);
 
     // TODO Implement fabric of levels by their names
-    currentLevel = std::make_unique<Level>();
+    currentLevel = std::make_unique<Level1>();
     if(currentLevel)
     {
         Log(getLoc().simulation.levelLoadingSuccessfulNotify, configLevel.name);
