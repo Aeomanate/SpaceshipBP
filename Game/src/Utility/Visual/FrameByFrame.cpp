@@ -1,5 +1,6 @@
 #include "FrameByFrame.h"
 #include "Core/Application/ApplicationShortcuts.h"
+#include "Utility/Math/Vectors/Vectors.h"
 
 FrameByFrame::FrameByFrame(const ConfigTexture& configTexture)
 : framesTotal { configTexture.framesTotal }
@@ -14,7 +15,7 @@ FrameByFrame::FrameByFrame(const ConfigTexture& configTexture)
     const sf::Texture& texture = getTextureProvider().GetTexture(configTexture);
 
     sprite.setTexture(texture);
-    sprite.setOrigin(sf::Vector2f(frameSizePx) / 2.0f);
+    sprite.setOrigin(frameSizePx * toVector2f(configTexture.origin));
     sprite.setTextureRect(CalcSpriteRect());
 }
 

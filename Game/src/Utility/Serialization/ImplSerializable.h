@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <fstream>
 #include <functional>
-#include <assert.h>
+#include <cassert>
 #include <rapidjson/encodedstream.h>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
@@ -31,6 +31,17 @@ namespace Serialization
     concept HasToJsonUserCast = requires(UserType& userValue, AllocType& allocator)
     { { ExternalJsonConverters::toJson(userValue, allocator) } -> std::convertible_to<JsonVal>; };
 
+    template <class UserType>
+    concept IsRapidJsonType =
+        std::is_same_v<UserType, int32_t>
+        || std::is_same_v<UserType, int64_t>
+        || std::is_same_v<UserType, uint32_t>
+        || std::is_same_v<UserType, uint64_t>
+        || std::is_same_v<UserType, double>
+        || std::is_same_v<UserType, float>
+        || std::is_same_v<UserType, bool>;
+
+
     template <class UserType, class UserDefinedJsonConversionSet>
     class SerializableVariable;
     template <class UserDefinedJsonConversionSet>
@@ -40,10 +51,12 @@ namespace Serialization
     {
         // Base converter templates for literal types
         template<class SomeLiteralType>
+        requires IsRapidJsonType<SomeLiteralType>
         void fromJsonLiteral(SomeLiteralType& userValue, const JsonVal& initializer)
         { userValue = initializer.template Get<SomeLiteralType>(); }
 
         template<class SomeLiteralType>
+        requires IsRapidJsonType<SomeLiteralType>
         JsonVal toJsonLiteral(const SomeLiteralType& userValue, AllocType&)
         { return JsonVal(userValue); }
 
@@ -75,41 +88,41 @@ namespace Serialization
 
             static constexpr FromJsonFuncPtrType GetFromJson()
             {
-                if constexpr (HasFromJsonUserCast<UserType, ExternalJsonConverters>)
-                { return &ExternalJsonConverters::fromJson; }
-                else if constexpr (HasFromJsonUserCast<UserType, StdConverters>)
+                if constexpr (HasFromJsonUserCast<UserType, StdConverters>)
                 { return &StdConverters::fromJson; }
                 else if constexpr (SerializableComposition<UserType>)
                 { return &fromJsonComposite; }
+                else if constexpr (IsRapidJsonType<UserType>)
+                { return &fromJsonLiteral; }
+                else if constexpr (HasFromJsonUserCast<UserType, ExternalJsonConverters>)
+                { return &ExternalJsonConverters::fromJson; }
                 else
                 {
-                    static_assert(std::is_arithmetic_v<UserType> || std::is_same_v<UserType, bool>,
-                                "Custom user type must define a fromJsonLiteral converter");
-                    return &fromJsonLiteral;
+                    static_assert(false, "This user type must define a fromJsonLiteral converter");
                 }
             }
 
             static constexpr ToJsonFuncPtrType GetToJson()
             {
-                if constexpr (HasToJsonUserCast<UserType, ExternalJsonConverters>)
-                { return &ExternalJsonConverters::toJson; }
-                else if constexpr (HasToJsonUserCast<UserType, StdConverters>)
+                if constexpr (HasToJsonUserCast<UserType, StdConverters>)
                 { return &StdConverters::toJson; }
                 else if constexpr (SerializableComposition<UserType>)
                 { return &toJsonComposite; }
+                else if constexpr (IsRapidJsonType<UserType>)
+                { return &toJsonLiteral; }
+                else if constexpr (HasToJsonUserCast<UserType, ExternalJsonConverters>)
+                { return &ExternalJsonConverters::toJson; }
                 else
                 {
-                    static_assert(std::is_arithmetic_v<UserType> || std::is_same_v<UserType, bool>,
-                                  "Custom user type must define a toJson converter");
-                    return &toJsonLiteral;
+                    static_assert(false, "This user type must define a toJson converter");
                 }
             }
         };
 
         // For converting visitor function to lambda correctly
         template <typename Return, typename... Args>
-        struct __LambdaTraits {
-            __LambdaTraits(std::template function<Return(Args...)>) {}
+        struct LambdaTraitsImpl {
+            LambdaTraitsImpl(std::template function<Return(Args...)>) {}
             using return_type = Return;
             using arg_types = std::tuple<Args...>;
 
@@ -119,13 +132,14 @@ namespace Serialization
 
         template <typename Lambda>
         struct LambdaTraits
-        : public decltype(__LambdaTraits(std::function{ std::declval<Lambda>()}))
+        : public decltype(LambdaTraitsImpl(std::function{ std::declval<Lambda>()}))
         {};
     };
 
 
     enum class SeriObjectType
     {
+        UNDEFINED,
         VARIABLE,
         STRUCT
     };
@@ -202,7 +216,7 @@ namespace Serialization
             return in;
         }
 
-        bool HasParseError() const
+        static bool HasParseError()
         { return isParseError; }
 
         template <class UserType, class ExternalConversions>
@@ -256,7 +270,7 @@ namespace Serialization
         // TODO Differentiate parse errors for better diagnostic
         static inline bool isParseError = false;
 
-        SeriObjectType seriObjectType;
+        SeriObjectType seriObjectType = SeriObjectType::UNDEFINED;
     };
 
     /// Each struct in which contains SerializableVariable's must be derived from this class

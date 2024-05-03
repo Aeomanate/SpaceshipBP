@@ -45,38 +45,38 @@ void Application::InitGameRelated()
 
 Simulation const& Application::GetSimulation()
 {
-    return GetInstance()->simulation;
+    return GetInstance().simulation;
 }
 
 MenuLayer& Application::GetMenuLayer()
 {
-    return GetInstance()->menuLayer;
+    return GetInstance().menuLayer;
 }
 
 GeneralLocalization const& Application::GetLoc()
 {
-    return GetInstance()->rootLocalization.localization;
+    return GetInstance().rootLocalization.localization;
 }
 
 GeneralConfig const& Application::GetConfig()
 {
-    return GetInstance()->rootConfig.configGeneral;
+    return GetInstance().rootConfig.configGeneral;
 }
 
 
 TextureProvider const& Application::GetTextureProvider()
 {
-    return GetInstance()->textureProvider;
+    return GetInstance().textureProvider;
 }
 
 Random& Application::GetRnd()
 {
-    return GetInstance()->random;
+    return GetInstance().random;
 }
 
 LevelProvider& Application::GetLevelProvider()
 {
-    return GetInstance()->levelProvider;
+    return GetInstance().levelProvider;
 }
 
 void Application::Update()

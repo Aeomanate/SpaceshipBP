@@ -3,6 +3,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 # Install libraries
 include(3P-libs/SFML/SFML.cmake)
+include(3P-libs/better-enums/better-enums.cmake)
 
 set(TESTABLE_FILES
         src/Core/EventsHandling/ListenersEmitters.h
@@ -72,7 +73,7 @@ set(SOURCE_FILES
         src/Simulation/ECS/Features/CollisionDetection/SCollisionDetector.h
         src/Simulation/Features/Player/EPlayer.h
         src/Simulation/Features/DangerZone/EAsteroid.h
-        src/Simulation/Entities/ETimer.h
+        src/Simulation/Features/Timer/ETimer.h
         src/Simulation/Features/Shooting/EProjectile.h
         src/Utility/Visual/FrameByFrame.h
         src/Utility/Visual/FrameByFrame.cpp
@@ -85,11 +86,11 @@ set(SOURCE_FILES
         src/Core/Storage/Localization/LocApplication.h
         src/Utility/Visual/TextureProvider.cpp
         src/Utility/Visual/TextureProvider.h
-        src/Simulation/ECS/Levels/Level.cpp
-        src/Simulation/ECS/Levels/Level.h
-        src/Simulation/Entities/EBackground.h
-        src/Simulation/ECS/Levels/LevelProvider.cpp
-        src/Simulation/ECS/Levels/LevelProvider.h
+        src/Simulation/Levels/Base/LevelBase.cpp
+        src/Simulation/Levels/Base/Level.h
+        src/Simulation/Features/Background/EBackground.h
+        src/Simulation/Levels/Base/LevelProvider.cpp
+        src/Simulation/Levels/Base/LevelProvider.h
         src/Core/Storage/Config/ConfigLevel.h
         src/Core/Storage/Config/ConfigLevels.h
         src/Core/Storage/Localization/LocSimulation.h
@@ -120,10 +121,10 @@ set(SOURCE_FILES
         src/Simulation/ECS/Features/Input/CQueuePlayerMoveDirections.h
         src/Simulation/ECS/Features/Input/SInputInjector.cpp
         src/Simulation/ECS/Features/Input/SInputInjector.h
-        src/Simulation/ECS/Levels/CLevelState.h
-        src/Simulation/ECS/Levels/ELevelState.h
-        src/Simulation/ECS/Levels/SLevelStateForwarder.cpp
-        src/Simulation/ECS/Levels/SLevelStateForwarder.h
+        src/Simulation/ECS/Features/Levels/CLevelState.h
+        src/Simulation/ECS/Features/Levels/ELevelState.h
+        src/Simulation/ECS/Features/Levels/SLevelStateForwarder.cpp
+        src/Simulation/ECS/Features/Levels/SLevelStateForwarder.h
         src/Simulation/Levels/Level1.cpp
         src/Simulation/Levels/Level1.h
         src/Simulation/Features/Player/EPlayer.cpp
@@ -145,6 +146,13 @@ set(SOURCE_FILES
         src/Core/Storage/Config/ConfigPlayerCannon.h
         src/Simulation/ECS/Features/Movable/CPhysics.h
         src/Simulation/ECS/ECS.h
+        src/Simulation/Levels/Base/LevelCreatorsStorage.h
+        src/Simulation/Levels/Base/LevelDataStorage.h
+        src/Simulation/Levels/Base/LevelBase.h
+        src/Simulation/Features/Timer/STimer.h
+        src/Simulation/Features/Timer/STimer.cpp
+        src/Simulation/Features/Background/EBackground.cpp
+        src/Utility/Visual/PositionInRectangle.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -153,9 +161,9 @@ set(TestsLib ${PROJECT_NAME}TestsSource)
 add_library(${TestsLib} STATIC ${TESTABLE_FILES})
 
 foreach (TARGET ${PROJECT_NAME} ${TestsLib})
-    add_dependencies(${TARGET} RapidJSON)
-    target_link_libraries(${TARGET} PUBLIC sfml-system sfml-window sfml-graphics)
-    target_include_directories(${TARGET} PUBLIC "src")
+    add_dependencies(${TARGET} RapidJSON better_enums)
+    target_link_libraries(${TARGET} PUBLIC sfml-system sfml-window sfml-graphics INTERFACE better_enums)
+    target_include_directories(${TARGET} PUBLIC "src" ${better_enums_INCLUDE})
 endforeach ()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

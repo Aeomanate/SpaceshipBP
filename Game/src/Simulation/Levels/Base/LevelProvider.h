@@ -3,24 +3,25 @@
 
 #include <unordered_map>
 #include <string>
+#include <memory>
 #include "Core/Storage/Config/ConfigLevel.h"
+#include "Level.h"
 
-class Level;
+
 class LevelProvider
 {
 public:
     void Init();
 
-    Level* LoadLevel(const ConfigLevel& configLevel);
-    Level* LoadNextLevel();
+    LevelBase* LoadLevel(const ConfigLevel& configLevel);
 
     const ConfigLevel& GetCurrentLevelConfig() const;
-    const Level& GetCurrentLevel() const;
-    Level& GetCurrentLevel();
+    const LevelBase& GetCurrentLevel() const;
+    LevelBase& GetCurrentLevel();
 
 private:
     ConfigLevel* currentLevelConfig;
-    std::unique_ptr<Level> currentLevel;
+    std::unique_ptr<LevelBase> currentLevel;
 };
 
 

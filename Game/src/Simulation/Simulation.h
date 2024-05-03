@@ -8,7 +8,8 @@
 #include <SFML/Window/Event.hpp>
 #include "Core/EventsHandling/ListenersEmitters.h"
 #include "Utility/Updatable.h"
-#include "Simulation/ECS/Levels/Level.h"
+
+class LevelBase;
 
 class Simulation: public Updatable, public sf::Drawable
 {
@@ -31,7 +32,7 @@ public: // Public listeners
 private: // Private listeners
 
 private:
-    Level* currentLevel;
+    LevelBase* currentLevel;
 };
 
 

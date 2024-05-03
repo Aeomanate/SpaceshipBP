@@ -21,7 +21,7 @@ private:
     const sf::Uint32 framesTotal;
     const float frameIntervalMs;
     const sf::Vector2u fullSize;
-    const sf::Vector2u frameSizePx;
+    const sf::Vector2i frameSizePx;
     const sf::Vector2u framesCountBy;
 
     std::size_t curFrame = 0;

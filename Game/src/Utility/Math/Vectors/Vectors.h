@@ -2,6 +2,7 @@
 #define FUSEGAME_VECTORS_HPP
 
 #include <SFML/System/Vector2.hpp>
+#include "Utility/Visual/PositionInRectangle.h"
 
 // Scalar product
 float dot(sf::Vector2f A, sf::Vector2f B);
@@ -28,5 +29,16 @@ inline const sf::Vector2f VECTOR_SEMI_ZERO = { 0.0001f, 0.0001f };
 
 // Compare less for component
 bool operator< (sf::Vector2f A, sf::Vector2f B);
+
+// Convert position in rectangle to a vector [0 ... 1; 0 ... 1]
+sf::Vector2f toVector2f(PositionInRectagle positionInRectangle);
+
+// Multiply vectors components
+template <class T, class U, class CommonT = std::common_type_t<T, U>>
+sf::Vector2<CommonT> operator*(sf::Vector2<T> A, sf::Vector2<U> B)
+{
+    return { A.x * B.x, A.y * B.y };
+}
+
 
 #endif //SPACESHIPBP_VECTORS_H

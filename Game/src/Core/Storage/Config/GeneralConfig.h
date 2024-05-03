@@ -17,6 +17,7 @@ SERI_S(GeneralConfig)
     SERI_COMPOSITE_V(ConfigTextures, textures);
 
     SERI_COMPOSITE_V(ConfigWindow, window);
+
     SERI_COMPOSITE_V(ConfigSimulation, simulation);
 
 };

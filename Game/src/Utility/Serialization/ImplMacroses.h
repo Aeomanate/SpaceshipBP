@@ -10,6 +10,8 @@ namespace Serialization { struct EmptyUserConversions { }; }
 #define PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE Serialization::EmptyUserConversions
 #endif
 
+#define SERI_ID(x) x
+
 // The smallest letter for nice representing the comma
 // for write comma in the macro-call.
 #define o ,
@@ -37,7 +39,7 @@ namespace Serialization { struct EmptyUserConversions { }; }
     template <class ExternalJsonConversions> \
     struct YourStructName##Template; \
      \
-    using YourStructName = \
+    using SERI_ID(YourStructName) = \
     YourStructName##Template<PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE>; \
      \
     template <class ExternalJsonConversions> \
@@ -81,7 +83,7 @@ namespace Serialization { struct EmptyUserConversions { }; }
 
 // For composite of folded SerializableStruct
 #define SERI_COMPOSITE_V(SerializableT, name) \
-    SerializableT##Template<ExternalJsonConversions> name { #name, this }
+    SerializableT##Template<ExternalJsonConversions> SERI_ID(name) { #name, this }
 
 // For composition when you need to initialize each field of inner SerializableStruct
 #define SERI_COMPOSITE_V_MEMBERS_INIT(SerializableStructT, name, ...) \
@@ -90,22 +92,27 @@ namespace Serialization { struct EmptyUserConversions { }; }
 // For main variable definition of the serializable hierarchy
 // TODO Make custom ConversionSet available for entire serializable hierarchy without global define of user struct
 #define SERI_ROOT_V(SerializableT, name) \
-    SerializableT##Template<PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE> name { #name "ROOT" }
+    SerializableT##Template<PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE> SERI_ID(name) { #name "ROOT" }
 
 // Simple declaration define for 3P-lib conversion function
 // Use 'json' variable for operate on your 3P-lib type
 #define SERI_fromJson(ThirdPartyType, thirdPartyValue) \
-    static inline void fromJson(ThirdPartyType& thirdPartyValue, const rapidjson::Value& json)
+    static inline void fromJson(SERI_ID(ThirdPartyType)& SERI_ID(thirdPartyValue), const rapidjson::Value& json)
 
 // Simple define for 3P-lib conversion function declaration
 // You must just return rapidjson::Value based on your 3P-lib type
 #define SERI_toJson(ThirdPartyType, thirdPartyValue) \
     static inline rapidjson::Value                   \
-    toJson(const ThirdPartyType& thirdPartyValue, rapidjson::Document::AllocatorType& allocator)
+    toJson(const ThirdPartyType& SERI_ID(thirdPartyValue), rapidjson::Document::AllocatorType& allocator)
 
 // For simplification AddMember function, invoke for rapidjson::Value() object:
 // rapidjson::Value().SERI_Add(...)
 #define SERI_ADD(tag, builtinObject) \
     AddMember(rapidjson::StringRef(tag), rapidjson::Value(builtinObject), allocator)
+
+// For simplification AddMember with const char* type
+#define SERI_ADD_CSTR(tag, builtinObject) \
+    AddMember(rapidjson::StringRef(tag), rapidjson::StringRef(builtinObject), allocator)
+
 
 #endif //SPACESHIPBP_IMPLMACROSES_H

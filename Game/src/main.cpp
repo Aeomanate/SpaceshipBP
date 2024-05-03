@@ -2,6 +2,5 @@
 
 int main()
 {
-    Application::GetInstance()->Init();
-    Application::GetInstance()->Run();
+    Application::GetInstance().Init().Run();
 }

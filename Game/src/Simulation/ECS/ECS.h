@@ -25,7 +25,7 @@
 #include "Simulation/ECS/Features/Input/SInputInjector.h"
 #include "Simulation/ECS/Features/Input/SInputCleaner.h"
 
-#include "Simulation/ECS/Levels/ELevelState.h"
-#include "Simulation/ECS/Levels/SLevelStateForwarder.h"
+#include "Simulation/ECS/Features/Levels/ELevelState.h"
+#include "Simulation/ECS/Features/Levels/SLevelStateForwarder.h"
 
 #endif //SPACESHIPBP_ECS_H

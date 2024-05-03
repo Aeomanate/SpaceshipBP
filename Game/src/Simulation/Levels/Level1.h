@@ -2,12 +2,15 @@
 #define SPACESHIPBP_LEVEL1_H
 
 
-#include "Simulation/ECS/Levels/Level.h"
+#include "Simulation/Levels/Base/Level.h"
+#include "Simulation/Levels/Base/LevelCreatorsStorage.h"
+#include "Core/Storage/Config/ConfigLevels.h"
 
-class Level1: public Level
+class Level1: public Level<Level1, &ConfigLevels::level1>
 {
 public:
     Level1();
+    Level1(LevelPtr) { }
 };
 
 

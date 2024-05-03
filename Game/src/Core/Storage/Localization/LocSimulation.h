@@ -13,9 +13,9 @@ SERI_S(LocSimulation)
 {
     SERI_C(LocSimulation)
 
-    SERI_STR_V(levelLoadingNotify, "Level is loading");
-    SERI_STR_V(levelLoadingSuccessfulNotify, "Level loading completed");
-    SERI_STR_V(levelLoadingFailedWarning, "Level loading failed");
+    SERI_STR_V(levelLoadingNotify, "LevelBase is loading");
+    SERI_STR_V(levelLoadingSuccessfulNotify, "LevelBase loading completed");
+    SERI_STR_V(levelLoadingFailedWarning, "LevelBase loading failed");
 
 
 };

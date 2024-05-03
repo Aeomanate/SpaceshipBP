@@ -7,11 +7,11 @@ template<class Derived>
 class Singleton
 {
 public:
-    static Derived* GetInstance()
+    static Derived& GetInstance()
     {
         static Derived instance;
 
-        return &instance;
+        return instance;
     }
 
 protected:

@@ -1,61 +1,35 @@
-#ifndef SPACESHIPBP_LEVEL_H
-#define SPACESHIPBP_LEVEL_H
+#ifndef SPACESHIPBP_LEVELBASE_H
+#define SPACESHIPBP_LEVELBASE_H
 
-#include <vector>
-#include <set>
-#include <memory>
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/RenderTexture.hpp>
-#include "Simulation/ECS/Entity.h"
-#include "Simulation/ECS/System.h"
+#include <ranges>
+#include <iterator>
+#include "SFML/Graphics/Drawable.hpp"
 #include "Core/EventsHandling/ListenersEmitters.h"
-#include "Core/Storage/Config/ConfigLevel.h"
-#include "CLevelState.h"
+#include "Utility/Updatable.h"
+#include "LevelDataStorage.h"
+#include "Simulation/ECS/Features/Levels/CLevelState.h"
 
 class SEntityDrawer;
 class SInputInjector;
 
-struct LevelDataStorage
+class LevelBase: public Updatable, public sf::Drawable
 {
-    friend struct LevelSystems;
+public:
+    using LevelPtr = std::unique_ptr<LevelBase>;
 
-    enum class MigrationPolicy
-    {
-        LOCAL,
-        TRANSIT
-    };
-
-    template <class EorS, class... Params>
-    void Add(Params&&... initPack)
-    {
-        if constexpr (std::is_base_of_v<ECS::System, EorS>)
-        { systems.emplace_back(std::make_unique<EorS>(std::forward<Params>(initPack)...)); }
-        else
-        { entities.emplace_back(std::make_unique<EorS>(std::forward<Params>(initPack)...)); }
-    }
-
-    std::vector<std::unique_ptr<ECS::Entity>> entities;
-    std::vector<std::unique_ptr<ECS::System>> systems;
-};
-
-struct LevelDataStorageTransit: public LevelDataStorage
-{ };
-
-struct LevelDataStorageLocal: public LevelDataStorage
-{ };
-
-class Level: public Updatable, public sf::Drawable
-{
 public:
     void Update(float dt) override;
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public:
-    virtual ~Level() = default;
+    void Transit(std::unique_ptr<LevelBase> prevLevel)
+    {
+        dataStorageTransit = std::move(prevLevel->dataStorageTransit);
+        entityDrawer = std::move(prevLevel->entityDrawer);
+        inputInjector = std::move(prevLevel->inputInjector);
+    }
 
-    Level();
-    explicit Level(Level&& otherLevel);
 
     LevelState GetCachedLevelState() const;
     void SetCachedLevelState(LevelState);
@@ -87,12 +61,16 @@ public:
 public: // Emitters
     DATA_EMITTER(LevelCompleted, LevelDataStorageTransit);
 
+protected:
+    LevelBase() = default;
+
 private:
     // Called when firstly entered into an update loop.
+    // It's collect raw pointers to all systems into one loop-friendly array
     void CacheSystems();
 
 private:
-    LevelState cachedLevelState;
+    LevelState cachedLevelState = LevelState::STARTING;
 
     LevelDataStorageTransit dataStorageTransit;
     LevelDataStorageLocal dataStorageLocal;
@@ -102,5 +80,4 @@ private:
     SInputInjector* inputInjector = nullptr;
 };
 
-
-#endif //SPACESHIPBP_LEVEL_H
+#endif //SPACESHIPBP_LEVELBASE_H

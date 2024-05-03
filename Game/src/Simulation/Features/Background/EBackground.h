@@ -5,7 +5,7 @@
 
 struct EBackground: public ECS::Entity
 {
-
+    EBackground();
 };
 
 #endif //SPACESHIPBP_EBACKGROUND_H

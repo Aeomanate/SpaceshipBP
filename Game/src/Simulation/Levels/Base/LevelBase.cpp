@@ -1,28 +1,14 @@
-#include "Level.h"
+#include "LevelBase.h"
 #include "Core/Application/ApplicationShortcuts.h"
 #include "Simulation/ECS/Features/Visual/SEntityDrawer.h"
 #include "Simulation/ECS/Features/Input/SInputInjector.h"
 
-Level::Level()
-{
-}
-
-Level::Level(Level&& otherLevel)
-: dataStorageTransit { std::move(otherLevel.dataStorageTransit) }
-, entityDrawer { std::move(otherLevel.entityDrawer) }
-, inputInjector { std::move(otherLevel.inputInjector) }
-{
-    otherLevel.levelSystemsCache.clear();
-    otherLevel.dataStorageLocal.systems.clear();
-    otherLevel.dataStorageLocal.entities.clear();
-}
-
-void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void LevelBase::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(entityDrawer->GetDrawnState(), states);
 }
 
-void Level::Update(float dt)
+void LevelBase::Update(float dt)
 {
     if(levelSystemsCache.empty())
     {
@@ -35,22 +21,22 @@ void Level::Update(float dt)
     }
 }
 
-LevelState Level::GetCachedLevelState() const
+LevelState LevelBase::GetCachedLevelState() const
 {
     return cachedLevelState;
 }
 
-void Level::SetCachedLevelState(LevelState levelState)
+void LevelBase::SetCachedLevelState(LevelState levelState)
 {
     cachedLevelState = levelState;
 }
 
-SInputInjector& Level::GetInputInjector()
+SInputInjector& LevelBase::GetInputInjector()
 {
     return *inputInjector;
 }
 
-void Level::CacheSystems()
+void LevelBase::CacheSystems()
 {
     std::vector<LevelDataStorage*> levelDataStorages {
         &dataStorageTransit,

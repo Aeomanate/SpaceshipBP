@@ -1,10 +1,17 @@
 #ifndef SPACESHIPBP_GAMEJSONCONVERSIONS_H
 #define SPACESHIPBP_GAMEJSONCONVERSIONS_H
 
+#include <type_traits>
 #include <string>
+#include <optional>
 #include <SFML/Window/VideoMode.hpp>
 #include "Utility/Serialization/Serializable.h"
 #include "Core/Storage/Config/ConfigTextures.h"
+
+template <class BetterEnumType>
+concept BeBetterEnumType = requires (BetterEnumType enumValue) {
+    decltype(+enumValue)::_integral;
+};
 
 struct GameJsonConversions
 {
@@ -43,7 +50,6 @@ struct GameJsonConversions
     template <class T>
     SERI_toJson(sf::Vector2<T>, vector2)
     {
-
         rapidjson::Value value(rapidjson::kObjectType);
 
         value.SERI_ADD("x", vector2.x);
@@ -52,6 +58,31 @@ struct GameJsonConversions
         return value;
     }
 
+    template <class SomeEnum>
+    requires BeBetterEnumType<SomeEnum>
+    SERI_fromJson(SomeEnum, someEnum)
+    {
+        auto it = json.FindMember("x");
+        if(it != json.MemberEnd())
+        {
+            auto enumOpt = decltype(+someEnum)::_from_string_nothrow(it->value.GetString());
+            if(enumOpt)
+            {
+                someEnum = *enumOpt;
+            }
+        }
+    }
+
+    template <class SomeEnum>
+    requires BeBetterEnumType<SomeEnum>
+    SERI_toJson(SomeEnum, someEnum)
+    {
+        rapidjson::Value value(rapidjson::kObjectType);
+
+        value.SERI_ADD_CSTR((+someEnum)._to_string(), (+someEnum)._to_string());
+
+        return value;
+    }
 };
 
 #endif //SPACESHIPBP_GAMEJSONCONVERSIONS_H

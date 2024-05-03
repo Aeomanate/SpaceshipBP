@@ -60,3 +60,14 @@ bool operator< (sf::Vector2f A, sf::Vector2f B)
 {
     return A.x < B.x && A.y < B.y;
 }
+
+sf::Vector2f toVector2f(PositionInRectagle positionInRectangle)
+{
+    static sf::Vector2f map[] {
+        {0, 0  }, {0.5,  0 }, {1,  0 },
+        {0, 0.5}, {0.5, 0.5}, {1, 0.5},
+        {0, 1  }, {0.5,  1 }, {1,  1 }
+    };
+
+    return map[positionInRectangle];
+}
