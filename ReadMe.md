@@ -11,10 +11,10 @@ A classic video game is developing for training in creating and maintaining larg
   * `LowLevelApplication` - it handles I/O from windows level, organizes a game loop.
   * `Application` - it a singleton contains all globally needed semi-related to ECS resources (configs, textures, etc). 
 * Model, Simulation, ECS
-    * Each `Component` holds a map of <`EntityPtr`, `UserComponent`>.
-    * Each `Entity` can claim/reject a `Component` and get the data of it.
-    * Each `System` is contained in and updated by a `Level` class.
-      * Each `UserLevel` is provided by a `LevelProvider` 
+    * Each of `Component` holds a map of <`EntityPtr`, `UserComponent`>.
+    * Each of `Entity` can claim/reject a `Component` and get the data of it.
+    * Each of `System` contained in and updated by a `Level` class.
+      * Each of `UserLevel` provided by a `LevelProvider` 
         that delegates level creating to a `LevelCreatorsStorage`.
       * `LevelCreatorsStorage` holds unique lazy creator-function 
         taken from static-initialization stage for each `UserLevel`.
@@ -25,11 +25,12 @@ A classic video game is developing for training in creating and maintaining larg
 * Structure-intrusive automatic serialization solution like a code generation in UE.
   * Used a lot of C++20 concepts for replacing SFINAE.
   * Main classes:
-    * `SerializableBase` - is common things for serialization via RapidJSON.
+    * `SerializableBase` - is common staff for serialization via RapidJSON.
     * `SerializableStruct` - is container and base class for user structure 
       contains several `SerializableVariable` and/or `SerializableStructs`.
       It iterates recursively on self members.
-    * `SerializableVariable` - it contains an object of RapidJson-supported literal type or third-party type.
+    * `SerializableVariable` - it contains an object of RapidJson-supported literal type 
+      or third-party type which defined fromJson/toJson in `GameJsonConversions`/`StdJsonConversions` structures.
   * For user-usage defined several macro e.g. `SERI_V(...)`, `SERI_S(...)` & `SERI_C(...)`, etc. 
   * TODO: Implement a serializable representation of std::vector, std::array/c-array.   
 * `FrameByFrame` - is an encapsulation of a sprite-sheet png-file
