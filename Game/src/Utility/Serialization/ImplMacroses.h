@@ -103,7 +103,7 @@ namespace Serialization { struct EmptyUserConversions { }; }
 // You must just return rapidjson::Value based on your 3P-lib type
 #define SERI_toJson(ThirdPartyType, thirdPartyValue) \
     static inline rapidjson::Value                   \
-    toJson(const ThirdPartyType& SERI_ID(thirdPartyValue), rapidjson::Document::AllocatorType& allocator)
+    toJson(const ThirdPartyType& SERI_ID(thirdPartyValue), [[maybe_unused]] rapidjson::Document::AllocatorType& allocator)
 
 // For simplification AddMember function, invoke for rapidjson::Value() object:
 // rapidjson::Value().SERI_Add(...)

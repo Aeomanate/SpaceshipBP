@@ -87,12 +87,12 @@ namespace ECS
             }
         }
 
-        template <class FieldT, class ConvertibleToFieldT>
-        requires std::convertible_to<ConvertibleToFieldT, FieldT>
-        UserComponent& SetMember(FieldT UserComponent::*fieldPtr, ConvertibleToFieldT&& value)
+        template <class FieldT, class Convertible>
+        requires std::convertible_to<Convertible, FieldT>
+        UserComponent& SetMember(FieldT UserComponent::*fieldPtr, Convertible&& value)
         {
             UserComponent* userComponentPtr = static_cast<UserComponent*>(this);
-            userComponentPtr->*fieldPtr = std::forward<ConvertibleToFieldT>(value);
+            userComponentPtr->*fieldPtr = std::forward<Convertible>(value);
             return *userComponentPtr;
         }
 
@@ -101,7 +101,7 @@ namespace ECS
     };
 
     template <class UserComponent>
-    concept BeComponent = requires {
+    concept ECSComponent = requires {
         std::is_base_of_v<Component<typename UserComponent::ValueType>, UserComponent>;
     };
 

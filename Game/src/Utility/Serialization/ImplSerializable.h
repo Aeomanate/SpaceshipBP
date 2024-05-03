@@ -32,7 +32,7 @@ namespace Serialization
     { { ExternalJsonConverters::toJson(userValue, allocator) } -> std::convertible_to<JsonVal>; };
 
     template <class UserType>
-    concept IsRapidJsonType =
+    concept RapidJsonType =
         std::is_same_v<UserType, int32_t>
         || std::is_same_v<UserType, int64_t>
         || std::is_same_v<UserType, uint32_t>
@@ -50,13 +50,11 @@ namespace Serialization
     namespace Internal
     {
         // Base converter templates for literal types
-        template<class SomeLiteralType>
-        requires IsRapidJsonType<SomeLiteralType>
+        template<RapidJsonType SomeLiteralType>
         void fromJsonLiteral(SomeLiteralType& userValue, const JsonVal& initializer)
         { userValue = initializer.template Get<SomeLiteralType>(); }
 
-        template<class SomeLiteralType>
-        requires IsRapidJsonType<SomeLiteralType>
+        template<RapidJsonType SomeLiteralType>
         JsonVal toJsonLiteral(const SomeLiteralType& userValue, AllocType&)
         { return JsonVal(userValue); }
 
@@ -92,7 +90,7 @@ namespace Serialization
                 { return &StdConverters::fromJson; }
                 else if constexpr (SerializableComposition<UserType>)
                 { return &fromJsonComposite; }
-                else if constexpr (IsRapidJsonType<UserType>)
+                else if constexpr (RapidJsonType<UserType>)
                 { return &fromJsonLiteral; }
                 else if constexpr (HasFromJsonUserCast<UserType, ExternalJsonConverters>)
                 { return &ExternalJsonConverters::fromJson; }
@@ -108,7 +106,7 @@ namespace Serialization
                 { return &StdConverters::toJson; }
                 else if constexpr (SerializableComposition<UserType>)
                 { return &toJsonComposite; }
-                else if constexpr (IsRapidJsonType<UserType>)
+                else if constexpr (RapidJsonType<UserType>)
                 { return &toJsonLiteral; }
                 else if constexpr (HasToJsonUserCast<UserType, ExternalJsonConverters>)
                 { return &ExternalJsonConverters::toJson; }
