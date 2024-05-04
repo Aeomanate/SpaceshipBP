@@ -2,7 +2,7 @@
 #define SPACESHIPBP_IMPLSTDJSONCONVERTERS_H
 
 #include <string>
-#include <enum.h>
+#include <better_enums/enum.h>
 #include "ImplMacroses.h"
 
 namespace Serialization::Internal

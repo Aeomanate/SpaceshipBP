@@ -1,7 +1,7 @@
 #ifndef SPACESHIPBP_POSITIONINRECTANGLE_H
 #define SPACESHIPBP_POSITIONINRECTANGLE_H
 
-#include <enum.h>
+#include <better_enums/enum.h>
 
 BETTER_ENUM(
     PositionInRectagle, int,

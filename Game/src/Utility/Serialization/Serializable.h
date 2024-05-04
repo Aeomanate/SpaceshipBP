@@ -1,7 +1,7 @@
 #ifndef SPACESHIPBP_SERIALIZABLE_H
 #define SPACESHIPBP_SERIALIZABLE_H
 
-#include <enum.h>
+#include <better_enums/enum.h>
 #include "ImplSerializable.h"
 #include "ImplMacroses.h"
 

@@ -9,8 +9,8 @@ FetchContent_Declare(
 #FetchContent_MakeAvailable(better_enums)
 if(NOT better_enums_POPULATED)
     FetchContent_Populate(better_enums)
-    SET(better_enums_SOURCES ${FETCHCONTENT_BASE_DIR}/better_enums-src/enum.h)
-    add_library(better_enums INTERFACE)
+    SET(better_enums_SOURCES ${FETCHCONTENT_BASE_DIR}/better_enums-src/better_enums/enum.h)
+    add_library(better_enums INTERFACE ${better_enums_SOURCES})
 endif ()
 
 set(better_enums_INCLUDE ${FETCHCONTENT_BASE_DIR}/better_enums-src)
