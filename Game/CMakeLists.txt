@@ -62,7 +62,7 @@ set(SOURCE_FILES
         src/Simulation/ECS/Entity.h
         src/Simulation/ECS/Component.h
         src/Simulation/ECS/Features/Movable/CPosition.h
-        src/Simulation/ECS/Features/Visual/CAnimation.h
+        src/Simulation/ECS/Features/Visual/CSceneElement.h
         src/Simulation/ECS/Features/Visual/SSpriteAnimator.cpp
         src/Simulation/ECS/Features/Visual/SSpriteAnimator.h
         src/Simulation/ECS/Features/Movable/EntityMover.cpp

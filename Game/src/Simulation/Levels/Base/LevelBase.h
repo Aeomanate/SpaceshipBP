@@ -17,6 +17,19 @@ class LevelBase: public Updatable, public sf::Drawable
 public:
     using LevelPtr = std::unique_ptr<LevelBase>;
 
+    template <LevelDataStorage::MigrationPolicy POLICY>
+    struct AddHelper {
+        LevelBase* levelPtr = nullptr;
+
+        template <class EorS, class... Params>
+        AddHelper& Add(Params&&... args)
+        {
+            levelPtr->template Add<EorS, POLICY, Params...>(std::forward<Params>(args)...);
+            return *this;
+        }
+    };
+
+
 public:
     void Update(float dt) override;
 
@@ -26,8 +39,10 @@ public:
     void Transit(std::unique_ptr<LevelBase> prevLevel)
     {
         dataStorageTransit = std::move(prevLevel->dataStorageTransit);
-        entityDrawer = std::move(prevLevel->entityDrawer);
-        inputInjector = std::move(prevLevel->inputInjector);
+        entityDrawer = prevLevel->entityDrawer;
+        inputInjector = prevLevel->inputInjector;
+        prevLevel->entityDrawer = nullptr;
+        prevLevel->inputInjector = nullptr;
     }
 
 
@@ -54,6 +69,10 @@ public:
         catchSystem(entityDrawer);
         catchSystem(inputInjector);
     }
+
+    template <LevelDataStorage::MigrationPolicy POLICY>
+    AddHelper<POLICY> AddAs()
+    { return AddHelper<POLICY> { this }; }
 
 
     SInputInjector& GetInputInjector();

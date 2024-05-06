@@ -18,28 +18,39 @@ namespace ECS
     {
     public:
         using KeyType = Entity*;
+        using KeyTypeConst = const Entity*;
         using ValueType = UserComponent;
         using EntityWithDataStorage = std::unordered_map<KeyType, ValueType>;
         using Iterator = EntityWithDataStorage::iterator;
         using ConstIterator = EntityWithDataStorage::const_iterator;
+        struct KeyValuePtrs { KeyType entity; UserComponent* component; };
+        struct KeyValueConstPtrs { KeyTypeConst entity; const UserComponent* component; };
 
     public:
-        static inline std::optional<ValueType> TryGetFirst()
+        static inline auto All()
+        { return rv::all(entitiesWithData); }
+
+        template <class Comparator = std::less<KeyValuePtrs>>
+        static inline auto AllSorted(Comparator comparator = { })
         {
-            Iterator it = entitiesWithData.begin();
-            if(it != entitiesWithData.end()) {
-                return { it->second };
-            }
-            else
-            {
-                return std::nullopt;
-            }
+            // TODO Need to upgrade for concurrency execution
+            static std::vector<KeyValuePtrs> all;
+            all.clear();
+            all.reserve(entitiesWithData.size());
+
+            std::ranges::transform(entitiesWithData, std::back_inserter(all), [] (auto& it) {
+                return KeyValuePtrs{ it.first, static_cast<UserComponent*>(&it.second) };
+            });
+
+            std::ranges::sort(all, comparator);
+            return rv::all(all);
         }
 
-        static inline auto AllEntities()
-        {
-            return rv::all(entitiesWithData);
+        friend bool operator< (const KeyValuePtrs& entry1, const KeyValuePtrs& entry2) {
+            return *entry1.component < *entry2.component;
         }
+
+
 
         static inline auto Filter()
         {
@@ -51,6 +62,18 @@ namespace ECS
         static inline ValueType& Data(KeyType key)
         {
             return entitiesWithData.find(key)->second;
+        }
+
+        static inline std::optional<ValueType> TryGetFirst()
+        {
+            Iterator it = entitiesWithData.begin();
+            if(it != entitiesWithData.end()) {
+                return { it->second };
+            }
+            else
+            {
+                return std::nullopt;
+            }
         }
 
         template <class... Params>
@@ -87,13 +110,12 @@ namespace ECS
             }
         }
 
-        template <class FieldT, class Convertible>
-        requires std::convertible_to<Convertible, FieldT>
+        template <class FieldT, std::convertible_to<FieldT> Convertible>
         UserComponent& SetMember(FieldT UserComponent::*fieldPtr, Convertible&& value)
         {
-            UserComponent* userComponentPtr = static_cast<UserComponent*>(this);
-            userComponentPtr->*fieldPtr = std::forward<Convertible>(value);
-            return *userComponentPtr;
+            UserComponent& userComponentPtr = static_cast<UserComponent&>(*this);
+            userComponentPtr.*fieldPtr = std::forward<Convertible>(value);
+            return userComponentPtr;
         }
 
     private:

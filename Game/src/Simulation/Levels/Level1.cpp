@@ -6,25 +6,23 @@
 
 Level1::Level1()
 {
-    constexpr LevelDataStorage::MigrationPolicy transit = LevelDataStorage::MigrationPolicy::TRANSIT;
-    constexpr LevelDataStorage::MigrationPolicy local = LevelDataStorage::MigrationPolicy::LOCAL;
+    AddAs<LevelDataStorage::MigrationPolicy::TRANSIT>()
+    .Add<SInputInjector>()
+    .Add<SInputCleaner>()
 
-    Add<SInputInjector, transit>();
-    Add<SInputCleaner, transit>();
+    .Add<SEntityMover>()
+    .Add<SCollisionDetector>()
 
-    Add<SEntityMover, transit>();
-    Add<SCollisionDetector, transit>();
+    .Add<SSpriteAnimator>()
+    .Add<SEntityDrawer>()
 
-    Add<SSpriteAnimator, transit>();
-    Add<SEntityDrawer, transit>();
+    .Add<SSpawner>()
+    .Add<SDespawner>()
+    .Add<ESpawnerContainer>()
 
-    Add<SSpawner, transit>();
-    Add<SDespawner, transit>();
-    Add<ESpawnerContainer, transit>();
+    .Add<SLevelStateForwarder>()
+    .Add<ELevelState>()
 
-    Add<SLevelStateForwarder, transit>();
-    Add<ELevelState, transit>();
-
-    Add<EBackground, transit>();
-    Add<EPlayer, transit>(getConfig().simulation.player);
+    .Add<EBackground>()
+    .Add<EPlayer>(getConfig().simulation.player);
 }

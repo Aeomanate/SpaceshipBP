@@ -11,8 +11,6 @@
 class LevelProvider
 {
 public:
-    void Init();
-
     LevelBase* LoadLevel(const ConfigLevel& configLevel);
 
     const ConfigLevel& GetCurrentLevelConfig() const;
@@ -20,7 +18,7 @@ public:
     LevelBase& GetCurrentLevel();
 
 private:
-    ConfigLevel* currentLevelConfig;
+    const ConfigLevel* currentLevelConfig = nullptr;
     std::unique_ptr<LevelBase> currentLevel;
 };
 

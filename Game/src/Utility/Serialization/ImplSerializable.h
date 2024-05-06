@@ -346,7 +346,7 @@ namespace Serialization
             Visit([&seriObjPtr, &isFound] (VisitorParamRef member) {
                 if(isFound(member))
                 {
-                    seriObjPtr = &member;
+                    seriObjPtr = &member; //-V506
                     return;
                 }
             });

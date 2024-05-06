@@ -19,6 +19,12 @@ FrameByFrame::FrameByFrame(const ConfigTexture& configTexture)
     sprite.setTextureRect(CalcSpriteRect());
 }
 
+FrameByFrame& FrameByFrame::operator =(const ConfigTexture& configTexture)
+{
+    *this = std::move(FrameByFrame(configTexture));
+    return *this;
+}
+
 void FrameByFrame::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite, states);
 }
@@ -41,7 +47,7 @@ void FrameByFrame::AdvanceFrame(float dt) {
     sprite.setTextureRect(CalcSpriteRect());
 }
 
-sf::IntRect FrameByFrame::CalcSpriteRect()
+sf::IntRect FrameByFrame::CalcSpriteRect() const
 {
     sf::IntRect rect;
 

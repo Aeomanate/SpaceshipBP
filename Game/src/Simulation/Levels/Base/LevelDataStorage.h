@@ -10,6 +10,7 @@ struct LevelDataStorage
 {
     enum class MigrationPolicy
     {
+        UNDEFINED,
         LOCAL,
         TRANSIT
     };

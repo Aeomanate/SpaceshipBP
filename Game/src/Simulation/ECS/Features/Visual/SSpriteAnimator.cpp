@@ -1,10 +1,10 @@
 #include "SSpriteAnimator.h"
-#include "CAnimation.h"
+#include "CSceneElement.h"
 
 void SSpriteAnimator::Update(float dt)
 {
-    for (auto& [entity, animation]: CAnimation::AllEntities())
+    for (auto& [entity, animation]: CSceneElement::All())
     {
-        animation->AdvanceFrame(dt);
+        animation.sprite.AdvanceFrame(dt);
     }
 }

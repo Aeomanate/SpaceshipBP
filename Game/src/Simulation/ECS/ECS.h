@@ -8,7 +8,7 @@
 
 #include "Simulation/ECS/Features/CollisionDetection/SCollisionDetector.h"
 
-#include "Simulation/ECS/Features/Visual/CAnimation.h"
+#include "Simulation/ECS/Features/Visual/CSceneElement.h"
 #include "Simulation/ECS/Features/Visual/SVisualAttenuation.h"
 #include "Simulation/ECS/Features/Visual/SSpriteAnimator.h"
 #include "Simulation/ECS/Features/Visual/SEntityDrawer.h"

@@ -6,6 +6,8 @@
 #include "Core/Storage/Config/GeneralConfig.h"
 #include "LevelBase.h"
 
+const GeneralConfig& getConfig();
+
 struct LevelCreatorsStorage
 {
     using LevelCreatorNullBasedFunc = std::function<LevelBase::LevelPtr()>;
@@ -16,7 +18,6 @@ public:
     template <class UserLevel>
     LevelCreatorsStorage(ConfigLevel ConfigLevels::*configLevelPtr, UserLevel*)
     {
-        const GeneralConfig& getConfig();
         AddLevelCreatorNullBased<UserLevel>(getConfig().simulation.configLevels.*configLevelPtr);
         AddLevelCreatorPrevBased<UserLevel>(getConfig().simulation.configLevels.*configLevelPtr);
     }

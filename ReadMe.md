@@ -40,3 +40,5 @@ A classic video game is developing for training in creating and maintaining larg
     When application starts, it loads all textures that enumerated in a `ConfigTextures` object 
     via visitor pattern implemented in a `SerializableStruct` class via iterating on internal structure-members array. 
 
+## SAST Tools
+[PVS-Studio](https://pvs-studio.com/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.

@@ -4,7 +4,7 @@
 #include <better_enums/enum.h>
 
 BETTER_ENUM(
-    PositionInRectagle, int,
+    PositionInRectagle, uint8_t,
     UPPER_LEFT  , UPPER_CENTER   , UPPER_RIGHT  ,
     CENTER_LEFT , CENTER         , CENTER_RIGHT ,
     BOTTOM_LEFT , BOTTOM         , BOTTOM_RIGHT  )

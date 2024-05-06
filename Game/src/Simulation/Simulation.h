@@ -32,7 +32,7 @@ public: // Public listeners
 private: // Private listeners
 
 private:
-    LevelBase* currentLevel;
+    LevelBase* currentLevel = nullptr;
 };
 
 

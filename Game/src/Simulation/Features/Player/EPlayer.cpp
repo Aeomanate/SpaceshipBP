@@ -9,9 +9,11 @@ EPlayer::EPlayer(const ConfigPlayer& configPlayer)
 {
     Claim<CPlayerControllableTag>();
 
-    Claim<CAnimation>(getConfig().textures.Find([&configPlayer](const ConfigTexture& texture) {
-        return texture.name == configPlayer.imageName;
-    }));
+    Claim<CSceneElement>()
+        .SetMember(&CSceneElement::sprite, getConfig().textures.Find([&configPlayer](const ConfigTexture& texture) {
+            return texture.name == configPlayer.imageName;
+        }))
+        .SetMember(&CSceneElement::order, CSceneElement::ZOrder::PLAYER);
 
     Claim<CPosition>(configPlayer.startPosition);
     Claim<CPhysics>().SetMember(&CPhysics::mass, *configPlayer.mass);

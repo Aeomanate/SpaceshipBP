@@ -5,7 +5,7 @@
 
 void SEntityMover::Update(float dt)
 {
-    for(auto& [entity, pos]: CPosition::AllEntities() | CPhysics::Filter())
+    for(auto& [entity, pos]: CPosition::All() | CPhysics::Filter())
     {
         sf::Vector2f& f = CPhysics::Data(entity).appliedForces;
         sf::Vector2f& v = CPhysics::Data(entity).speed;

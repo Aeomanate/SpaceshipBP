@@ -5,6 +5,7 @@
 
 void LevelBase::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    assert(entityDrawer);
     target.draw(entityDrawer->GetDrawnState(), states);
 }
 
@@ -33,6 +34,7 @@ void LevelBase::SetCachedLevelState(LevelState levelState)
 
 SInputInjector& LevelBase::GetInputInjector()
 {
+    assert(inputInjector);
     return *inputInjector;
 }
 

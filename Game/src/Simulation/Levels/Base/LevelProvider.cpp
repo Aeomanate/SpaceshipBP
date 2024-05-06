@@ -2,15 +2,9 @@
 #include "Core/Application/ApplicationShortcuts.h"
 #include "Simulation/Levels/Base/LevelBase.h"
 
-void LevelProvider::Init()
-{
-
-}
-
 LevelBase* LevelProvider::LoadLevel(const ConfigLevel& configLevel)
 {
     Log(getLoc().simulation.levelLoadingNotify, configLevel.name);
-
     LevelBase::LevelPtr nextLevel = nullptr;
     if(currentLevel)
     { nextLevel = LevelCreatorsStorage::Create(configLevel, std::move(currentLevel)); }
@@ -24,6 +18,7 @@ LevelBase* LevelProvider::LoadLevel(const ConfigLevel& configLevel)
     else
     { Log(getLoc().simulation.levelLoadingFailedWarning, configLevel.name, Logger::Level::WARNING); }
 
+    currentLevelConfig = &configLevel;
     return  currentLevel.get();
 }
 

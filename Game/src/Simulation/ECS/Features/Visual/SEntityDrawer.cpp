@@ -1,7 +1,9 @@
 #include "SEntityDrawer.h"
 #include "Core/Application/ApplicationShortcuts.h"
-#include "Simulation/ECS/Features/Visual/CAnimation.h"
+#include "Simulation/ECS/Features/Visual/CSceneElement.h"
 #include "Simulation/ECS/Features/Movable/CPosition.h"
+#include <ranges>
+#include <algorithm>
 
 SEntityDrawer::SEntityDrawer()
 : ECS::System(ECS::System::Order::POST_GAMEPLAY)
@@ -17,18 +19,18 @@ sf::Sprite SEntityDrawer::GetDrawnState()
 
 void SEntityDrawer::Update(float)
 {
+    sf::RenderStates states;
     renderTexture.clear(sf::Color::Transparent);
 
-    sf::RenderStates states;
-
-    for(auto& [entity, sprite]: CAnimation::AllEntities())
+    for(auto& [entity, sceneElement]: CSceneElement::AllSorted())
     {
         if(auto position = entity->TryGetDataAs<CPosition>(); position)
         {
             states.transform.translate(*position);
-            renderTexture.draw(sprite, states);
+            renderTexture.draw(sceneElement->sprite, states);
+            continue;
         }
-        renderTexture.draw(sprite);
+        renderTexture.draw(sceneElement->sprite);
     }
 
     renderTexture.display();
