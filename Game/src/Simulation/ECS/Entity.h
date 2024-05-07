@@ -29,7 +29,7 @@ namespace ECS
         }
 
         template <ECSComponent UserComponent>
-        std::optional<UserComponent> TryGetDataAs()
+        std::optional<UserComponent*> TryGetDataAs()
         {
             return ResolveComponentBase<UserComponent>::template TryGetDataAs<UserComponent>(this);
         }

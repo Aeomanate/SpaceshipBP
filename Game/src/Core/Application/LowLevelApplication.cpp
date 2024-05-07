@@ -26,13 +26,14 @@ void LowLevelApplication::HandleInput()
     sf::Event e{ };
     while (window.pollEvent(e))
     {
-        if (sfmlEventHandlerMap.find(e.type) == sfmlEventHandlerMap.end())
-        {
-            continue;
-        }
+        auto it = sfmlEventHandlerMap.find(e.type);
+        if (it == sfmlEventHandlerMap.end())
+        { continue; }
 
-        (this->*sfmlEventHandlerMap[e.type])(e);
+        (this->*it->second)(e);
     }
+
+    handleMouseMoving();
 }
 
 
@@ -40,6 +41,7 @@ void LowLevelApplication::initSfmlEventHandler()
 {
     sfmlEventHandlerMap[sf::Event::EventType::Closed] = &LowLevelApplication::handleProgramClose;
     sfmlEventHandlerMap[sf::Event::EventType::KeyPressed] = &LowLevelApplication::handlePressedKeyKeyboard;
+    sfmlEventHandlerMap[sf::Event::EventType::KeyReleased] = &LowLevelApplication::handleReleasedKeyKeyboard;
     sfmlEventHandlerMap[sf::Event::EventType::MouseButtonPressed] = &LowLevelApplication::handlePressedKeyMouse;
 }
 
@@ -50,10 +52,29 @@ void LowLevelApplication::handleProgramClose(const sf::Event&)
 
 void LowLevelApplication::handlePressedKeyKeyboard(const sf::Event& e)
 {
-    emitterKeyEvent.Emit(e.key);
+    emitterKey.Emit(e.key);
+
+    keysStates.insert_or_assign(e.key.code, true);
+    emitterKeyPressed.Emit(e.key);
+}
+
+void LowLevelApplication::handleReleasedKeyKeyboard(const sf::Event& e)
+{
+    keysStates.insert_or_assign(e.key.code, false);
+    emitterKeyReleased.Emit(e.key);
 }
 
 void LowLevelApplication::handlePressedKeyMouse(const sf::Event& e)
 {
     emitterMouseClicked.Emit(e.mouseButton);
+}
+
+void LowLevelApplication::handleMouseMoving()
+{
+    sf::Vector2i newMousePos = sf::Mouse::getPosition(window);
+    if(mousePosition != newMousePos)
+    {
+        mousePosition = newMousePos;
+        emitterMouseMoved.Emit(mousePosition);
+    }
 }

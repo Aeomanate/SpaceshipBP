@@ -26,7 +26,7 @@ void SEntityDrawer::Update(float)
     {
         if(auto position = entity->TryGetDataAs<CPosition>(); position)
         {
-            states.transform.translate(*position);
+            states.transform.translate(*position.value());
             renderTexture.draw(sceneElement->sprite, states);
             continue;
         }

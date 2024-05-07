@@ -17,7 +17,7 @@ SERI_S(LocSimulation)
     SERI_STR_V(levelLoadingSuccessfulNotify, "LevelBase loading completed");
     SERI_STR_V(levelLoadingFailedWarning, "LevelBase loading failed");
 
-
+    SERI_STR_V(playerMovingVerbose, "Player moving verbose");
 };
 
 #endif //SPACESHIPBP_LOCSIMULATION_H

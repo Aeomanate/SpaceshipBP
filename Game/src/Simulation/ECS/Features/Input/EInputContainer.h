@@ -5,10 +5,7 @@
 
 struct EInputContainer: public ECS::Entity
 {
-    EInputContainer()
-    {
-
-    }
+    EInputContainer();
 };
 
 #endif //SPACESHIPBP_EINPUTCONTAINER_H

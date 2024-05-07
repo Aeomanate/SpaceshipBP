@@ -11,10 +11,10 @@ SERI_S(ConfigSimulationKeys)
 {
     SERI_C(ConfigSimulationKeys)
 
-    SERI_V(int, up, sf::Keyboard::Key::W);
-    SERI_V(int, down, sf::Keyboard::Key::S);
-    SERI_V(int, left, sf::Keyboard::Key::A);
-    SERI_V(int, right, sf::Keyboard::Key::D);
+    SERI_V(sf::Keyboard::Key, up, sf::Keyboard::Key::W);
+    SERI_V(sf::Keyboard::Key, down, sf::Keyboard::Key::S);
+    SERI_V(sf::Keyboard::Key, left, sf::Keyboard::Key::A);
+    SERI_V(sf::Keyboard::Key, right, sf::Keyboard::Key::D);
     SERI_V(int, fire, sf::Mouse::Button::Left);
 };
 

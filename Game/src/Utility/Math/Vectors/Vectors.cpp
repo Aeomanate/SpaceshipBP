@@ -71,3 +71,8 @@ sf::Vector2f toVector2f(PositionInRectagle positionInRectangle)
 
     return map[positionInRectangle];
 }
+
+bool isSemiZero(sf::Vector2f A)
+{
+    return A < VECTOR_SEMI_ZERO;
+}

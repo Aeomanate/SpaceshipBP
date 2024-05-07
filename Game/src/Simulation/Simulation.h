@@ -20,19 +20,21 @@ public:
     void Update(float dt) override;
 
 public:
-
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
-public: // Emitters
-
-public: // Public listeners
+private: // listeners
     DATA_LISTENER(KeyPressed, sf::Event::KeyEvent);
+    DATA_LISTENER(KeyReleased, sf::Event::KeyEvent);
     DATA_LISTENER(MouseButtonClicked, sf::Event::MouseButtonEvent);
+    DATA_LISTENER(MouseMoved, sf::Vector2i);
 
-private: // Private listeners
+private:
+
 
 private:
     LevelBase* currentLevel = nullptr;
+
+    std::unordered_map<sf::Keyboard::Key, sf::Vector2f> moveBinding;
 };
 
 

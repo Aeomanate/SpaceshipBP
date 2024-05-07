@@ -16,6 +16,8 @@ namespace ECS
     template<class UserComponent>
     class Component
     {
+        friend class Entity;
+
     public:
         using KeyType = Entity*;
         using KeyTypeConst = const Entity*;
@@ -97,25 +99,26 @@ namespace ECS
             entitiesWithData.erase(entity);
         }
 
-        template <class Derived = UserComponent>
-        static inline std::optional<Derived> TryGetDataAs(Entity* entity)
-        {
-            if(auto it = entitiesWithData.find(entity); it != entitiesWithData.end())
-            {
-                return { static_cast<Derived&>(it->second) };
-            }
-            else
-            {
-                return std::nullopt;
-            }
-        }
-
         template <class FieldT, std::convertible_to<FieldT> Convertible>
         UserComponent& SetMember(FieldT UserComponent::*fieldPtr, Convertible&& value)
         {
             UserComponent& userComponentPtr = static_cast<UserComponent&>(*this);
             userComponentPtr.*fieldPtr = std::forward<Convertible>(value);
             return userComponentPtr;
+        }
+
+    protected:
+        template <class Derived = UserComponent>
+        static inline std::optional<Derived*> TryGetDataAs(Entity* entity)
+        {
+            if(auto it = entitiesWithData.find(entity); it != entitiesWithData.end())
+            {
+                return { static_cast<Derived*>(&it->second) };
+            }
+            else
+            {
+                return std::nullopt;
+            }
         }
 
     private:

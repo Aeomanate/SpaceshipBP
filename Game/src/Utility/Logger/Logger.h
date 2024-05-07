@@ -2,6 +2,8 @@
 #define SPACESHIPBP_LOGGER_H
 
 #include <string>
+#include <format>
+#include "SFML/System/Vector2.hpp"
 
 
 class Logger
@@ -29,7 +31,7 @@ private:
 
     static const std::string& getLogPrefix(Logger::Level logLevel);
 
-    static std::string prefixed(std::string str, Level level);
+    static std::string prefixed(const std::string& str, Level level);
 
     static std::string explained(std::string str, const std::string& details);
 
@@ -37,7 +39,12 @@ private:
     static inline std::string currentLogMessage;
 };
 
-void Log(const std::string& message, const std::string& details, Logger::Level logLevel = Logger::Level::NOTIFY);
+void Log(const std::string& message, const std::string& details = { }, Logger::Level logLevel = Logger::Level::NOTIFY);
 
+template <class T>
+std::string toString(sf::Vector2<T> v)
+{
+    return std::format("[ {:3}; {:3} ]", std::to_string(v.x), std::to_string(v.y));
+}
 
 #endif //SPACESHIPBP_LOGGER_H

@@ -86,11 +86,11 @@ set(SOURCE_FILES
         src/Core/Storage/Localization/LocApplication.h
         src/Utility/Visual/TextureProvider.cpp
         src/Utility/Visual/TextureProvider.h
-        src/Simulation/Levels/Base/LevelBase.cpp
-        src/Simulation/Levels/Base/Level.h
+        src/Simulation/GameLevels/Base/LevelBase.cpp
+        src/Simulation/GameLevels/Base/Level.h
         src/Simulation/Features/Background/EBackground.h
-        src/Simulation/Levels/Base/LevelProvider.cpp
-        src/Simulation/Levels/Base/LevelProvider.h
+        src/Simulation/GameLevels/Base/LevelProvider.cpp
+        src/Simulation/GameLevels/Base/LevelProvider.h
         src/Core/Storage/Config/ConfigLevel.h
         src/Core/Storage/Config/ConfigLevels.h
         src/Core/Storage/Localization/LocSimulation.h
@@ -125,8 +125,8 @@ set(SOURCE_FILES
         src/Simulation/ECS/Features/Levels/ELevelState.h
         src/Simulation/ECS/Features/Levels/SLevelStateForwarder.cpp
         src/Simulation/ECS/Features/Levels/SLevelStateForwarder.h
-        src/Simulation/Levels/Level1.cpp
-        src/Simulation/Levels/Level1.h
+        src/Simulation/GameLevels/Level1.cpp
+        src/Simulation/GameLevels/Level1.h
         src/Simulation/Features/Player/EPlayer.cpp
         src/Simulation/ECS/Features/Input/CQueueMouseClicks.h
         src/Simulation/ECS/Features/Input/CQueueMouseMoves.h
@@ -146,13 +146,14 @@ set(SOURCE_FILES
         src/Core/Storage/Config/ConfigPlayerCannon.h
         src/Simulation/ECS/Features/Movable/CPhysics.h
         src/Simulation/ECS/ECS.h
-        src/Simulation/Levels/Base/LevelCreatorsStorage.h
-        src/Simulation/Levels/Base/LevelDataStorage.h
-        src/Simulation/Levels/Base/LevelBase.h
+        src/Simulation/GameLevels/Base/LevelCreatorsStorage.h
+        src/Simulation/GameLevels/Base/LevelDataStorage.h
+        src/Simulation/GameLevels/Base/LevelBase.h
         src/Simulation/Features/Timer/STimer.h
         src/Simulation/Features/Timer/STimer.cpp
         src/Simulation/Features/Background/EBackground.cpp
         src/Utility/Visual/PositionInRectangle.h
+        src/Simulation/ECS/Features/Input/EInputContainer.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

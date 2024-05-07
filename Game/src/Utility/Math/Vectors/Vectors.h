@@ -1,5 +1,5 @@
 #ifndef SPACESHIPBP_VECTORS_H
-#define FUSEGAME_VECTORS_HPP
+#define SPACESHIPBP_VECTORS_H
 
 #include <SFML/System/Vector2.hpp>
 #include "Utility/Visual/PositionInRectangle.h"
@@ -23,12 +23,15 @@ float angleDeg(sf::Vector2f A, sf::Vector2f B);
 sf::Vector2f randUnitVector();
 
 
-// Absolute value for each component
+// Absolute actionOpt for each component
 sf::Vector2f fabs(sf::Vector2f A);
+
+// Compare less for each component
+bool operator< (sf::Vector2f A, sf::Vector2f B);
 inline const sf::Vector2f VECTOR_SEMI_ZERO = { 0.0001f, 0.0001f };
 
-// Compare less for component
-bool operator< (sf::Vector2f A, sf::Vector2f B);
+// Check less for each component with VECTOR_SEMI_ZERO
+bool isSemiZero(sf::Vector2f A);
 
 // Convert position in rectangle to a vector [0 ... 1; 0 ... 1]
 sf::Vector2f toVector2f(PositionInRectagle positionInRectangle);

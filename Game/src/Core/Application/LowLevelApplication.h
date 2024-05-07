@@ -12,9 +12,12 @@ public:
     void Setup(sf::VideoMode videoMode, const std::string& applicationName, sf::Uint32 style = sf::Style::Fullscreen);
     void Run();
 
-protected: // Emitters
-    DATA_EMITTER(KeyEvent, sf::Event::KeyEvent);
+public: // Emitters
+    DATA_EMITTER(Key, sf::Event::KeyEvent);
+    DATA_EMITTER(KeyPressed, sf::Event::KeyEvent);
+    DATA_EMITTER(KeyReleased, sf::Event::KeyEvent);
     DATA_EMITTER(MouseClicked, sf::Event::MouseButtonEvent);
+    DATA_EMITTER(MouseMoved, sf::Vector2i);
 
 protected: // Interface for derived class
     virtual void Draw() = 0;
@@ -31,11 +34,17 @@ private: // Window-handling methods
 
     void handleProgramClose(const sf::Event&);
     void handlePressedKeyKeyboard(const sf::Event& e);
+    void handleReleasedKeyKeyboard(const sf::Event& e);
     void handlePressedKeyMouse(const sf::Event& e);
+
+    void handleMouseMoving();
 
 private:
     using WindowEventHandlerFunc = decltype(&LowLevelApplication::handleProgramClose);
     std::unordered_map<sf::Event::EventType, WindowEventHandlerFunc> sfmlEventHandlerMap;
+
+    std::unordered_map<sf::Keyboard::Key, bool> keysStates;
+    sf::Vector2i mousePosition = { };
 };
 
 

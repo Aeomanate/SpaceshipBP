@@ -10,10 +10,15 @@
 #include "CQueueMouseMoves.h"
 
 template <class CQueue, class ActionT>
-requires std::is_base_of_v<CQueueBase<ActionT>, CQueue>
+concept ActionQueueConcept = requires {
+    std::is_base_of_v<CQueueBase<ActionT>, CQueue>;
+};
+
+template <class CQueue, class ActionT>
+requires ActionQueueConcept<CQueue, ActionT>
 struct PendingAction
 {
-    std::optional<ActionT> value;
+    std::optional<ActionT> actionOpt;
 };
 
 struct PendingInputActions

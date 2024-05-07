@@ -7,7 +7,7 @@
 #include "Core/Storage/Localization/GeneralLocalization.h"
 #include "Utility/Math/Random/Random.h"
 #include "Utility/Visual/TextureProvider.h"
-#include "Simulation/Levels/Base/LevelProvider.h"
+#include "Simulation/GameLevels/Base/LevelProvider.h"
 
 MenuLayer& getMenuLayer();
 const Simulation& getSimulation();

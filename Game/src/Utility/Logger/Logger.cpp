@@ -92,7 +92,7 @@ const std::string& Logger::getLogPrefix(Level logLevel)
     return logPrefix[static_cast<int>(logLevel)];
 }
 
-std::string Logger::prefixed(std::string str, Level level) {
+std::string Logger::prefixed(const std::string& str, Level level) {
     std::string temp = "[";
     temp += getLogPrefix(level);
     temp += "] \t";

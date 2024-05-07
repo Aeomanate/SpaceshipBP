@@ -9,6 +9,8 @@ Application::Application()
 
 Application& Application::Init()
 {
+    Logger::GlobalLogLevel = Logger::Level::VERBOSE;
+
     Log("\n\n"s + *getLoc().application.started, "");
 
     InitListeners();
@@ -23,8 +25,10 @@ Application& Application::Init()
 
 void Application::InitListeners()
 {
-    listenerKeyPressed.SubscribeEmitter(emitterKeyEvent);
+    listenerKeyPressed.SubscribeEmitter(emitterKey);
     listenerLastMenuClosed.SubscribeEmitter(menuLayer.emitterLastMenuClosed);
+
+
 }
 
 void Application::InitStorages()
@@ -93,7 +97,7 @@ void Application::Draw()
 
 void Application::FinishWork()
 {
-    Log(getLoc().application.closed, "");
+    Log(getLoc().application.closed);
 
     rootConfig.Save();
     rootLocalization.Save();

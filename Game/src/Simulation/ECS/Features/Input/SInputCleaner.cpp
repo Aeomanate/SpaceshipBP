@@ -1,3 +1,4 @@
+#include <cassert>
 #include "SInputCleaner.h"
 #include "CQueueMouseMoves.h"
 #include "CQueuePlayerMoveDirections.h"
@@ -7,7 +8,8 @@ void SInputCleaner::Update(float)
 {
     auto popHandledElement = [] <class T> (std::optional<ECS::SimpleComponent<std::queue<T>>>&& component)
     {
-        if(component && !component.value()->empty())
+        assert(component);
+        if(!component.value()->empty())
         {
             component.value()->pop();
         }

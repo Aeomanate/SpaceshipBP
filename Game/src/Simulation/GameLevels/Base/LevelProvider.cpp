@@ -1,6 +1,6 @@
 #include "LevelProvider.h"
 #include "Core/Application/ApplicationShortcuts.h"
-#include "Simulation/Levels/Base/LevelBase.h"
+#include "Simulation/GameLevels/Base/LevelBase.h"
 
 LevelBase* LevelProvider::LoadLevel(const ConfigLevel& configLevel)
 {
