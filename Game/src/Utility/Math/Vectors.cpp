@@ -22,6 +22,8 @@ float len(sf::Vector2f A) {
 }
 
 sf::Vector2f norm(sf::Vector2f A) {
+    assert(!isSemiZero(A));
+
     float a_length = len(A);
     A.x /= a_length;
     A.y /= a_length;

@@ -19,6 +19,9 @@ void handleMovingPlayer()
     sf::Vector2f playerMoveDirection = queue->front();
     for (auto& [player, physics]: CPhysics::All() | CPlayerControllableTag::Filter())
     {
+        if(isSemiZero(playerMoveDirection))
+        { continue; }
+
         physics.appliedForces +=
             norm(playerMoveDirection)
             * getConfig().simulation.player.enginePowerMultipler.CastTo<float>();
