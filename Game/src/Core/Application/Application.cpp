@@ -2,11 +2,6 @@
 #include "ApplicationShortcuts.h"
 using namespace std::string_literals;
 
-
-Application::Application()
-{
-}
-
 Application& Application::Init()
 {
     Logger::GlobalLogLevel = Logger::Level::VERBOSE;

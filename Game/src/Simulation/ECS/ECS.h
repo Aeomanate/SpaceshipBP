@@ -18,9 +18,9 @@
 #include "Simulation/ECS/Features/LifetimeControl/SDespawner.h"
 
 #include "Simulation/ECS/Features/Input/CPlayerControllableTag.h"
-#include "Simulation/ECS/Features/Input/CQueueMouseMoves.h"
-#include "Simulation/ECS/Features/Input/CQueueMouseClicks.h"
-#include "Simulation/ECS/Features/Input/CQueuePlayerMoveDirections.h"
+#include "Simulation/ECS/Features/Input/CInputMousePositions.h"
+#include "Simulation/ECS/Features/Input/CInputMouseClicks.h"
+#include "Simulation/ECS/Features/Input/CInputMoveDirections.h"
 #include "Simulation/ECS/Features/Input/EInputContainer.h"
 #include "Simulation/ECS/Features/Input/SInputInjector.h"
 #include "Simulation/ECS/Features/Input/SInputCleaner.h"

@@ -5,27 +5,21 @@
 #include <optional>
 #include "SFML/Window/Event.hpp"
 #include "Simulation/ECS/System.h"
-#include "CQueuePlayerMoveDirections.h"
-#include "CQueueMouseClicks.h"
-#include "CQueueMouseMoves.h"
+#include "CInputMoveDirections.h"
+#include "CInputMouseClicks.h"
+#include "CInputMousePositions.h"
 
-template <class CQueue, class ActionT>
-concept ActionQueueConcept = requires {
-    std::is_base_of_v<CQueueBase<ActionT>, CQueue>;
-};
-
-template <class CQueue, class ActionT>
-requires ActionQueueConcept<CQueue, ActionT>
+template <class CQueue, class InputDataT>
 struct PendingAction
 {
-    std::optional<ActionT> actionOpt;
+    std::optional<InputDataT> actionOpt;
 };
 
 struct PendingInputActions
 {
-    PendingAction<CQueuePlayerMoveDirections, sf::Vector2f> moveDirection;
-    PendingAction<CQueueMouseClicks, sf::Vector2f> mouseClick;
-    PendingAction<CQueueMouseMoves, sf::Vector2f> mousePos;
+    PendingAction<CInputMoveDirections, sf::Vector2f> moveDirection;
+    PendingAction<CInputMouseClicks, sf::Vector2f> mouseClick;
+    PendingAction<CInputMousePositions, sf::Vector2f> mousePos;
 };
 
 class SInputInjector: public ECS::System
@@ -38,7 +32,7 @@ public:
     : ECS::System(ECS::System::Order::PRE_GAMEPLAY)
     { }
 
-    void InjectMovement(sf::Vector2f direction);
+    void InjectMoveVector(sf::Vector2f direction);
     void InjectMouseClick(sf::Vector2f position);
     void InjectMousePosition(sf::Vector2f position);
 

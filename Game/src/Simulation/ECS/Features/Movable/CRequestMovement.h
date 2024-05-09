@@ -4,7 +4,7 @@
 #include "Simulation/ECS/Component.h"
 #include "SFML/System/Vector2.hpp"
 
-struct CRequestMovement: public ECS::SimpleComponent<sf::Vector2f>
+struct CRequestMovement: public ECS::Component<CRequestMovement, sf::Vector2f>
 {
 
 };

@@ -6,9 +6,9 @@
 #include <memory>
 #include "Simulation/ECS/Entity.h"
 
-struct CToSpawnQueue: public ECS::Component<CToSpawnQueue>
+struct CToSpawnQueue: public ECS::Component<CToSpawnQueue, std::queue<std::unique_ptr<ECS::Entity>>>
 {
-    std::queue<std::unique_ptr<ECS::Entity>> waitingEntities;
+    
 };
 
 #endif //SPACESHIPBP_CTOSPAWNQUEUE_H

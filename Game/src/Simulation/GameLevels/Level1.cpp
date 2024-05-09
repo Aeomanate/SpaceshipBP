@@ -4,10 +4,16 @@
 #include "Simulation/ECS/ECS.h"
 #include "Simulation/Features/Background/EBackground.h"
 #include "Simulation/Features/Player/SInputReader.h"
+#include "Simulation/Features/Timer/ETimer.h"
+#include "Simulation/Features/Timer/STimer.h"
 
 Level1::Level1()
 {
+
     AddAs<LevelDataStorage::MigrationPolicy::TRANSIT>()
+    .Add<ETimer>()
+    .Add<STimer>()
+
     .Add<EInputContainer>()
     .Add<SInputInjector>()
     .Add<SInputCleaner>()
@@ -29,5 +35,4 @@ Level1::Level1()
 
     .Add<SInputReader>()
     .Add<EPlayer>(getConfig().simulation.player);
-
 }

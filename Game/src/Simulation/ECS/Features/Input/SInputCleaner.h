@@ -7,11 +7,11 @@
 class SInputCleaner: public ECS::System
 {
 protected:
-    void Update(float dt) override;
+    void Update(float queueComponent) override;
 
 public:
     SInputCleaner()
-    : ECS::System(ECS::System::Order::PRE_GAMEPLAY)
+    : ECS::System(ECS::System::Order::POST_GAMEPLAY)
     { }
 };
 

@@ -6,10 +6,10 @@ void SLevelStateForwarder::Update(float)
 {
     LevelState cachedState = getLevelProvider().GetCurrentLevel().GetCachedLevelState();
 
-    auto stateOpt = CLevelState::TryGetFirst();
+    auto statePtr = CLevelState::TryGetFirstDataPtr();
 
-    if(stateOpt && stateOpt.value().state != cachedState)
+    if(statePtr && statePtr->value != cachedState)
     {
-        getLevelProvider().GetCurrentLevel().SetCachedLevelState(stateOpt.value().state);
+        getLevelProvider().GetCurrentLevel().SetCachedLevelState(statePtr->value);
     }
 }

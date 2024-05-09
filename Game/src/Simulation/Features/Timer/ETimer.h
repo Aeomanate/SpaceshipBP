@@ -7,7 +7,7 @@
 
 struct ETimer: public ECS::Entity
 {
-
+    ETimer();
 };
 
 #endif //SPACESHIPBP_ETIMER_H

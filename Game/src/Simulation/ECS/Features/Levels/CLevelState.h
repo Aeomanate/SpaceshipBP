@@ -10,9 +10,9 @@ enum class LevelState
     COMPLETED
 };
 
-struct CLevelState: public ECS::Component<CLevelState>
+struct CLevelState: public ECS::Component<CLevelState, LevelState>
 {
-    LevelState state;
+
 };
 
 #endif //SPACESHIPBP_CLEVELSTATE_H

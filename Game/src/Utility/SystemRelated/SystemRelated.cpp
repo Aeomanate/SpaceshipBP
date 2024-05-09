@@ -12,7 +12,7 @@ void SystemRelated::HideConsole()
     ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
 }
 
-bool SystemRelated::CreateDirWhenAbsent(fs::path directory)
+bool SystemRelated::CreateDirWhenAbsent(const fs::path& directory)
 {
     if(fs::exists(directory))
     {

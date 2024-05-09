@@ -7,7 +7,7 @@
 struct CPlayerScore: public ECS::Component<CPlayerScore>
 {
     sf::Uint32 earnedScore = 0;
-    float timeInGame = 0;
+
 };
 
 #endif //SPACESHIPBP_CPLAYERSCORE_H

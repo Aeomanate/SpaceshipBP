@@ -386,7 +386,7 @@ namespace Serialization
     };
 
 
-    /// Each plain data struct must use it for be available for serialization.
+    /// Each plain value struct must use it for be available for serialization.
     /// Concepts HasFromJsonUserCast<UserSeriType>, HasToJsonUserCast<UserSeriType> must be satisfied
     template <class UserType, class ExternalConversions>
     class SerializableVariable : public SerializableBase
@@ -443,6 +443,11 @@ namespace Serialization
             nestedObject = std::move(userValue);
             return *this;
         }
+
+        template <class AnotherType>
+        requires std::convertible_to<ObjectType, AnotherType>
+        AnotherType CastTo() const
+        { return static_cast<AnotherType>(*this); }
 
     protected:
         bool SetFromJson(const JsonVal& externalValue) override

@@ -12,7 +12,7 @@ void TextureProvider::LoadTextures()
 void TextureProvider::LoadTexture(const ConfigTexture& configTexture)
 {
     Log(getLoc().fileOperations.textureOpeningNotify, configTexture.name);
-    auto [it, isInserted] = textures.insert({*configTexture.name, sf::Texture{}});
+    auto [it, isInserted] = textures.try_emplace(*configTexture.name, sf::Texture{});
     if(!isInserted)
     {
         Log(getLoc().logLevel.error, "Unable to insert empty texture to the map", Logger::Level::ERROR);

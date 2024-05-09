@@ -2,6 +2,7 @@
 #include "Core/Application/ApplicationShortcuts.h"
 #include "Simulation/ECS/Features/Visual/SEntityDrawer.h"
 #include "Simulation/ECS/Features/Input/SInputInjector.h"
+#include <array>
 
 void LevelBase::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -40,7 +41,7 @@ SInputInjector& LevelBase::GetInputInjector()
 
 void LevelBase::CacheSystems()
 {
-    std::vector<LevelDataStorage*> levelDataStorages {
+    std::array<LevelDataStorage*, 2> levelDataStorages {
         &dataStorageTransit,
         &dataStorageLocal
     };

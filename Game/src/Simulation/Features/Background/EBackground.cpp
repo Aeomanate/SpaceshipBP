@@ -3,6 +3,7 @@
 #include "Core/Application/ApplicationShortcuts.h"
 
 EBackground::EBackground()
+: ECS::Entity("Background")
 {
     Claim<CSceneElement>()
         .SetMember(&CSceneElement::sprite, getConfig().textures.background)

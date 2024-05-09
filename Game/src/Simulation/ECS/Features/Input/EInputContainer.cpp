@@ -1,12 +1,13 @@
 #include "EInputContainer.h"
-#include "CQueueMouseMoves.h"
-#include "CQueueMouseClicks.h"
-#include "CQueuePlayerMoveDirections.h"
+#include "CInputMousePositions.h"
+#include "CInputMouseClicks.h"
+#include "CInputMoveDirections.h"
 
 
 EInputContainer::EInputContainer()
+: ECS::Entity("InputContainer")
 {
-    Claim<CQueueMouseClicks>();
-    Claim<CQueueMouseMoves>();
-    Claim<CQueuePlayerMoveDirections>();
+    Claim<CInputMouseClicks>();
+    Claim<CInputMousePositions>();
+    Claim<CInputMoveDirections>();
 }

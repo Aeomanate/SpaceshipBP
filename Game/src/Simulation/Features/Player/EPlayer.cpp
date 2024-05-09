@@ -6,6 +6,7 @@
 
 
 EPlayer::EPlayer(const ConfigPlayer& configPlayer)
+: ECS::Entity("Player")
 {
     Claim<CPlayerControllableTag>();
 
@@ -15,7 +16,7 @@ EPlayer::EPlayer(const ConfigPlayer& configPlayer)
         }))
         .SetMember(&CSceneElement::order, CSceneElement::ZOrder::PLAYER);
 
-    Claim<CPosition>(configPlayer.startPosition);
+    Claim<CPosition>(*configPlayer.startPosition);
     Claim<CPhysics>().SetMember(&CPhysics::mass, *configPlayer.mass);
 
     Claim<CPlayerScore>();

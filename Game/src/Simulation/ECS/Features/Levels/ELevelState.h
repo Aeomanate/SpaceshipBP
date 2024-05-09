@@ -5,6 +5,8 @@
 
 struct ELevelState: ECS::Entity
 {
+public:
+    ELevelState();
 
 };
 

@@ -1,18 +1,16 @@
 #include <cassert>
 #include "SInputInjector.h"
-#include "Utility/Math/Vectors/Vectors.h"
+#include "Utility/Math/Vectors.h"
 
-template <class CQueue, class ActionT, class FlushApprover = bool(*)(const ActionT&)>
-void injectPendingAction (PendingAction<CQueue, ActionT>& action, FlushApprover approveFlush = [] (const ActionT&) { return true; })
+template<class CInput, class InputDataT>
+void injectPendingAction (PendingAction<CInput, InputDataT>& action, bool(*flushApprover)(InputDataT) = [](InputDataT){return true;})
 {
     if(action.actionOpt)
     {
-        auto actionsQueueOpt = CQueue::TryGetFirst();
-        assert(actionsQueueOpt);
+        auto actionsQueuePtr = CInput::TryGetFirstDataPtr();
+        REF(actionsQueuePtr)->push(*action.actionOpt);
 
-        actionsQueueOpt.value()->push(action.actionOpt.value());
-
-        if(!approveFlush(action.actionOpt.value()))
+        if(!flushApprover(*action.actionOpt))
         { return; }
 
         action.actionOpt = std::nullopt;
@@ -26,11 +24,11 @@ void SInputInjector::Update(float)
     injectPendingAction(pendingInputActions.moveDirection, isSemiZero);
 }
 
-void SInputInjector::InjectMovement(sf::Vector2f direction)
+void SInputInjector::InjectMoveVector(sf::Vector2f direction)
 {
     if (!pendingInputActions.moveDirection.actionOpt)
-    { pendingInputActions.moveDirection.actionOpt = sf::Vector2f(); }
-    pendingInputActions.moveDirection.actionOpt.value() += direction;
+    { pendingInputActions.moveDirection.actionOpt = sf::Vector2f{0, 0}; }
+    *pendingInputActions.moveDirection.actionOpt += direction;
 }
 
 void SInputInjector::InjectMouseClick(sf::Vector2f position)

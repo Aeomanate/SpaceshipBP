@@ -5,6 +5,8 @@
 
 struct ESpawnerContainer: public ECS::Entity
 {
+public:
+    ESpawnerContainer();
 
 };
 

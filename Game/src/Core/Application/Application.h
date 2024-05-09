@@ -11,7 +11,7 @@
 #include "Core/Storage/RootLocalization.h"
 #include "Core/Storage/RootConfig.h"
 #include "Utility/Visual/TextureProvider.h"
-#include "Utility/Math/Random/Random.h"
+#include "Utility/Math/Random.h"
 #include "Simulation/GameLevels/Base/LevelProvider.h"
 
 class Application: public LowLevelApplication, public Singleton<Application>
@@ -39,6 +39,11 @@ private: // Listeners
     SIMPLE_LISTENER(LastMenuClosed);
     DATA_LISTENER(KeyPressed, sf::Event::KeyEvent);
 
+protected:
+    void InitListeners();
+    void InitStorages();
+    void InitGameRelated();
+
 private: // Game-related objects
     MenuLayer menuLayer;
     Simulation simulation;
@@ -48,13 +53,6 @@ private: // Game-related objects
 
     RootConfig rootConfig;
     RootLocalization rootLocalization;
-protected:
-    void InitListeners();
-    void InitStorages();
-    void InitGameRelated();
-
-    Application();
-
 };
 
 #endif

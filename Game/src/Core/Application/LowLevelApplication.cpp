@@ -54,6 +54,10 @@ void LowLevelApplication::handlePressedKeyKeyboard(const sf::Event& e)
 {
     emitterKey.Emit(e.key);
 
+    auto it = keysStates.find(e.key.code);
+    if(it != keysStates.end() && it->second)
+    { return; }
+
     keysStates.insert_or_assign(e.key.code, true);
     emitterKeyPressed.Emit(e.key);
 }

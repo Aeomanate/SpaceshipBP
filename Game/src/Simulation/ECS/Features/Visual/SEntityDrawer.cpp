@@ -24,9 +24,9 @@ void SEntityDrawer::Update(float)
 
     for(auto& [entity, sceneElement]: CSceneElement::AllSorted())
     {
-        if(auto position = entity->TryGetDataAs<CPosition>(); position)
+        if(auto* position = entity->TryGetDataAs<CPosition>(); position)
         {
-            states.transform.translate(*position.value());
+            states.transform.translate(position->value);
             renderTexture.draw(sceneElement->sprite, states);
             continue;
         }

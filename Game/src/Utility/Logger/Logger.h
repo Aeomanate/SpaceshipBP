@@ -4,6 +4,8 @@
 #include <string>
 #include <format>
 #include "SFML/System/Vector2.hpp"
+#include "SFML/System/Clock.hpp"
+#include "Utility/Visual/PositionInRectangle.h"
 
 
 class Logger
@@ -33,10 +35,11 @@ private:
 
     static std::string prefixed(const std::string& str, Level level);
 
-    static std::string explained(std::string str, const std::string& details);
+    static std::string explained(const std::string& str, const std::string& details);
 
 private:
     static inline std::string currentLogMessage;
+    static inline sf::Clock clockRealtime;
 };
 
 void Log(const std::string& message, const std::string& details = { }, Logger::Level logLevel = Logger::Level::NOTIFY);
@@ -44,7 +47,8 @@ void Log(const std::string& message, const std::string& details = { }, Logger::L
 template <class T>
 std::string toString(sf::Vector2<T> v)
 {
-    return std::format("[ {:3}; {:3} ]", std::to_string(v.x), std::to_string(v.y));
+    return std::format("[ {:8.4}; {:8.4} ]", std::to_string(v.x), std::to_string(v.y));
 }
+
 
 #endif //SPACESHIPBP_LOGGER_H

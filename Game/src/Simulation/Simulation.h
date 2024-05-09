@@ -8,6 +8,7 @@
 #include <SFML/Window/Event.hpp>
 #include "Core/EventsHandling/ListenersEmitters.h"
 #include "Utility/Updatable.h"
+#include "SFML/System/Clock.hpp"
 
 class LevelBase;
 
@@ -33,8 +34,8 @@ private:
 
 private:
     LevelBase* currentLevel = nullptr;
-
-    std::unordered_map<sf::Keyboard::Key, sf::Vector2f> moveBinding;
+    std::unordered_map<sf::Keyboard::Key, sf::Vector2f> moveVectors;
+    sf::Clock clockRealtime;
 };
 
 

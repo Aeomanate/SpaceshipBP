@@ -61,6 +61,23 @@ bool operator< (sf::Vector2f A, sf::Vector2f B)
     return A.x < B.x && A.y < B.y;
 }
 
+bool isSemiZero(float value, float epsVal)
+{
+    return fabs(value) < epsVal;
+}
+bool isSemiZero(float value)
+{
+    return isSemiZero(value, EPS);
+}
+bool isSemiZero(sf::Vector2f A, sf::Vector2f epsValue)
+{
+    return fabs(A) < epsValue;
+}
+bool isSemiZero(sf::Vector2f A)
+{
+    return isSemiZero(A, { EPS, EPS });
+}
+
 sf::Vector2f toVector2f(PositionInRectagle positionInRectangle)
 {
     static sf::Vector2f map[] {
@@ -70,9 +87,4 @@ sf::Vector2f toVector2f(PositionInRectagle positionInRectangle)
     };
 
     return map[positionInRectangle];
-}
-
-bool isSemiZero(sf::Vector2f A)
-{
-    return A < VECTOR_SEMI_ZERO;
 }

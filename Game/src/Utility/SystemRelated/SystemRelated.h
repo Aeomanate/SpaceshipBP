@@ -12,7 +12,7 @@ class SystemRelated
 public:
     static void ShowConsole();
     static void HideConsole();
-    static bool CreateDirWhenAbsent(fs::path directory);
+    static bool CreateDirWhenAbsent(const fs::path& directory);
 
     template <class Stream>
     static Stream StreamOpen(fs::path folder, const std::string& name)

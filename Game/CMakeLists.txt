@@ -79,10 +79,10 @@ set(SOURCE_FILES
         src/Utility/Visual/FrameByFrame.cpp
         src/Core/Storage/Config/ConfigTextures.h
         src/Core/Storage/Config/ConfigTexture.h
-        src/Utility/Math/Vectors/Vectors.h
-        src/Utility/Math/Vectors/Vectors.h
-        src/Utility/Math/Vectors/Vectors.cpp
-        src/Utility/Math/Random/Random.cpp
+        src/Utility/Math/Vectors.h
+        src/Utility/Math/Vectors.h
+        src/Utility/Math/Vectors.cpp
+        src/Utility/Math/Random.cpp
         src/Core/Storage/Localization/LocApplication.h
         src/Utility/Visual/TextureProvider.cpp
         src/Utility/Visual/TextureProvider.h
@@ -118,7 +118,7 @@ set(SOURCE_FILES
         src/Simulation/ECS/Features/Visual/SVisualAttenuation.h
         src/Simulation/ECS/Features/LifetimeControl/ESpawnerContainer.h
         src/Simulation/ECS/Features/Input/CPlayerControllableTag.h
-        src/Simulation/ECS/Features/Input/CQueuePlayerMoveDirections.h
+        src/Simulation/ECS/Features/Input/CInputMoveDirections.h
         src/Simulation/ECS/Features/Input/SInputInjector.cpp
         src/Simulation/ECS/Features/Input/SInputInjector.h
         src/Simulation/ECS/Features/Levels/CLevelState.h
@@ -128,8 +128,8 @@ set(SOURCE_FILES
         src/Simulation/GameLevels/Level1.cpp
         src/Simulation/GameLevels/Level1.h
         src/Simulation/Features/Player/EPlayer.cpp
-        src/Simulation/ECS/Features/Input/CQueueMouseClicks.h
-        src/Simulation/ECS/Features/Input/CQueueMouseMoves.h
+        src/Simulation/ECS/Features/Input/CInputMouseClicks.h
+        src/Simulation/ECS/Features/Input/CInputMousePositions.h
         src/Simulation/ECS/Features/Input/EInputContainer.h
         src/Simulation/Features/Shooting/CCannon.h
         src/Core/Storage/Config/ConfigSimulationKeys.h
@@ -139,7 +139,6 @@ set(SOURCE_FILES
         src/Simulation/Features/Shooting/SHandlerPlayerShoot.h
         src/Simulation/ECS/Features/Input/SInputCleaner.cpp
         src/Simulation/ECS/Features/Input/SInputCleaner.h
-        src/Simulation/ECS/Features/Input/CQueueBase.h
         src/Simulation/Features/Player/SInputReader.h
         src/Simulation/Features/Player/SInputReader.cpp
         src/Core/Storage/Config/ConfigPlayer.h
@@ -154,6 +153,12 @@ set(SOURCE_FILES
         src/Simulation/Features/Background/EBackground.cpp
         src/Utility/Visual/PositionInRectangle.h
         src/Simulation/ECS/Features/Input/EInputContainer.cpp
+        src/Simulation/Features/Timer/CTimer.h
+        src/Simulation/Features/Timer/ETimer.cpp
+        src/Utility/Math/Math.h
+        src/Utility/Math/Math.cpp
+        src/Simulation/ECS/Features/LifetimeControl/ESpawnerContainer.cpp
+        src/Simulation/ECS/Features/Levels/ELevelState.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

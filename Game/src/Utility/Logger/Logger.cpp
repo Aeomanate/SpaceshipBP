@@ -93,18 +93,21 @@ const std::string& Logger::getLogPrefix(Level logLevel)
 }
 
 std::string Logger::prefixed(const std::string& str, Level level) {
-    std::string temp = "[";
-    temp += getLogPrefix(level);
-    temp += "] \t";
-    temp += str;
+    return std::format("[{}] "
+                       "[{:2.1f}m {:4.2f}s {:3}ms]"
+                       " {}",
 
-    return temp;
+                        getLogPrefix(level),
+
+                        clockRealtime.getElapsedTime().asSeconds()/60,
+                        clockRealtime.getElapsedTime().asSeconds(),
+                        clockRealtime.getElapsedTime().asMilliseconds() % 1000,
+
+                        str);
 }
 
-std::string Logger::explained(std::string str, const std::string& details) {
-    str += ": ";
-    str += details;
-    return str;
+std::string Logger::explained(const std::string& str, const std::string& details) {
+    return std::format("{}: {}", str, details);
 }
 
 
@@ -112,3 +115,5 @@ void Log(const std::string& message, const std::string& details, Logger::Level l
 {
     Logger::Log(message, details, logLevel);
 }
+
+

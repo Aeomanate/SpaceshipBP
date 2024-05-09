@@ -1,6 +1,6 @@
 #include "FrameByFrame.h"
 #include "Core/Application/ApplicationShortcuts.h"
-#include "Utility/Math/Vectors/Vectors.h"
+#include "Utility/Math/Vectors.h"
 
 FrameByFrame::FrameByFrame(const ConfigTexture& configTexture)
 : framesTotal { configTexture.framesTotal }

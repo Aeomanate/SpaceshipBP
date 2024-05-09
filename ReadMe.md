@@ -12,7 +12,7 @@ A classic video game is developing for training in creating and maintaining larg
   * `Application` - it a singleton contains all globally needed semi-related to ECS resources (configs, textures, etc). 
 * Model, Simulation, ECS
     * Each of `Component` holds a map of <`EntityPtr`, `UserComponent`>.
-    * Each of `Entity` can claim/reject a `Component` and get the data of it.
+    * Each of `Entity` can claim/reject a `Component` and get the value of it.
     * Each of `System` contained in and updated by a `Level` class.
       * Each of `UserLevel` provided by a `LevelProvider` 
         that delegates level creating to a `LevelCreatorsStorage`.

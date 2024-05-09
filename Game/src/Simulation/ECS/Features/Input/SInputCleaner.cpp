@@ -1,21 +1,20 @@
 #include <cassert>
 #include "SInputCleaner.h"
-#include "CQueueMouseMoves.h"
-#include "CQueuePlayerMoveDirections.h"
-#include "CQueueMouseClicks.h"
+#include "CInputMousePositions.h"
+#include "CInputMoveDirections.h"
+#include "CInputMouseClicks.h"
 
 void SInputCleaner::Update(float)
 {
-    auto popHandledElement = [] <class T> (std::optional<ECS::SimpleComponent<std::queue<T>>>&& component)
+    auto popHandledElement = [] (auto queueComponentPtr)
     {
-        assert(component);
-        if(!component.value()->empty())
+        if(!REF(queueComponentPtr)->empty())
         {
-            component.value()->pop();
+            REF(queueComponentPtr)->pop();
         }
     };
 
-    popHandledElement(CQueueMouseMoves::TryGetFirst());
-    popHandledElement(CQueueMouseClicks::TryGetFirst());
-    popHandledElement(CQueuePlayerMoveDirections::TryGetFirst());
+    popHandledElement(CInputMousePositions::TryGetFirstDataPtr());
+    popHandledElement(CInputMouseClicks::TryGetFirstDataPtr());
+    popHandledElement(CInputMoveDirections::TryGetFirstDataPtr());
 }

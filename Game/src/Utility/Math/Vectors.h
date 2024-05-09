@@ -1,7 +1,7 @@
 #ifndef SPACESHIPBP_VECTORS_H
 #define SPACESHIPBP_VECTORS_H
 
-#include <SFML/System/Vector2.hpp>
+#include "SFML/System/Vector2.hpp"
 #include "Utility/Visual/PositionInRectangle.h"
 
 // Scalar product
@@ -28,9 +28,12 @@ sf::Vector2f fabs(sf::Vector2f A);
 
 // Compare less for each component
 bool operator< (sf::Vector2f A, sf::Vector2f B);
-inline const sf::Vector2f VECTOR_SEMI_ZERO = { 0.0001f, 0.0001f };
 
-// Check less for each component with VECTOR_SEMI_ZERO
+// Check less for each component with EPS components
+inline const float EPS = 0.001f;
+bool isSemiZero(float value, float epsVal);
+bool isSemiZero(float value);
+bool isSemiZero(sf::Vector2f A, sf::Vector2f epsValue);
 bool isSemiZero(sf::Vector2f A);
 
 // Convert position in rectangle to a vector [0 ... 1; 0 ... 1]
