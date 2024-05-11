@@ -2,16 +2,11 @@
 #define SPACESHIPBP_IMPLSTDJSONCONVERTERS_H
 
 #include <string>
-#include <better_enums/enum.h>
 #include "ImplMacroses.h"
+#include "Utility/Visual/PositionInRectangle.h"
 
 namespace Serialization::Internal
 {
-    template <class UserType>
-    concept BetterEnumType = requires (UserType enumValue) {
-        decltype(+enumValue)::_integral;
-    };
-
     struct StdConverters
     {
         SERI_fromJson(std::string, stdValue)
@@ -25,8 +20,8 @@ namespace Serialization::Internal
             return value;
         }
 
-        template <BetterEnumType SomeEnum>
-        SERI_fromJson(SomeEnum, someEnum)
+
+        static inline void fromJson(PositionInRectagle& someEnum, const rapidjson::Value& json)
         {
             auto enumOpt = decltype(+someEnum)::_from_string_nothrow(json.GetString());
             if(enumOpt)
@@ -34,8 +29,7 @@ namespace Serialization::Internal
                 someEnum = *enumOpt;
             }
         }
-        template <BetterEnumType SomeEnum>
-        SERI_toJson(SomeEnum, someEnum)
+        SERI_toJson(PositionInRectagle, someEnum)
         {
             return rapidjson::Value(rapidjson::StringRef((+someEnum)._to_string()));
         }

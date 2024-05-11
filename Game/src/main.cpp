@@ -4,5 +4,6 @@
 
 int main()
 {
-    Application::GetInstance().Init().Run();
+    Application::GetInstance().Init();
+    Application::GetInstance().Run();
 }

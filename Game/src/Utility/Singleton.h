@@ -16,10 +16,6 @@ public:
 
 protected:
     Singleton() = default;
-    virtual ~Singleton() = default;
-
-private:
-
 };
 
 #endif //SPACESHIPBP_SINGLETON_H

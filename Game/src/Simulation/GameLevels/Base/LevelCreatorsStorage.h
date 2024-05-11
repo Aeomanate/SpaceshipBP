@@ -5,25 +5,22 @@
 #include <unordered_map>
 #include "Core/Storage/Config/GeneralConfig.h"
 #include "LevelBase.h"
+#include "Utility/Singleton.h"
 
 const GeneralConfig& getConfig();
 
-struct LevelCreatorsStorage
+class LevelCreatorsStorage: public Singleton<LevelCreatorsStorage>
 {
+    template <class UserLevel, ConfigLevel ConfigLevels::*configLevelMemberPtr>
+    friend class Level;
+
     using LevelCreatorNullBasedFunc = std::function<LevelBase::LevelPtr()>;
     using LevelCreatorPrevBasedFunc = std::function<LevelBase::LevelPtr(LevelBase::LevelPtr)>;
     using MapKey = std::string_view;
 
 public:
-    template <class UserLevel>
-    LevelCreatorsStorage(ConfigLevel ConfigLevels::*configLevelPtr, UserLevel*)
-    {
-        AddLevelCreatorNullBased<UserLevel>(getConfig().simulation.configLevels.*configLevelPtr);
-        AddLevelCreatorPrevBased<UserLevel>(getConfig().simulation.configLevels.*configLevelPtr);
-    }
-
     template <class PrevLevel = int>
-    static inline LevelBase::LevelPtr Create(const ConfigLevel& configLevel, PrevLevel&& prevLevel = {})
+    LevelBase::LevelPtr Create(const ConfigLevel& configLevel, PrevLevel&& prevLevel = {})
     {
         if constexpr(!std::is_same_v<PrevLevel, int>)
         { return prevBased[*configLevel.name](std::move(prevLevel)); }
@@ -33,7 +30,7 @@ public:
 
 private:
     template <class UserLevel>
-    static inline void AddLevelCreatorNullBased(const ConfigLevel& configLevel)
+    void AddLevelCreatorNullBased(const ConfigLevel& configLevel)
     {
         nullBased.try_emplace(*configLevel.name, [] {
             return std::make_unique<UserLevel>();
@@ -41,16 +38,24 @@ private:
     }
 
     template <class UserLevel>
-    static inline void AddLevelCreatorPrevBased(const ConfigLevel& configLevel)
+    void AddLevelCreatorPrevBased(const ConfigLevel& configLevel)
     {
         prevBased.try_emplace(*configLevel.name, [] (LevelBase::LevelPtr prevLevel) {
             return std::make_unique<UserLevel>(std::move(prevLevel));
         });
     }
 
+    template <class UserLevel, ConfigLevel ConfigLevels::*configLevelPtr>
+    bool RegisterLevel()
+    {
+        AddLevelCreatorNullBased<UserLevel>(getConfig().simulation.configLevels.*configLevelPtr);
+        AddLevelCreatorPrevBased<UserLevel>(getConfig().simulation.configLevels.*configLevelPtr);
+        return true;
+    }
+
 private:
-    static inline std::unordered_map<MapKey, LevelCreatorNullBasedFunc> nullBased;
-    static inline std::unordered_map<MapKey, LevelCreatorPrevBasedFunc> prevBased;
+    std::unordered_map<MapKey, LevelCreatorNullBasedFunc> nullBased;
+    std::unordered_map<MapKey, LevelCreatorPrevBasedFunc> prevBased;
 };
 
 #endif //SPACESHIPBP_LEVELCREATORSSTORAGE_H

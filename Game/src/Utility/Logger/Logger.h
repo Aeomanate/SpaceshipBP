@@ -47,7 +47,7 @@ void Log(const std::string& message, const std::string& details = { }, Logger::L
 template <class T>
 std::string toString(sf::Vector2<T> v)
 {
-    return std::format("[ {:8.4}; {:8.4} ]", std::to_string(v.x), std::to_string(v.y));
+    return std::format("[ {:10.4}; {:10.4} ]", std::to_string(v.x), std::to_string(v.y));
 }
 
 

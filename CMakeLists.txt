@@ -21,6 +21,15 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic -fconcepts-diagnostics-depth=10)
 endif()
 
+set(STATIC_BUILD TRUE)
+if (CMAKE_BUILD_TYPE MATCHES Release)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+    set(STATIC_BUILD TRUE)
+endif ()
+if(STATIC_BUILD)
+    set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc")
+endif()
+
 add_compile_definitions(_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
 add_compile_definitions(PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE=GameJsonConversions)
 

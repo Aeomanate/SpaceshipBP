@@ -1,4 +1,0 @@
-[submodule "SpaceShipBP/lib/third-party/RapidJson"]
-	path = SpaceShipBP/lib/third-party/RapidJson
-	url = https://github.com/Tencent/rapidjson/
-	branch = master

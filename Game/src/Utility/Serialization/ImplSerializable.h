@@ -13,8 +13,8 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/prettywriter.h>
 #include <rapidjson/istreamwrapper.h>
-#include "ImplStdJsonConverters.h"
 #include "Utility/Logger/Logger.h"
+#include "ImplStdJsonConverters.h"
 
 namespace Serialization
 {
@@ -24,40 +24,15 @@ namespace Serialization
 
     /// Main concepts that must be implemented by UserSeriType for to/from json conversion availability
     template<class UserType, class ExternalJsonConverters>
-    concept HasFromJsonUserCast = requires(UserType& userValue)
+    concept HasFromJson = requires(UserType& userValue)
     { { ExternalJsonConverters::fromJson(userValue, JsonVal()) } -> std::convertible_to<void>; };
 
     template<class UserType, class ExternalJsonConverters>
-    concept HasToJsonUserCast = requires(UserType& userValue, AllocType& allocator)
+    concept HasToJson = requires(UserType& userValue, AllocType& allocator)
     { { ExternalJsonConverters::toJson(userValue, allocator) } -> std::convertible_to<JsonVal>; };
-
-    template <class UserType>
-    concept RapidJsonType =
-        std::is_same_v<UserType, int32_t>
-        || std::is_same_v<UserType, int64_t>
-        || std::is_same_v<UserType, uint32_t>
-        || std::is_same_v<UserType, uint64_t>
-        || std::is_same_v<UserType, double>
-        || std::is_same_v<UserType, float>
-        || std::is_same_v<UserType, bool>;
-
-
-    template <class UserType, class UserDefinedJsonConversionSet>
-    class SerializableVariable;
-    template <class UserDefinedJsonConversionSet>
-    class SerializableStruct;
 
     namespace Internal
     {
-        // Base converter templates for literal types
-        template<RapidJsonType SomeLiteralType>
-        void fromJsonLiteral(SomeLiteralType& userValue, const JsonVal& initializer)
-        { userValue = initializer.template Get<SomeLiteralType>(); }
-
-        template<RapidJsonType SomeLiteralType>
-        JsonVal toJsonLiteral(const SomeLiteralType& userValue, AllocType&)
-        { return JsonVal(userValue); }
-
         // Composition: SerializableStruct in SerializableStruct
         // or SerializableVariable in SerializableStruct
         template <class SeriStruct>
@@ -68,14 +43,35 @@ namespace Serialization
             static_cast<JsonVal>(cVal, allocator);
         };
 
-        template<SerializableComposition SerializableStruct>
-        void fromJsonComposite(SerializableStruct& serializableStruct, const JsonVal& initializer)
-        { serializableStruct.SetFromJson(initializer); }
+        template <class UserType>
+        concept RapidJsonType =
+        std::is_same_v<UserType, int32_t>
+            || std::is_same_v<UserType, int64_t>
+            || std::is_same_v<UserType, uint32_t>
+            || std::is_same_v<UserType, uint64_t>
+            || std::is_same_v<UserType, double>
+            || std::is_same_v<UserType, float>
+            || std::is_same_v<UserType, bool>;
 
-        template<SerializableComposition SerializableStruct>
-        JsonVal toJsonComposite(const SerializableStruct& serializableStruct, AllocType&)
-        { return static_cast<JsonVal>(serializableStruct); }
+        struct InternalConvertersSet
+        {
+            // Base converter templates for literal types
+            template<RapidJsonType SomeLiteralType>
+            static void fromJson(SomeLiteralType& userValue, const JsonVal& initializer)
+            { userValue = initializer.template Get<SomeLiteralType>(); }
 
+            template<RapidJsonType SomeLiteralType>
+            static JsonVal toJson(const SomeLiteralType& userValue, AllocType&)
+            { return JsonVal(userValue); }
+
+            template<SerializableComposition SerializableStruct>
+            static void fromJson(SerializableStruct& serializableStruct, const JsonVal& initializer)
+            { serializableStruct.SetFromJson(initializer); }
+
+            template<SerializableComposition SerializableStruct>
+            static JsonVal toJson(const SerializableStruct& serializableStruct, AllocType&)
+            { return static_cast<JsonVal>(serializableStruct); }
+        };
 
         // Compile-time helper for choosing right converter function based on passed type (custom or literal)
         template<class UserType, class ExternalJsonConverters>
@@ -83,38 +79,23 @@ namespace Serialization
         {
             using FromJsonFuncPtrType = void (*)(UserType&, const JsonVal&);
             using ToJsonFuncPtrType = JsonVal(*)(const UserType&, AllocType&);
+            using ConvertersSet =
+                std::conditional_t<HasFromJson<UserType, StdConverters>,
+                    StdConverters,
+                    std::conditional_t<SerializableComposition<UserType> || RapidJsonType<UserType>,
+                        InternalConvertersSet,
+                        std::conditional_t<HasFromJson<UserType, ExternalJsonConverters>,
+                            ExternalJsonConverters,
+                            void
+                        >
+                    >
+                >;
 
-            static constexpr FromJsonFuncPtrType GetFromJson()
-            {
-                if constexpr (HasFromJsonUserCast<UserType, StdConverters>)
-                { return &StdConverters::fromJson; }
-                else if constexpr (SerializableComposition<UserType>)
-                { return &fromJsonComposite; }
-                else if constexpr (RapidJsonType<UserType>)
-                { return &fromJsonLiteral; }
-                else if constexpr (HasFromJsonUserCast<UserType, ExternalJsonConverters>)
-                { return &ExternalJsonConverters::fromJson; }
-                else
-                {
-                    static_assert(false, "This user type must define a fromJsonLiteral converter");
-                }
-            }
+            static inline constexpr FromJsonFuncPtrType GetFromJson()
+            { return &ConvertersSet::fromJson; }
 
-            static constexpr ToJsonFuncPtrType GetToJson()
-            {
-                if constexpr (HasToJsonUserCast<UserType, StdConverters>)
-                { return &StdConverters::toJson; }
-                else if constexpr (SerializableComposition<UserType>)
-                { return &toJsonComposite; }
-                else if constexpr (RapidJsonType<UserType>)
-                { return &toJsonLiteral; }
-                else if constexpr (HasToJsonUserCast<UserType, ExternalJsonConverters>)
-                { return &ExternalJsonConverters::toJson; }
-                else
-                {
-                    static_assert(false, "This user type must define a toJson converter");
-                }
-            }
+            static inline constexpr ToJsonFuncPtrType GetToJson()
+            { return &ConvertersSet::toJson; }
         };
 
         // For converting visitor function to lambda correctly
@@ -141,6 +122,12 @@ namespace Serialization
         VARIABLE,
         STRUCT
     };
+
+
+    template <class UserType, class UserDefinedJsonConversionSet>
+    class SerializableVariable;
+    template <class UserDefinedJsonConversionSet>
+    class SerializableStruct;
 
     /// A base class for any serializable variable for both user-defined and literal type
     class SerializableBase
@@ -387,7 +374,7 @@ namespace Serialization
 
 
     /// Each plain value struct must use it for be available for serialization.
-    /// Concepts HasFromJsonUserCast<UserSeriType>, HasToJsonUserCast<UserSeriType> must be satisfied
+    /// Concepts HasFromJson<UserSeriType>, HasToJson<UserSeriType> must be satisfied
     template <class UserType, class ExternalConversions>
     class SerializableVariable : public SerializableBase
     {

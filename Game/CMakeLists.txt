@@ -161,13 +161,15 @@ set(SOURCE_FILES
         src/Simulation/ECS/Features/Levels/ELevelState.cpp
 )
 
+
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 set(TestsLib ${PROJECT_NAME}TestsSource)
 add_library(${TestsLib} STATIC ${TESTABLE_FILES})
 
 foreach (TARGET ${PROJECT_NAME} ${TestsLib})
-    add_dependencies(${TARGET} RapidJSON better_enums)
+    add_dependencies(${TARGET} RapidJSON)
+    add_dependencies(${TARGET} better_enums)
     target_link_libraries(${TARGET} PUBLIC sfml-system sfml-window sfml-graphics INTERFACE better_enums)
     target_include_directories(${TARGET} PUBLIC "src" ${better_enums_INCLUDE})
 endforeach ()

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <optional>
 #include <cassert>
+#include <vector>
 
 namespace ECS
 {
@@ -133,7 +134,7 @@ namespace ECS
         template <class FieldT, std::convertible_to<FieldT> Convertible>
         UserComponent& SetMember(FieldT UserComponent::*fieldPtr, Convertible&& value)
         {
-            UserComponent& userComponentPtr = static_cast<UserComponent&>(*this);
+            auto& userComponentPtr = static_cast<UserComponent&>(*this);
             userComponentPtr.*fieldPtr = std::forward<Convertible>(value);
             return userComponentPtr;
         }

@@ -1,15 +1,17 @@
 #include "LevelProvider.h"
 #include "Core/Application/ApplicationShortcuts.h"
 #include "Simulation/GameLevels/Base/LevelBase.h"
+#include "LevelCreatorsStorage.h"
+#include "../Level1.h"
 
 LevelBase* LevelProvider::LoadLevel(const ConfigLevel& configLevel)
 {
     Log(getLoc().simulation.levelLoadingNotify, configLevel.name);
     LevelBase::LevelPtr nextLevel = nullptr;
     if(currentLevel)
-    { nextLevel = LevelCreatorsStorage::Create(configLevel, std::move(currentLevel)); }
+    { nextLevel = LevelCreatorsStorage::GetInstance().Create(configLevel, std::move(currentLevel)); }
     else
-    { nextLevel = LevelCreatorsStorage::Create(configLevel); }
+    { nextLevel = LevelCreatorsStorage::GetInstance().Create(configLevel); }
 
     currentLevel = std::move(nextLevel);
 
