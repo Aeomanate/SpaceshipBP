@@ -23,7 +23,7 @@ bool StorageRoot::Load()
 {
     std::ifstream in = SystemRelated::StreamOpen<std::ifstream>(folder, filename);
     in >> *rootMemberVariable;
-    if(rootMemberVariable->HasParseError())
+    if(Serialization::SerializableBase::HasParseError())
     {
         Log(getLoc().fileOperations.jsonParseWarning, (folder / filename).string(), Logger::Level::WARNING);
         return false;

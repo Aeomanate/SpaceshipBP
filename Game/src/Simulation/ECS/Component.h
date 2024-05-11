@@ -8,6 +8,13 @@
 #include <cassert>
 #include <vector>
 
+template <class T>
+T& REF(T* ptr)
+{
+    assert(ptr);
+    return *ptr;
+}
+
 namespace ECS
 {
     class Entity;
@@ -62,14 +69,14 @@ namespace ECS
         friend class Entity;
 
     public:
-        using KeyType = Entity*;
-        using KeyTypeConst = const Entity*;
+        using KeyEntityT = Entity*;
+        using KeyEntityConstT = const Entity*;
         using UserComponentT = UserComponent;
-        using EntityWithDataStorage = std::unordered_map<KeyType, UserComponentT>;
-        using Iterator = EntityWithDataStorage::iterator;
-        using ConstIterator = EntityWithDataStorage::const_iterator;
-        struct KeyValuePointers { KeyType entity; UserComponent* component; };
-        struct KeyValueConstPointers { KeyTypeConst entity; const UserComponent* component; };
+        using EntityWithDataStorageT = std::unordered_map<KeyEntityT, UserComponentT>;
+        using IteratorT = EntityWithDataStorageT::iterator;
+        using ConstIteratorT = EntityWithDataStorageT::const_iterator;
+        struct KeyValuePointers { KeyEntityT entity; UserComponent* component; };
+        struct KeyValueConstPointers { KeyEntityConstT entity; const UserComponent* component; };
 
     public:
         static inline auto All()
@@ -93,7 +100,7 @@ namespace ECS
         static inline bool Empty()
         { return entitiesWithData.empty(); }
 
-        friend bool operator< (const KeyValuePointers& entry1, const KeyValuePointers& entry2) {
+        friend bool operator< (KeyValuePointers entry1, KeyValuePointers entry2) {
             return *entry1.component < *entry2.component;
         }
 
@@ -104,12 +111,12 @@ namespace ECS
             });
         }
 
-        static inline UserComponentT& Data(KeyType key)
-        { return entitiesWithData.find(key)->second; }
+        static inline UserComponentT& Data(KeyEntityT key)
+        { return REF(entitiesWithData.find(key)).second; }
 
         static inline UserComponentT* TryGetFirstDataPtr()
         {
-            Iterator it = entitiesWithData.begin();
+            IteratorT it = entitiesWithData.begin();
             if(it != entitiesWithData.end())
             { return &it->second; }
             else
@@ -150,7 +157,7 @@ namespace ECS
         }
 
     private:
-        static inline EntityWithDataStorage entitiesWithData;
+        static inline EntityWithDataStorageT entitiesWithData;
     };
 
     template <class UserComponent>
@@ -158,7 +165,5 @@ namespace ECS
         std::is_base_of_v<Component<typename UserComponent::UserComponentT, typename UserComponent::UserDataT>, UserComponent>;
     };
 }
-
-#define REF(somePtr) (assert(somePtr), *(somePtr))
 
 #endif //SPACESHIPBP_COMPONENT_H

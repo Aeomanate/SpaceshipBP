@@ -66,7 +66,7 @@ TEST(UtilitySuite, SerializationComposite)
 
     stream << myRoot;
 
-    std::string json = stream.str();
+    std::string json = stream.str(); //-V808
 
     stream >> myRoot;
 

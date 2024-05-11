@@ -82,7 +82,7 @@ void Logger::showInConsole(std::string& str)
 const std::string& Logger::getLogPrefix(Level logLevel)
 {
     static std::vector<std::string> logPrefix {
-        { *getLoc().logLevel.verbose    },
+        { *getLoc().logLevel.verbose    }, //-V807
         { *getLoc().logLevel.notify     },
         { *getLoc().logLevel.warning    },
         { *getLoc().logLevel.error      },
@@ -93,15 +93,16 @@ const std::string& Logger::getLogPrefix(Level logLevel)
 }
 
 std::string Logger::prefixed(const std::string& str, Level level) {
+    auto elapsedTime = clockRealtime.getElapsedTime();
     return std::format("[{}] "
                        "[{:2.1f}m {:4.2f}s {:3}ms]"
                        " {}",
 
                         getLogPrefix(level),
 
-                        clockRealtime.getElapsedTime().asSeconds()/60,
-                        clockRealtime.getElapsedTime().asSeconds(),
-                        clockRealtime.getElapsedTime().asMilliseconds() % 1000,
+                        elapsedTime.asSeconds()/60,
+                        elapsedTime.asSeconds(),
+                        elapsedTime.asMilliseconds() % 1000,
 
                         str);
 }

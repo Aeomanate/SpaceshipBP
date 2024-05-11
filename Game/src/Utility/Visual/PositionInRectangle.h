@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <better_enums/enum.h>
 
-BETTER_ENUM(
+BETTER_ENUM( //-V835
     PositionInRectagle, std::uint8_t,
     UPPER_LEFT  , UPPER_CENTER   , UPPER_RIGHT  ,
     CENTER_LEFT , CENTER         , CENTER_RIGHT ,

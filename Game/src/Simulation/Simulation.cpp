@@ -21,7 +21,7 @@ void Simulation::Init()
     listenerMouseButtonClicked.SubscribeEmitter(Application::GetInstance().emitterMouseClicked);
     listenerMouseMoved.SubscribeEmitter(Application::GetInstance().emitterMouseMoved);
 
-    moveVectors.try_emplace(getConfig().simulation.keys.up, sf::Vector2f{ 0, -1});
+    moveVectors.try_emplace(getConfig().simulation.keys.up, sf::Vector2f{ 0, -1}); //-V807
     moveVectors.try_emplace(getConfig().simulation.keys.down, sf::Vector2f{ 0, 1});
     moveVectors.try_emplace(getConfig().simulation.keys.left, sf::Vector2f{ -1, 0});
     moveVectors.try_emplace(getConfig().simulation.keys.right, sf::Vector2f{ 1, 0});
