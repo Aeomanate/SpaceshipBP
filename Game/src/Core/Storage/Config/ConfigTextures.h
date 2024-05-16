@@ -4,11 +4,12 @@
 #include "Utility/Serialization/Serializable.h"
 #include "ConfigTexture.h"
 
-struct GameJsonConversions;
 
 SERI_S(ConfigTextures)
 {
     SERI_C(ConfigTextures)
+
+    fs::path folder = "../res/images";
 
     SERI_COMPOSITE_V_MEMBERS_INIT(
         ConfigTexture, asteroidBig,

@@ -43,8 +43,6 @@ set(SOURCE_FILES
         src/Core/Storage/Config/ConfigSimulation.h
         src/Core/Storage/Localization/GeneralLocalization.h
         src/Utility/Serialization/Serializable.h
-        src/Core/Application/ApplicationShortcuts.cpp
-        src/Core/Application/ApplicationShortcuts.h
         src/Utility/SystemRelated/SystemRelated.cpp
         src/Utility/SystemRelated/SystemRelated.h
         src/Core/Storage/Config/ConfigWindow.h
@@ -159,8 +157,30 @@ set(SOURCE_FILES
         src/Utility/Math/Math.cpp
         src/Simulation/ECS/Features/LifetimeControl/ESpawnerContainer.cpp
         src/Simulation/ECS/Features/Levels/ELevelState.cpp
+        src/Simulation/ECS/Features/Debug/CText.h
+        src/Simulation/ECS/Features/Debug/STextHandler.cpp
+        src/Simulation/ECS/Features/Debug/STextHandler.h
+        src/Simulation/ECS/Features/Debug/EDebugText.cpp
+        src/Simulation/ECS/Features/Debug/EDebugText.h
+        src/Utility/Visual/FontProvider.cpp
+        src/Utility/Visual/FontProvider.h
+        src/Utility/ResourcesProvider.h
+        src/Core/Application/Getters/ConfigGetter.h
+        src/Core/Application/Getters/ConfigGetter.cpp
+        src/Core/Application/Getters/ConfigGetter.cpp
+        src/Core/Application/Getters/LogGetter.cpp
+        src/Core/Application/Getters/LogGetter.h
+        src/Core/Application/Getters/LevelProviderGetter.cpp
+        src/Core/Application/Getters/LevelProviderGetter.h
+        src/Core/Application/Getters/RandomGetter.cpp
+        src/Core/Application/Getters/RandomGetter.h
+        src/Core/Application/Getters/TextureProviderGetter.cpp
+        src/Core/Application/Getters/TextureProviderGetter.h
+        src/Utility/TypeTraits.h
+        src/Core/Storage/Config/ConfigFont.h
+        src/Core/Storage/Config/ConfigResources.h
+        src/Core/Storage/Config/ConfigFonts.h
 )
-
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 

@@ -6,7 +6,6 @@
 #include "Utility/Serialization/Serializable.h"
 #include "Utility/Visual/PositionInRectangle.h"
 
-struct GameJsonConversions;
 
 
 SERI_S(ConfigTexture)

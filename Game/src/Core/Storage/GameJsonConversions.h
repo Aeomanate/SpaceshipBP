@@ -52,19 +52,6 @@ struct GameJsonConversions
 
         return value;
     }
-
-    template <class SomeEnum>
-    requires std::is_enum_v<SomeEnum>
-    SERI_fromJson(SomeEnum, enumValue)
-    {
-        enumValue = static_cast<SomeEnum>(json.Get<int>());
-    }
-    template <class SomeEnum>
-    requires std::is_enum_v<SomeEnum>
-    SERI_toJson(SomeEnum, enumValue)
-    {
-        return rapidjson::Value(static_cast<int>(enumValue));
-    }
 };
 
 #endif //SPACESHIPBP_GAMEJSONCONVERSIONS_H

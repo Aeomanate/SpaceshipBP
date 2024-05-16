@@ -5,7 +5,6 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 
-struct GameJsonConversions;
 
 SERI_S(ConfigSimulationKeys)
 {

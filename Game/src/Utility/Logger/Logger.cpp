@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include "Utility/SystemRelated/SystemRelated.h"
-#include "Core/Application/ApplicationShortcuts.h"
+#include "Core/Application/Getters/ConfigGetter.h"
 #include <unordered_map>
 using namespace std::string_literals;
 

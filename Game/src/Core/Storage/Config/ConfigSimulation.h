@@ -6,7 +6,6 @@
 #include "ConfigSimulationKeys.h"
 #include "ConfigPlayer.h"
 
-struct GameJsonConversions;
 
 SERI_S(ConfigSimulation)
 {

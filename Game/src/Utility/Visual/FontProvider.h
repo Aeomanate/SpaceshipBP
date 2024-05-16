@@ -1,0 +1,11 @@
+#ifndef SPACESHIPBP_FONTPROVIDER_H
+#define SPACESHIPBP_FONTPROVIDER_H
+
+
+class FontProvider
+{
+
+};
+
+
+#endif //SPACESHIPBP_FONTPROVIDER_H

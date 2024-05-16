@@ -1,7 +1,8 @@
 #include <numbers>
 #include <cmath>
+#include <cassert>
 #include "Vectors.h"
-#include "Core/Application/ApplicationShortcuts.h"
+#include "Core/Application/Getters/RandomGetter.h"
 
 // Pseudo scalar product
 float pdot(sf::Vector2f A, sf::Vector2f B) {
@@ -18,7 +19,7 @@ float len2(sf::Vector2f A)
 }
 
 float len(sf::Vector2f A) {
-    return sqrtf(len2(A));
+    return std::sqrt(len2(A));
 }
 
 sf::Vector2f norm(sf::Vector2f A) {
@@ -43,17 +44,17 @@ float angleDeg(sf::Vector2f A, sf::Vector2f B) {
 }
 
 sf::Vector2f randUnitVector() {
-    float signX = getRnd().Range(0, 2) ? 1.0f : -1.0f;
-    float signY = getRnd().Range(0, 2) ? 1.0f : -1.0f; //-V656
+    float signX = getRand().Range(0, 2) ? 1.0f : -1.0f;
+    float signY = getRand().Range(0, 2) ? 1.0f : -1.0f; //-V656
 
     return norm(
         sf::Vector2f {
-            signX * getRnd().Range(0, 100),
-            signY * getRnd().Range(0, 100)
+            signX * getRand().Range(0, 100.f),
+            signY * getRand().Range(0, 100.f)
         });
 }
 
-sf::Vector2f fabs(sf::Vector2f A)
+sf::Vector2f abs(sf::Vector2f A)
 {
     return sf::Vector2f { fabsf(A.x), fabsf(A.y) };
 }
@@ -65,7 +66,7 @@ bool operator< (sf::Vector2f A, sf::Vector2f B)
 
 bool isSemiZero(float value, float epsVal)
 {
-    return fabs(value) < epsVal;
+    return std::abs(value) < epsVal;
 }
 bool isSemiZero(float value)
 {
@@ -73,7 +74,7 @@ bool isSemiZero(float value)
 }
 bool isSemiZero(sf::Vector2f A, sf::Vector2f epsValue)
 {
-    return fabs(A) < epsValue;
+    return abs(A) < epsValue;
 }
 bool isSemiZero(sf::Vector2f A)
 {

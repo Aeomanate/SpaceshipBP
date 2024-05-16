@@ -20,8 +20,6 @@ SERI_S(ConfigFile)
 
     fs::path logFolder = "../res/gen/logs";
     std::string logName = "logs.log";
-
-    fs::path texturesFolder = "../res/images";
 };
 
 #endif //SPACESHIPBP_CONFIGPATH_H

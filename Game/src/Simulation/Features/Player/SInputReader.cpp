@@ -8,7 +8,7 @@
 #include "Simulation/ECS/Features/Input/CPlayerControllableTag.h"
 #include "Simulation/ECS/Features/Movable/CPhysics.h"
 #include "Utility/Math/Vectors.h"
-#include "Core/Application/ApplicationShortcuts.h"
+#include "Core/Application/Getters/ConfigGetter.h"
 
 void handleMovingPlayer()
 {

@@ -1,19 +1,13 @@
 #ifndef SPACESHIPBP_TEXTUREPROVIDER_H
 #define SPACESHIPBP_TEXTUREPROVIDER_H
 
-#include "Core/Storage/Config/ConfigTexture.h"
+#include "Utility/ResourcesProvider.h"
+#include "Core/Storage/Config/ConfigTextures.h"
 
-class TextureProvider
+class TextureProvider: public ResourcesProvider<TextureProvider, sf::Texture, &ConfigTextures::player>
 {
-public:
-    void LoadTextures();
-    const sf::Texture& GetTexture(const ConfigTexture& configTexture) const;
-
 private:
-    void LoadTexture(const ConfigTexture& configTexture);
-
-private:
-    std::unordered_map<std::string_view, sf::Texture> textures;
+    static LoadErrorT LoadResource(sf::Texture& out, const fs::path& path);
 };
 
 

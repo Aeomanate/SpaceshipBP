@@ -7,7 +7,6 @@
 #include "LocApplication.h"
 #include "LocSimulation.h"
 
-struct GameJsonConversions;
 SERI_S(GeneralLocalization)
 {
     SERI_C(GeneralLocalization)

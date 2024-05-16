@@ -7,6 +7,7 @@
 #include "ConfigSimulation.h"
 #include "ConfigWindow.h"
 #include "ConfigPath.h"
+#include "ConfigResources.h"
 
 SERI_S(GeneralConfig)
 {
@@ -14,7 +15,7 @@ SERI_S(GeneralConfig)
 
     SERI_COMPOSITE_V(ConfigFile, path);
 
-    SERI_COMPOSITE_V(ConfigTextures, textures);
+    SERI_COMPOSITE_V(ConfigResources, resources);
 
     SERI_COMPOSITE_V(ConfigWindow, window);
 

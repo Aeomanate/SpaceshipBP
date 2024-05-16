@@ -4,7 +4,6 @@
 #include "Utility/Serialization/Serializable.h"
 #include "SFML/Config.hpp"
 
-struct GameJsonConversions;
 SERI_S(ConfigPlayerCannon)
 {
     SERI_C(ConfigPlayerCannon)

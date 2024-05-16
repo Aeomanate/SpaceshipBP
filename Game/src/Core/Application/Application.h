@@ -28,7 +28,7 @@ public:
     static const GeneralLocalization& GetLoc();
     static const TextureProvider& GetTextureProvider();
     static LevelProvider& GetLevelProvider();
-    static Random& GetRnd();
+    static Random& GetRandom();
 
 private: // Game-related methods
     void Draw() override;

@@ -2,7 +2,7 @@
 #define SPACESHIPBP_SYSTEMRELATED_H
 
 #include <filesystem>
-#include "Core/Application/ApplicationShortcuts.h"
+#include "Core/Application/Getters/LogGetter.h"
 #include "Utility/Logger/Logger.h"
 
 namespace fs = std::filesystem;

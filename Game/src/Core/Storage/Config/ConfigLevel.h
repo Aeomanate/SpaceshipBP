@@ -5,7 +5,6 @@
 #include <SFML/Config.hpp>
 #include "Utility/Serialization/Serializable.h"
 
-struct GameJsonConversions;
 
 SERI_S(ConfigLevel)
 {

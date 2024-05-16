@@ -4,7 +4,7 @@
 #include "CPhysics.h"
 #include "CPosition.h"
 #include "Utility/Math/Vectors.h"
-#include "Core/Application/ApplicationShortcuts.h"
+#include "Core/Application/Getters/LogGetter.h"
 
 void SEntityMover::Update(float dt)
 {

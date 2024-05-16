@@ -1,6 +1,6 @@
 #include "Level1.h"
 #include "Simulation/Features/Player/EPlayer.h"
-#include "Core/Application/ApplicationShortcuts.h"
+#include "Core/Application/Getters/ConfigGetter.h"
 #include "Simulation/ECS/ECS.h"
 #include "Simulation/Features/Background/EBackground.h"
 #include "Simulation/Features/Player/SInputReader.h"

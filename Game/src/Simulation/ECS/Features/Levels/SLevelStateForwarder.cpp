@@ -1,6 +1,6 @@
 #include "SLevelStateForwarder.h"
 #include "CLevelState.h"
-#include "Core/Application/ApplicationShortcuts.h"
+#include "Core/Application/Getters/LevelProviderGetter.h"
 
 void SLevelStateForwarder::Update(float)
 {

@@ -24,7 +24,7 @@ sf::Vector2f randUnitVector();
 
 
 // Absolute actionOpt for each component
-sf::Vector2f fabs(sf::Vector2f A);
+sf::Vector2f abs(sf::Vector2f A);
 
 // Compare less for each component
 bool operator< (sf::Vector2f A, sf::Vector2f B);

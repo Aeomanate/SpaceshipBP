@@ -1,6 +1,6 @@
 #include "EBackground.h"
 #include "Simulation/ECS/Features/Visual/CSceneElement.h"
-#include "Core/Application/ApplicationShortcuts.h"
+#include "Core/Application/Getters/ConfigGetter.h"
 
 EBackground::EBackground()
 : ECS::Entity("Background")

@@ -1,5 +1,6 @@
 #include "Application.h"
-#include "ApplicationShortcuts.h"
+#include "Getters/LogGetter.h"
+
 using namespace std::string_literals;
 
 Application& Application::Init()
@@ -28,7 +29,7 @@ void Application::InitListeners()
 
 void Application::InitStorages()
 {
-    rootConfig.Init(getConfig().path.configFolder, getConfig().path.configName);
+    rootConfig.Init(getConfig().path.configFolder, getConfig().path.configName); //-V807
     rootConfig.LoadOrCreate();
 
     rootLocalization.Init(getConfig().path.localizationFolder, getConfig().path.localizationName);
@@ -68,7 +69,7 @@ TextureProvider const& Application::GetTextureProvider()
     return GetInstance().textureProvider;
 }
 
-Random& Application::GetRnd()
+Random& Application::GetRandom()
 {
     return GetInstance().random;
 }

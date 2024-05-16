@@ -7,7 +7,9 @@
 // and maybe undef it at the end of the file for keep save original behaviour
 #ifndef PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE
 namespace Serialization { struct EmptyUserConversions { }; }
-#define PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE Serialization::EmptyUserConversions
+#define PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE UserConversionsNotDefined
+#else
+struct PROGRAM_WIDE_DEFAULT_JSON_CONVERSION_TYPE;
 #endif
 
 #define SERI_ID(x) x

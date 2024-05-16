@@ -1,5 +1,4 @@
 #include "LevelBase.h"
-#include "Core/Application/ApplicationShortcuts.h"
 #include "Simulation/ECS/Features/Visual/SEntityDrawer.h"
 #include "Simulation/ECS/Features/Input/SInputInjector.h"
 #include <array>

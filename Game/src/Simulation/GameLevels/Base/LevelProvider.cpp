@@ -1,5 +1,5 @@
 #include "LevelProvider.h"
-#include "Core/Application/ApplicationShortcuts.h"
+#include "Core/Application/Getters/LogGetter.h"
 #include "Simulation/GameLevels/Base/LevelBase.h"
 #include "LevelCreatorsStorage.h"
 #include "../Level1.h"

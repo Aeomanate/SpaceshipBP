@@ -10,8 +10,6 @@
 class MenuLayer
 {
 public:
-    MenuLayer();
-
     template <class MenuType>
     void SpawnMenu()
     {

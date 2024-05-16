@@ -15,6 +15,7 @@
 #include <rapidjson/istreamwrapper.h>
 #include "Utility/Logger/Logger.h"
 #include "ImplStdJsonConverters.h"
+#include "Utility/TypeTraits.h"
 
 namespace Serialization
 {
@@ -97,22 +98,6 @@ namespace Serialization
             static inline constexpr ToJsonFuncPtrType GetToJson()
             { return &ConvertersSet::toJson; }
         };
-
-        // For converting visitor function to lambda correctly
-        template <typename Return, typename... Args>
-        struct LambdaTraitsImpl {
-            LambdaTraitsImpl(std::template function<Return(Args...)>) {}
-            using return_type = Return;
-            using arg_types = std::tuple<Args...>;
-
-            template <size_t i>
-            using ArgType = typename std::tuple_element<i, arg_types>::type;
-        };
-
-        template <typename Lambda>
-        struct LambdaTraits
-        : public decltype(LambdaTraitsImpl(std::function{ std::declval<Lambda>()}))
-        {};
     };
 
 
@@ -287,7 +272,7 @@ namespace Serialization
         /// Parameter type must be the reference to either UserSeriStruct or UserSeriStruct::SeriVarType_xxx
         template<
             class VisitorFunc,
-            class VisitorParamRef = typename Internal::LambdaTraits<VisitorFunc>::template ArgType<0>,
+            class VisitorParamRef = Traits::Lambda::ArgType<VisitorFunc, 0>,
             class VisitorParam = std::remove_cvref_t<VisitorParamRef>
         >
         requires
@@ -323,7 +308,7 @@ namespace Serialization
         /// e.g. (const SeriStructType& seriStructVal)
         template<
             class VisitorPredicate,
-            class VisitorParamRef = typename Internal::LambdaTraits<VisitorPredicate>::template ArgType<0>,
+            class VisitorParamRef = Traits::Lambda::ArgType<VisitorPredicate, 0>,
             class VisitorParam = std::remove_cvref_t<VisitorParamRef>
         >
         VisitorParamRef Find(VisitorPredicate isFound) const

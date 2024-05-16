@@ -21,7 +21,7 @@ namespace Serialization::Internal
         }
 
 
-        static inline void fromJson(PositionInRectagle& someEnum, const rapidjson::Value& json)
+        SERI_fromJson(PositionInRectagle, someEnum)
         {
             auto enumOpt = decltype(+someEnum)::_from_string_nothrow(json.GetString());
             if(enumOpt)
@@ -32,6 +32,19 @@ namespace Serialization::Internal
         SERI_toJson(PositionInRectagle, someEnum)
         {
             return rapidjson::Value(rapidjson::StringRef((+someEnum)._to_string()));
+        }
+
+        template <class SomeEnum>
+        requires std::is_enum_v<SomeEnum>
+        SERI_fromJson(SomeEnum, enumValue)
+        {
+            enumValue = static_cast<SomeEnum>(json.Get<int>());
+        }
+        template <class SomeEnum>
+        requires std::is_enum_v<SomeEnum>
+        SERI_toJson(SomeEnum, enumValue)
+        {
+            return rapidjson::Value(static_cast<int>(enumValue));
         }
     };
 }
