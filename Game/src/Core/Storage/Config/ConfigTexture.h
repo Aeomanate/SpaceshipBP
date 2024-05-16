@@ -13,10 +13,10 @@ SERI_S(ConfigTexture)
     SERI_C(ConfigTexture)
 
     using FrameSizeT = sf::Vector2i;
-    using FrameTotalT = sf::Uint32;
+    using FrameTotalT = sf::Int32;
     using OriginT = PositionInRectagle;
     using OrientationT = sf::Vector2i;
-    using FrameIntervalMsT = sf::Uint32;
+    using FrameIntervalMsT = sf::Int32;
     using RepeatsCountT = sf::Int32;
 
     SERI_STR_V(name         , "MustBeReplaced");

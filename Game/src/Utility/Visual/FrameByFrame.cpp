@@ -7,9 +7,14 @@ FrameByFrame::FrameByFrame(const ConfigTexture& configTexture)
 , frameIntervalMs { configTexture.frameIntervalMs / 1000.f }
 , fullSize { getTextureProvider().GetResource(configTexture).getSize() }
 , frameSizePx { configTexture.frameSizePx }
-, framesCountBy { sf::Vector2u {
-    fullSize.x / configTexture.frameSizePx->x,
-    fullSize.y / configTexture.frameSizePx->y}}
+, framesCountBy
+{
+    sf::Vector2i
+    {
+        fullSize.x / configTexture.frameSizePx->x,
+        fullSize.y / configTexture.frameSizePx->y
+    }
+}
 , repeatsCount { configTexture.repeatsCount }
 {
     const sf::Texture& texture = getTextureProvider().GetResource(configTexture);
@@ -40,7 +45,7 @@ void FrameByFrame::AdvanceFrame(float dt) {
     { return; }
     timeSinceLastAdvance -= frameIntervalMs;
 
-    sf::Uint32 nextFrame = curFrame + 1;
+    sf::Int32 nextFrame = curFrame + 1;
     repeatsCurrent += nextFrame == framesTotal;
     curFrame = nextFrame % framesTotal;
 

@@ -293,7 +293,14 @@ namespace Serialization
 
             for (SerializableBase* member: members)
             {
-                if(member->seriObjectType != selectedObjectType)
+                // TODO If there is a problems with performance because of dynamic_cast.
+                //      • Maybe will be better to replace current Seri lib with another lib
+                //        where visit func was realized at compile-time via reflection hacks.
+                //      • Or just use some solution to write more effective cast, for example
+                //        it's possible to use CRTP also with SeriStructs and SeriVars to declare
+                //        unique structs for each UserType. And with this solution will be possible
+                //        to check VisitorParam::uniqueId using passed type directly.
+                if(member->seriObjectType != selectedObjectType || !dynamic_cast<VisitorParam*>(member))
                 { continue; }
 
                 if constexpr(isVisitStructs)

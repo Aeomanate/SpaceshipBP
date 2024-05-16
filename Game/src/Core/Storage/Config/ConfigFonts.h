@@ -8,6 +8,8 @@ SERI_S(ConfigFonts)
 {
     SERI_C(ConfigFonts)
 
+    fs::path folder = "../res/fonts";
+
     SERI_COMPOSITE_V_MEMBERS_INIT(
         ConfigFont, basicFont,
         "BlizzardDOTRusbyme.otf"s

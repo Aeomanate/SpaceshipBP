@@ -11,8 +11,8 @@ SERI_S(ConfigPlayer)
     SERI_C(ConfigPlayer)
 
     SERI_STR_V(imageName, "Player.png");
-    SERI_V(float, mass, 2000);
-    SERI_V(sf::Uint32, enginePowerMultipler, 30);
+    SERI_V(float, mass, 20);
+    SERI_V(sf::Uint32, enginePowerMultipler, 3000);
     SERI_V(sf::Uint32, slowdownPixPerSec, 100);
     SERI_V(sf::Vector2f, startPosition, 500 o 500);
 };

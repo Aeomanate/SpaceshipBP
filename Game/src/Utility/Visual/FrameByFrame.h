@@ -11,7 +11,6 @@ public:
     FrameByFrame(const ConfigTexture& configTexture);
     FrameByFrame& operator= (const ConfigTexture& configTexture);
 
-
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     void AdvanceFrame(float dt);
@@ -21,13 +20,13 @@ private:
 
 private:
     sf::Sprite sprite;
-    sf::Uint32 framesTotal = 0;
+    sf::Int32 framesTotal = 0;
     float frameIntervalMs = 0;
-    sf::Vector2u fullSize = {0, 0};
+    sf::Vector2i fullSize = {0, 0};
     sf::Vector2i frameSizePx = {0, 0};
-    sf::Vector2u framesCountBy = {0, 0};
+    sf::Vector2i framesCountBy = {0, 0};
 
-    std::size_t curFrame = 0;
+    sf::Int32 curFrame = 0;
 
     sf::Int32 repeatsCount = 0;
     sf::Int32 repeatsCurrent = 0;

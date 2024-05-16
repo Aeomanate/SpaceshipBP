@@ -11,12 +11,12 @@ public:
     {
         if constexpr (std::is_floating_point<Common>())
         {
-            std::uniform_real_distribution<Common> distribution(begin, end);
+            std::uniform_real_distribution<Common> distribution(static_cast<Common>(begin), static_cast<Common>(end));
             return distribution(random);
         }
         else
         {
-            std::uniform_int_distribution<Common> distribution(begin, end);
+            std::uniform_int_distribution<Common> distribution(static_cast<Common>(begin), static_cast<Common>(end));
             return distribution(random);
         }
     }

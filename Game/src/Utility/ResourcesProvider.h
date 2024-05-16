@@ -40,17 +40,14 @@ public:
     using CustomLoaderFuncT = LoadErrorT (*)(ResourceT&, const fs::path&);
 
 public:
-    ResourcesProvider()
-    {
-        getConfig().resources.template Visit([thisPtr=this] (const OuterConfigT& configsStorage) {
-            thisPtr->configsStoragePtr = &configsStorage;
-        });
-    }
-
     void LoadResources()
     {
-        (configsStoragePtr->*configResourceMemberPtr).template Visit([thisPtr=this](const ResourceConfigT& configResourceT){
-            thisPtr->LoadResource(configResourceT);
+        getConfig().resources.Visit([thisPtr=this] (const OuterConfigT& configsStorage) {
+            thisPtr->configsStoragePtr = &configsStorage;
+        });
+
+        configsStoragePtr->Visit([thisPtr=this](const ResourceConfigT& configResource){
+            thisPtr->LoadResource(configResource);
         });
     }
 
@@ -93,5 +90,10 @@ private:
     std::unordered_map<std::string_view, ResourceT> resources;
     const OuterConfigT* configsStoragePtr = nullptr;
 };
+
+#define CUSTOM_RESOURCE_LOADER(ResType) \
+friend class ResourcesProvider; \
+private: \
+    static LoadErrorT LoadResource(ResType& out, const fs::path& path)
 
 #endif //SPACESHIPBP_RESOURCESPROVIDER_H
