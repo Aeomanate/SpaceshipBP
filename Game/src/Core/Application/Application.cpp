@@ -38,7 +38,7 @@ void Application::InitStorages()
 
 void Application::InitGameRelated()
 {
-    textureProvider.LoadTextures();
+    textureProvider.LoadResources();
     simulation.Init();
 
 }

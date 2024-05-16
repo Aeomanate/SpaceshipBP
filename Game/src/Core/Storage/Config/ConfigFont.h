@@ -6,7 +6,7 @@
 
 SERI_S(ConfigFont)
 {
-    SERI_C(ConfigFont);
+    SERI_C(ConfigFont)
 
     fs::path texturesFolder = "../res/fonts";
     SERI_STR_V(name, "FontNameStub");

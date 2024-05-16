@@ -11,7 +11,7 @@ EPlayer::EPlayer(const ConfigPlayer& configPlayer)
     Claim<CPlayerControllableTag>();
 
     Claim<CSceneElement>()
-        .SetMember(&CSceneElement::sprite, getConfig().textures.Find([&configPlayer](const ConfigTexture& texture) {
+        .SetMember(&CSceneElement::sprite, getConfig().resources.textures.Find([&configPlayer](const ConfigTexture& texture) {
             return texture.name == configPlayer.imageName;
         }))
         .SetMember(&CSceneElement::order, CSceneElement::ZOrder::PLAYER);

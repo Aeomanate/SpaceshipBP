@@ -6,7 +6,7 @@
 
 class TextureProvider: public ResourcesProvider<TextureProvider, sf::Texture, &ConfigTextures::player>
 {
-private:
+public:
     static LoadErrorT LoadResource(sf::Texture& out, const fs::path& path);
 };
 

@@ -5,14 +5,14 @@
 FrameByFrame::FrameByFrame(const ConfigTexture& configTexture)
 : framesTotal { configTexture.framesTotal }
 , frameIntervalMs { configTexture.frameIntervalMs / 1000.f }
-, fullSize { getTextureProvider().GetTexture(configTexture).getSize() }
+, fullSize { getTextureProvider().GetResource(configTexture).getSize() }
 , frameSizePx { configTexture.frameSizePx }
 , framesCountBy { sf::Vector2u {
     fullSize.x / configTexture.frameSizePx->x,
     fullSize.y / configTexture.frameSizePx->y}}
 , repeatsCount { configTexture.repeatsCount }
 {
-    const sf::Texture& texture = getTextureProvider().GetTexture(configTexture);
+    const sf::Texture& texture = getTextureProvider().GetResource(configTexture);
 
     sprite.setTexture(texture);
     sprite.setOrigin(frameSizePx * toVector2f(configTexture.origin));
@@ -21,7 +21,7 @@ FrameByFrame::FrameByFrame(const ConfigTexture& configTexture)
 
 FrameByFrame& FrameByFrame::operator =(const ConfigTexture& configTexture)
 {
-    *this = std::move(FrameByFrame(configTexture));
+    *this = FrameByFrame(configTexture);
     return *this;
 }
 

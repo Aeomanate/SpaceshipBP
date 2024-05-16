@@ -10,7 +10,7 @@ TextureProvider::LoadErrorT TextureProvider::LoadResource(sf::Texture& texture, 
             + " is missing or oversize for load, max: "
             + std::to_string(sf::Texture::getMaximumSize()) + "px";
     }
-
     texture.setSmooth(true);
+
     return std::nullopt;
 }

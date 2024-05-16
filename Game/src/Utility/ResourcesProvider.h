@@ -19,41 +19,37 @@ namespace
 
     template <auto configMemberPtr>
     using Config = Traits::MemberPtr::ObjectT<configMemberPtr>;
-
-    template
-    <
-        class UserResourceProviderT, class ResourceT,
-        class LoaderFuncSign = std::optional<std::string> (UserResourceProviderT::*)(ResourceT&, const fs::path&)
-    >
-    concept HasCustomLoaderFunc = requires {
-        { &UserResourceProviderT::LoadResourceImpl } -> std::convertible_to<LoaderFuncSign>;
-    };
 }
 
 template <class DerivedT, class ResourceT, auto configResourceMemberPtr> requires
 requires (
-        ResourceT resource,
-        Config<configResourceMemberPtr> configResource,
-        OwningStruct<configResourceMemberPtr> owningStruct,
-        DerivedT derivedResourceProvider
-    ) {
+    DerivedT derivedResourceProvider,
+    ResourceT resource,
+    Config<configResourceMemberPtr> configResource,
+    OwningStruct<configResourceMemberPtr> owningStruct)
+{
     { owningStruct.folder };
     { configResource.name };
-    HasCustomLoaderFunc<DerivedT, ResourceT>;
 }
 class ResourcesProvider
 {
 public:
-    using LoadErrorT = std::optional<std::string>;
     using OuterConfigT = OwningStruct<configResourceMemberPtr>;
     using ResourceConfigT = Config<configResourceMemberPtr>;
+    using LoadErrorT = std::optional<std::string>;
+    using CustomLoaderFuncT = LoadErrorT (*)(ResourceT&, const fs::path&);
 
 public:
+    ResourcesProvider()
+    {
+        getConfig().resources.template Visit([thisPtr=this] (const OuterConfigT& configsStorage) {
+            thisPtr->configsStoragePtr = &configsStorage;
+        });
+    }
+
     void LoadResources()
     {
-        std::source_location();
-
-        (getConfig().resources.*configResourceMemberPtr).Visit([thisPtr=this](const ResourceConfigT& configResourceT){
+        (configsStoragePtr->*configResourceMemberPtr).template Visit([thisPtr=this](const ResourceConfigT& configResourceT){
             thisPtr->LoadResource(configResourceT);
         });
     }
@@ -83,7 +79,9 @@ private:
             return;
         }
 
-        LoadErrorT loadError = DerivedT::LoadResource(it->second, *configResource.folder / *configResource.name);
+        static_assert(std::convertible_to<decltype(&DerivedT::LoadResource), CustomLoaderFuncT>);
+        LoadErrorT loadError = DerivedT::LoadResource(it->second, configsStoragePtr->folder / *configResource.name);
+
         if(loadError)
         {
             Log(getLoc().fileOperations.resourceLoadingWarning, *loadError, Logger::Level::WARNING);
@@ -93,6 +91,7 @@ private:
 
 private:
     std::unordered_map<std::string_view, ResourceT> resources;
+    const OuterConfigT* configsStoragePtr = nullptr;
 };
 
 #endif //SPACESHIPBP_RESOURCESPROVIDER_H

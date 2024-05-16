@@ -6,6 +6,6 @@ EBackground::EBackground()
 : ECS::Entity("Background")
 {
     Claim<CSceneElement>()
-        .SetMember(&CSceneElement::sprite, getConfig().textures.background)
+        .SetMember(&CSceneElement::sprite, getConfig().resources.textures.background)
         .SetMember(&CSceneElement::order, CSceneElement::ZOrder::UNDEFINED);
 }
