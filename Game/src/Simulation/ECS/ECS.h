@@ -1,31 +1,36 @@
 #ifndef SPACESHIPBP_ECS_H
 #define SPACESHIPBP_ECS_H
 
-#include "Simulation/ECS/Features/Movable/CPosition.h"
-#include "Simulation/ECS/Features/Movable/CPhysics.h"
-#include "Simulation/ECS/Features/Movable/CRequestMovement.h"
-#include "Simulation/ECS/Features/Movable/SEntityMover.h"
+#include "Features/Movable/CPosition.h"
+#include "Features/Movable/CPhysics.h"
+#include "Features/Movable/CRequestMovement.h"
+#include "Features/Movable/SEntityMover.h"
 
-#include "Simulation/ECS/Features/CollisionDetection/SCollisionDetector.h"
+#include "Features/CollisionDetection/SCollisionDetector.h"
 
-#include "Simulation/ECS/Features/Visual/CSceneElement.h"
-#include "Simulation/ECS/Features/Visual/SVisualAttenuation.h"
-#include "Simulation/ECS/Features/Visual/SSpriteAnimator.h"
-#include "Simulation/ECS/Features/Visual/SEntityDrawer.h"
+#include "Features/Visual/CSceneElement.h"
+#include "Features/Visual/SVisualAttenuation.h"
+#include "Features/Visual/SSpriteAnimator.h"
+#include "Features/Visual/SEntityDrawer.h"
 
-#include "Simulation/ECS/Features/LifetimeControl/ESpawnerContainer.h"
-#include "Simulation/ECS/Features/LifetimeControl/SSpawner.h"
-#include "Simulation/ECS/Features/LifetimeControl/SDespawner.h"
+#include "Features/LifetimeControl/ESpawnerContainer.h"
+#include "Features/LifetimeControl/SSpawner.h"
+#include "Features/LifetimeControl/SDespawner.h"
 
-#include "Simulation/ECS/Features/Input/CPlayerControllableTag.h"
-#include "Simulation/ECS/Features/Input/CInputMousePositions.h"
-#include "Simulation/ECS/Features/Input/CInputMouseClicks.h"
-#include "Simulation/ECS/Features/Input/CInputMoveDirections.h"
-#include "Simulation/ECS/Features/Input/EInputContainer.h"
-#include "Simulation/ECS/Features/Input/SInputInjector.h"
-#include "Simulation/ECS/Features/Input/SInputCleaner.h"
+#include "Features/Input/CPlayerControllableTag.h"
+#include "Features/Input/CInputMousePositions.h"
+#include "Features/Input/CInputMouseClicks.h"
+#include "Features/Input/CInputMoveDirections.h"
+#include "Features/Input/EInputContainer.h"
+#include "Features/Input/SInputInjector.h"
+#include "Features/Input/SInputCleaner.h"
 
-#include "Simulation/ECS/Features/Levels/ELevelState.h"
-#include "Simulation/ECS/Features/Levels/SLevelStateForwarder.h"
+#include "Features/Levels/ELevelState.h"
+#include "Features/Levels/CLevelState.h"
+#include "Features/Levels/SLevelStateForwarder.h"
+
+#include "Features/Debug/CText.h"
+#include "Features/Debug/EDebugText.h"
+#include "Features/Debug/SDebugInfo.h"
 
 #endif //SPACESHIPBP_ECS_H

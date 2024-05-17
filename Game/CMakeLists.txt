@@ -158,8 +158,6 @@ set(SOURCE_FILES
         src/Simulation/ECS/Features/LifetimeControl/ESpawnerContainer.cpp
         src/Simulation/ECS/Features/Levels/ELevelState.cpp
         src/Simulation/ECS/Features/Debug/CText.h
-        src/Simulation/ECS/Features/Debug/STextHandler.cpp
-        src/Simulation/ECS/Features/Debug/STextHandler.h
         src/Simulation/ECS/Features/Debug/EDebugText.cpp
         src/Simulation/ECS/Features/Debug/EDebugText.h
         src/Utility/Visual/FontProvider.cpp
@@ -185,6 +183,9 @@ set(SOURCE_FILES
         src/Core/Application/ObjectsAggregator/ObjectsAggregator.h
         src/Core/Application/ObjectsAggregator/GetterMenuLayer.cpp
         src/Core/Application/ObjectsAggregator/GetterMenuLayer.h
+        src/Simulation/ECS/Features/Debug/SDebugInfo.cpp
+        src/Simulation/ECS/Features/Debug/SDebugInfo.h
+        src/Utility/Common.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

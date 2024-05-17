@@ -27,7 +27,7 @@ private: // Game-related methods
 
 private: // Listeners
     SIMPLE_LISTENER(LastMenuClosed);
-    DATA_LISTENER(KeyPressed, sf::Event::KeyEvent);
+    DATA_LISTENER(KeyEvent, sf::Event::KeyEvent);
 
 protected:
     void InitListeners();

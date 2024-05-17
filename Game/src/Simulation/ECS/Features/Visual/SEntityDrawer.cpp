@@ -1,10 +1,8 @@
 #include "SEntityDrawer.h"
-#include "Core/Application/ObjectsAggregator/GetterConfig.h"
-#include "Simulation/ECS/Features/Visual/CSceneElement.h"
-#include "Simulation/ECS/Features/Movable/CPosition.h"
-#include "Simulation/ECS/Entity.h"
 #include <ranges>
 #include <algorithm>
+#include "Core/Application/ObjectsAggregator/GetterConfig.h"
+#include "Simulation/ECS/ECS.h"
 
 SEntityDrawer::SEntityDrawer()
 : ECS::System(ECS::System::Order::POST_GAMEPLAY)
@@ -20,18 +18,26 @@ sf::Sprite SEntityDrawer::GetDrawnState()
 
 void SEntityDrawer::Update(float)
 {
-    sf::RenderStates states;
     renderTexture.clear(sf::Color::Transparent);
 
     for(auto& [entity, sceneElement]: CSceneElement::AllSorted())
     {
         if(auto* position = entity->TryGetDataAs<CPosition>(); position)
         {
-            states.transform.translate(position->value);
-            renderTexture.draw(sceneElement->sprite, states);
+            renderTexture.draw(sceneElement->sprite, sf::Transform().translate(position->value));
             continue;
         }
         renderTexture.draw(sceneElement->sprite);
+    }
+
+    for(auto& [entity, text]: CText::All())
+    {
+        if(auto* position = entity->TryGetDataAs<CPosition>(); position)
+        {
+            renderTexture.draw(*text, sf::Transform().translate(position->value));
+            continue;
+        }
+        renderTexture.draw(*text);
     }
 
     renderTexture.display();

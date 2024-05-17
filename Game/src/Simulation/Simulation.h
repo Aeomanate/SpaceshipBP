@@ -15,7 +15,6 @@ class LevelBase;
 class Simulation: public Updatable, public sf::Drawable
 {
 public:
-    Simulation();
     void Init();
 
     void Update(float dt) override;

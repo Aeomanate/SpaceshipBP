@@ -1,14 +1,11 @@
-#include <cassert>
 #include "SInputReader.h"
-#include "Simulation/ECS/Features/Input/CInputMoveDirections.h"
-#include "Simulation/Features/Shooting/CCannon.h"
-#include "Simulation/ECS/Entity.h"
-#include "Simulation/Features/Shooting/CRequestFire.h"
-#include "Simulation/ECS/Features/Input/CInputMouseClicks.h"
-#include "Simulation/ECS/Features/Input/CPlayerControllableTag.h"
-#include "Simulation/ECS/Features/Movable/CPhysics.h"
-#include "Utility/Math/Vectors.h"
+
+#include <cassert>
 #include "Core/Application/ObjectsAggregator/GetterConfig.h"
+#include "Utility/Math/Vectors.h"
+#include "Simulation/ECS/ECS.h"
+#include "Simulation/Features/Shooting/CCannon.h"
+#include "Simulation/Features/Shooting/CRequestFire.h"
 
 void handleMovingPlayer()
 {

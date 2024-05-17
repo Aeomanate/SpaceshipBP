@@ -11,6 +11,7 @@ SERI_S(LocApplication)
 
     SERI_STR_V(started, "Application initialization...");
     SERI_STR_V(closed, "Application closing...");
+    SERI_STR_V(nullPointerAccess, "Access to a null pointer");
 };
 
 #endif //SPACESHIPBP_LOCAPPLICATION_H

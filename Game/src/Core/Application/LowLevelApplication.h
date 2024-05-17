@@ -13,7 +13,7 @@ public:
     void Run();
 
 public: // Emitters
-    DATA_EMITTER(Key, sf::Event::KeyEvent);
+    DATA_EMITTER(KeyEvent, sf::Event::KeyEvent);
     DATA_EMITTER(KeyPressed, sf::Event::KeyEvent);
     DATA_EMITTER(KeyReleased, sf::Event::KeyEvent);
     DATA_EMITTER(MouseClicked, sf::Event::MouseButtonEvent);

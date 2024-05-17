@@ -34,5 +34,10 @@ Level1::Level1()
     .Add<EBackground>()
 
     .Add<SInputReader>()
-    .Add<EPlayer>(getConfig().simulation.player);
+    .Add<EPlayer>(getConfig().simulation.player)
+
+    .Add<EDebugText>()
+    .Add<SDebugInfo>()
+
+    ;
 }

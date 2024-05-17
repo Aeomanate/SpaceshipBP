@@ -1,6 +1,6 @@
 #include "SHandlerPlayerShoot.h"
 #include "CCannon.h"
-#include "Simulation/ECS/Features/Input/CInputMouseClicks.h"
+#include "Simulation/ECS/ECS.h"
 
 void SHandlerPlayerShoot::Update(float dt)
 {

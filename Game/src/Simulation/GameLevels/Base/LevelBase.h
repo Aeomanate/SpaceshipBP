@@ -7,7 +7,7 @@
 #include "Core/EventsHandling/ListenersEmitters.h"
 #include "Utility/Updatable.h"
 #include "LevelDataStorage.h"
-#include "Simulation/ECS/Features/Levels/CLevelState.h"
+#include "Simulation/ECS/ECS.h"
 
 class SEntityDrawer;
 class SInputInjector;

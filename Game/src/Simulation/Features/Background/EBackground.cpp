@@ -1,5 +1,5 @@
 #include "EBackground.h"
-#include "Simulation/ECS/Features/Visual/CSceneElement.h"
+#include "Simulation/ECS/ECS.h"
 #include "Core/Application/ObjectsAggregator/GetterConfig.h"
 
 EBackground::EBackground()

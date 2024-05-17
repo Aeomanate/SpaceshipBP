@@ -7,13 +7,7 @@
 #include <optional>
 #include <cassert>
 #include <vector>
-
-template <class T>
-T& REF(T* ptr)
-{
-    assert(ptr);
-    return *ptr;
-}
+#include "Utility/Common.h"
 
 namespace ECS
 {

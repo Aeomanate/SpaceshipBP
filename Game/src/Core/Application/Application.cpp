@@ -22,7 +22,7 @@ Application& Application::Init()
 
 void Application::InitListeners()
 {
-    listenerKeyPressed.SubscribeEmitter(emitterKey);
+    listenerKeyEvent.SubscribeEmitter(emitterKeyEvent);
     listenerLastMenuClosed.SubscribeEmitter(getMenuLayer().emitterLastMenuClosed);
 
 
@@ -40,6 +40,7 @@ void Application::InitStorages()
 void Application::InitGameRelated()
 {
     GetAggregatedObject<TexturesCache>().LoadResources();
+    GetAggregatedObject<FontsCache>().LoadResources();
     GetAggregatedObject<Simulation>().Init();
 
 }
@@ -69,7 +70,7 @@ void Application::OnLastMenuClosed()
     isLowLevelApplicationWork = false;
 }
 
-void Application::OnKeyPressed(const sf::Event::KeyEvent& key)
+void Application::OnKeyEvent(const sf::Event::KeyEvent& key)
 {
     if(key.code == sf::Keyboard::Escape)
     {

@@ -52,7 +52,7 @@ void LowLevelApplication::handleProgramClose(const sf::Event&)
 
 void LowLevelApplication::handlePressedKeyKeyboard(const sf::Event& e)
 {
-    emitterKey.Emit(e.key);
+    emitterKeyEvent.Emit(e.key);
 
     auto it = keysStates.find(e.key.code);
     if(it != keysStates.end() && it->second)

@@ -1,6 +1,5 @@
 #include "LevelBase.h"
-#include "Simulation/ECS/Features/Visual/SEntityDrawer.h"
-#include "Simulation/ECS/Features/Input/SInputInjector.h"
+#include "Simulation/ECS/ECS.h"
 #include <array>
 
 void LevelBase::draw(sf::RenderTarget& target, sf::RenderStates states) const

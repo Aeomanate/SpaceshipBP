@@ -3,15 +3,10 @@
 #include "Core/Application/ObjectsAggregator/GetterLog.h"
 #include "Core/Application/ObjectsAggregator/GetterLevelProvider.h"
 #include "Core/Application/Application.h"
-#include "ECS/Features/Input/SInputInjector.h"
+#include "Simulation/ECS/ECS.h"
 #include "Simulation/GameLevels/Base/Level.h"
 #include "Simulation/Features/Timer/CTimer.h"
 #include "Utility/Math/Math.h"
-
-Simulation::Simulation()
-{
-
-}
 
 void Simulation::Init()
 {
