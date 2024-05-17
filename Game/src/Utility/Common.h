@@ -6,7 +6,7 @@
 #include "Core/Application/ObjectsAggregator/GetterLog.h"
 
 #ifndef __GNUC__
-#define __attribute__
+#define __attribute__(x)
 #endif
 
 template <class T>
