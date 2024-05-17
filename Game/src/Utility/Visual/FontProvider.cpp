@@ -1,6 +1,6 @@
 #include "FontProvider.h"
 
-FontProvider::LoadErrorT FontProvider::LoadResource(sf::Font& out, const fs::path& path)
+FontsCache::LoadErrorT FontsCache::LoadResource(sf::Font& out, const fs::path& path)
 {
     if(!out.loadFromFile(path.generic_string()))
     {

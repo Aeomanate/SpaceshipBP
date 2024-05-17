@@ -36,7 +36,7 @@ A classic video game is developing for training in creating and maintaining larg
 * `FrameByFrame` - is an encapsulation of a sprite-sheet png-file
   * For each png-file exists a `ConfigTexture` object describes name, frame rate, 
     frame size, origin, orientation, etc.
-  * `TextureProvider` - it used for create `FrameByFrame` object. 
+  * `TexturesCache` - it used for create `FrameByFrame` object. 
     When application starts, it loads all textures that enumerated in a `ConfigTextures` object 
     via visitor pattern implemented in a `SerializableStruct` class via iterating on internal structure-members array. 
 

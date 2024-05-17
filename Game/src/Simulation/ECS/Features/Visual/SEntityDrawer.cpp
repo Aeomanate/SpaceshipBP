@@ -1,5 +1,5 @@
 #include "SEntityDrawer.h"
-#include "Core/Application/Getters/ConfigGetter.h"
+#include "Core/Application/ObjectsAggregator/GetterConfig.h"
 #include "Simulation/ECS/Features/Visual/CSceneElement.h"
 #include "Simulation/ECS/Features/Movable/CPosition.h"
 #include "Simulation/ECS/Entity.h"

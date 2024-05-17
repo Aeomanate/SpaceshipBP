@@ -83,7 +83,7 @@ set(SOURCE_FILES
         src/Utility/Math/Random.cpp
         src/Core/Storage/Localization/LocApplication.h
         src/Utility/Visual/TextureProvider.cpp
-        src/Utility/Visual/TextureProvider.h
+        src/Utility/Visual/TexturesCache.h
         src/Simulation/GameLevels/Base/LevelBase.cpp
         src/Simulation/GameLevels/Base/Level.h
         src/Simulation/Features/Background/EBackground.h
@@ -164,22 +164,27 @@ set(SOURCE_FILES
         src/Simulation/ECS/Features/Debug/EDebugText.h
         src/Utility/Visual/FontProvider.cpp
         src/Utility/Visual/FontProvider.h
-        src/Utility/ResourcesProvider.h
-        src/Core/Application/Getters/ConfigGetter.h
-        src/Core/Application/Getters/ConfigGetter.cpp
-        src/Core/Application/Getters/ConfigGetter.cpp
-        src/Core/Application/Getters/LogGetter.cpp
-        src/Core/Application/Getters/LogGetter.h
-        src/Core/Application/Getters/LevelProviderGetter.cpp
-        src/Core/Application/Getters/LevelProviderGetter.h
-        src/Core/Application/Getters/RandomGetter.cpp
-        src/Core/Application/Getters/RandomGetter.h
-        src/Core/Application/Getters/TextureProviderGetter.cpp
-        src/Core/Application/Getters/TextureProviderGetter.h
+        src/Utility/ResourcesCache.h
+        src/Core/Application/ObjectsAggregator/GetterConfig.h
+        src/Core/Application/ObjectsAggregator/GetterConfig.cpp
+        src/Core/Application/ObjectsAggregator/GetterConfig.cpp
+        src/Core/Application/ObjectsAggregator/GetterLog.cpp
+        src/Core/Application/ObjectsAggregator/GetterLog.h
+        src/Core/Application/ObjectsAggregator/GetterLevelProvider.cpp
+        src/Core/Application/ObjectsAggregator/GetterLevelProvider.h
+        src/Core/Application/ObjectsAggregator/GetterRandom.cpp
+        src/Core/Application/ObjectsAggregator/GetterRandom.h
+        src/Core/Application/ObjectsAggregator/GetterTextureProvider.cpp
+        src/Core/Application/ObjectsAggregator/GetterTextureProvider.h
         src/Utility/TypeTraits.h
         src/Core/Storage/Config/ConfigFont.h
         src/Core/Storage/Config/ConfigResources.h
         src/Core/Storage/Config/ConfigFonts.h
+        src/Core/Application/ObjectsAggregator/GetterFontProvider.cpp
+        src/Core/Application/ObjectsAggregator/GetterFontProvider.h
+        src/Core/Application/ObjectsAggregator/ObjectsAggregator.h
+        src/Core/Application/ObjectsAggregator/GetterMenuLayer.cpp
+        src/Core/Application/ObjectsAggregator/GetterMenuLayer.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

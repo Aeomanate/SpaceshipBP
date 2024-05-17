@@ -1,5 +1,6 @@
 #include "Application.h"
-#include "Getters/LogGetter.h"
+#include "ObjectsAggregator/GetterLog.h"
+#include "ObjectsAggregator/GetterMenuLayer.h"
 
 using namespace std::string_literals;
 
@@ -13,7 +14,7 @@ Application& Application::Init()
     InitStorages();
     InitGameRelated();
 
-    ConfigWindow const& windowParams = rootConfig.configGeneral.window;
+    ConfigWindow const& windowParams = getConfig().window;
     Setup(windowParams.videoMode, windowParams.name, windowParams.style);
 
     return *this;
@@ -22,72 +23,36 @@ Application& Application::Init()
 void Application::InitListeners()
 {
     listenerKeyPressed.SubscribeEmitter(emitterKey);
-    listenerLastMenuClosed.SubscribeEmitter(menuLayer.emitterLastMenuClosed);
+    listenerLastMenuClosed.SubscribeEmitter(getMenuLayer().emitterLastMenuClosed);
 
 
 }
 
 void Application::InitStorages()
 {
-    rootConfig.Init(getConfig().path.configFolder, getConfig().path.configName); //-V807
-    rootConfig.LoadOrCreate();
+    GetAggregatedObject<RootConfig>().Init(getConfig().path.configFolder, getConfig().path.configName); //-V807
+    GetAggregatedObject<RootConfig>().LoadOrCreate();
 
-    rootLocalization.Init(getConfig().path.localizationFolder, getConfig().path.localizationName);
-    rootLocalization.LoadOrCreate();
+    GetAggregatedObject<RootLocalization>().Init(getConfig().path.localizationFolder, getConfig().path.localizationName);
+    GetAggregatedObject<RootLocalization>().LoadOrCreate();
 }
 
 void Application::InitGameRelated()
 {
-    textureProvider.LoadResources();
-    simulation.Init();
+    GetAggregatedObject<TexturesCache>().LoadResources();
+    GetAggregatedObject<Simulation>().Init();
 
-}
-
-Simulation const& Application::GetSimulation()
-{
-    return GetInstance().simulation;
-}
-
-MenuLayer& Application::GetMenuLayer()
-{
-    return GetInstance().menuLayer;
-}
-
-GeneralLocalization const& Application::GetLoc()
-{
-    return GetInstance().rootLocalization.localization;
-}
-
-GeneralConfig const& Application::GetConfig()
-{
-    return GetInstance().rootConfig.configGeneral;
-}
-
-
-TextureProvider const& Application::GetTextureProvider()
-{
-    return GetInstance().textureProvider;
-}
-
-Random& Application::GetRandom()
-{
-    return GetInstance().random;
-}
-
-LevelProvider& Application::GetLevelProvider()
-{
-    return GetInstance().levelProvider;
 }
 
 void Application::Update()
 {
-    simulation.Update(1/59.f);
+    GetAggregatedObject<Simulation>().Update(1/59.f);
 }
 
 void Application::Draw()
 {
     window.clear(sf::Color::Black);
-    window.draw(simulation);
+    window.draw(GetAggregatedObject<Simulation>());
     window.display();
 }
 
@@ -95,8 +60,8 @@ void Application::FinishWork()
 {
     Log(getLoc().application.closed);
 
-    rootConfig.Save();
-    rootLocalization.Save();
+    GetAggregatedObject<RootConfig>().Save();
+    GetAggregatedObject<RootLocalization>().Save();
 }
 
 void Application::OnLastMenuClosed()

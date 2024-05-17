@@ -4,15 +4,10 @@
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
 #include "Core/EventsHandling/ListenersEmitters.h"
-#include "Simulation/Simulation.h"
 #include "Utility/Singleton.h"
 #include "LowLevelApplication.h"
-#include "Core/GameLayers/MenuLayer.h"
-#include "Core/Storage/RootLocalization.h"
-#include "Core/Storage/RootConfig.h"
-#include "Utility/Visual/TextureProvider.h"
-#include "Utility/Math/Random.h"
-#include "Simulation/GameLevels/Base/LevelProvider.h"
+#include "ObjectsAggregator/ObjectsAggregator.h"
+
 
 class Application: public LowLevelApplication, public Singleton<Application>
 {
@@ -21,14 +16,9 @@ class Application: public LowLevelApplication, public Singleton<Application>
 public:
     Application& Init() override;
 
-public:
-    static MenuLayer& GetMenuLayer();
-    static const Simulation& GetSimulation();
-    static const GeneralConfig& GetConfig();
-    static const GeneralLocalization& GetLoc();
-    static const TextureProvider& GetTextureProvider();
-    static LevelProvider& GetLevelProvider();
-    static Random& GetRandom();
+    template <class T>
+    static inline T& GetAggregatedObject()
+    { return std::get<T>(GetInstance().objectsAggregator.applicationObjects); }
 
 private: // Game-related methods
     void Draw() override;
@@ -44,15 +34,8 @@ protected:
     void InitStorages();
     void InitGameRelated();
 
-private: // Game-related objects
-    MenuLayer menuLayer;
-    Simulation simulation;
-    TextureProvider textureProvider;
-    LevelProvider levelProvider;
-    Random random;
-
-    RootConfig rootConfig;
-    RootLocalization rootLocalization;
+private:
+    ObjectsAggregator<Application> objectsAggregator;
 };
 
 #endif

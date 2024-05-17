@@ -1,13 +1,13 @@
-#ifndef SPACESHIPBP_RESOURCESPROVIDER_H
-#define SPACESHIPBP_RESOURCESPROVIDER_H
+#ifndef SPACESHIPBP_RESOURCESCACHE_H
+#define SPACESHIPBP_RESOURCESCACHE_H
 
 #include <unordered_map>
 #include <string_view>
 #include <optional>
 #include <filesystem>
 #include <source_location>
-#include "Core/Application/Getters/ConfigGetter.h"
-#include "Core/Application/Getters/LogGetter.h"
+#include "Core/Application/ObjectsAggregator/GetterConfig.h"
+#include "Core/Application/ObjectsAggregator/GetterLog.h"
 #include "Core/Storage/Config/GeneralConfig.h"
 #include "Utility/Logger/Logger.h"
 #include "Utility/TypeTraits.h"
@@ -31,13 +31,13 @@ requires (
     { owningStruct.folder };
     { configResource.name };
 }
-class ResourcesProvider
+class ResourcesCache
 {
 public:
     using OuterConfigT = OwningStruct<configResourceMemberPtr>;
     using ResourceConfigT = Config<configResourceMemberPtr>;
     using LoadErrorT = std::optional<std::string>;
-    using CustomLoaderFuncT = LoadErrorT (*)(ResourceT&, const fs::path&);
+    using CustomResourceLoaderFuncT = LoadErrorT (*)(ResourceT&, const fs::path&);
 
 public:
     void LoadResources()
@@ -54,7 +54,7 @@ public:
     const ResourceT& GetResource(const ResourceConfigT& configResource) const
     {
         static const ResourceConfigT* lastRequestedConfig = nullptr;
-        static const sf::Texture* lastRequestedTexture = nullptr;
+        static const ResourceT* lastRequestedTexture = nullptr;
 
         if(lastRequestedConfig != &configResource)
         {
@@ -76,7 +76,8 @@ private:
             return;
         }
 
-        static_assert(std::convertible_to<decltype(&DerivedT::LoadResource), CustomLoaderFuncT>);
+        static_assert(std::convertible_to<decltype(&DerivedT::LoadResource), CustomResourceLoaderFuncT>,
+            "Need to declare CUSTOM_RESOURCE_LOADER in ResourceProvider derived class");
         LoadErrorT loadError = DerivedT::LoadResource(it->second, configsStoragePtr->folder / *configResource.name);
 
         if(loadError)
@@ -92,8 +93,8 @@ private:
 };
 
 #define CUSTOM_RESOURCE_LOADER(ResType) \
-friend class ResourcesProvider; \
+friend class ResourcesCache; \
 private: \
     static LoadErrorT LoadResource(ResType& out, const fs::path& path)
 
-#endif //SPACESHIPBP_RESOURCESPROVIDER_H
+#endif //SPACESHIPBP_RESOURCESCACHE_H

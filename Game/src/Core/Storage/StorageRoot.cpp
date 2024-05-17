@@ -4,7 +4,7 @@
 #include <fstream>
 #include "Utility/Logger/Logger.h"
 #include "Utility/SystemRelated/SystemRelated.h"
-#include "Core/Application/Getters/LogGetter.h"
+#include "Core/Application/ObjectsAggregator/GetterLog.h"
 #include "Utility/Serialization/Serializable.h"
 
 StorageRoot::StorageRoot(Serialization::SerializableBase* rootMemberVariable)

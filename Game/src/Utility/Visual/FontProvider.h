@@ -3,9 +3,9 @@
 
 #include "SFML/Graphics/Font.hpp"
 #include "Core/Storage/Config/ConfigFonts.h"
-#include "Utility/ResourcesProvider.h"
+#include "Utility/ResourcesCache.h"
 
-class FontProvider: public ResourcesProvider<FontProvider, sf::Font, &ConfigFonts::basicFont>
+class FontsCache: public ResourcesCache<FontsCache, sf::Font, &ConfigFonts::basicFont>
 {
     CUSTOM_RESOURCE_LOADER(sf::Font);
 };

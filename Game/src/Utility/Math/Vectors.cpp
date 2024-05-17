@@ -2,7 +2,7 @@
 #include <cmath>
 #include <cassert>
 #include "Vectors.h"
-#include "Core/Application/Getters/RandomGetter.h"
+#include "Core/Application/ObjectsAggregator/GetterRandom.h"
 
 // Pseudo scalar product
 float pdot(sf::Vector2f A, sf::Vector2f B) {

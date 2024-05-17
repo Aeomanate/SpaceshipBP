@@ -1,7 +1,7 @@
 #include "Simulation.h"
 
-#include "Core/Application/Getters/LogGetter.h"
-#include "Core/Application/Getters/LevelProviderGetter.h"
+#include "Core/Application/ObjectsAggregator/GetterLog.h"
+#include "Core/Application/ObjectsAggregator/GetterLevelProvider.h"
 #include "Core/Application/Application.h"
 #include "ECS/Features/Input/SInputInjector.h"
 #include "Simulation/GameLevels/Base/Level.h"

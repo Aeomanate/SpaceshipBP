@@ -1,5 +1,5 @@
 #include "FrameByFrame.h"
-#include "Core/Application/Getters/TextureProviderGetter.h"
+#include "Core/Application/ObjectsAggregator/GetterTextureProvider.h"
 #include "Utility/Math/Vectors.h"
 
 FrameByFrame::FrameByFrame(const ConfigTexture& configTexture)

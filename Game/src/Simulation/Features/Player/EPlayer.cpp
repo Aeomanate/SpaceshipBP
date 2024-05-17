@@ -1,5 +1,5 @@
 #include "EPlayer.h"
-#include "Core/Application/Getters/ConfigGetter.h"
+#include "Core/Application/ObjectsAggregator/GetterConfig.h"
 #include "Simulation/ECS/ECS.h"
 #include "Simulation/Features/Score/CPlayerScore.h"
 #include "Simulation/Features/Shooting/CCannon.h"
