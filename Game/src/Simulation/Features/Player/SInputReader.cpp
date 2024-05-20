@@ -27,7 +27,27 @@ void handleMovingPlayer()
 
 void handleMovingMouse()
 {
+    const auto& mousePosQueue = REF(CInputMousePositions::TryGetFirstDataPtr()).value;
+    if(mousePosQueue.empty())
+    { return; }
 
+    float playerRotateAngle = 0;
+    for (auto [player, _]: CPlayerControllableTag::All())
+    {
+        sf::Vector2f playerPos = player->Get<CPosition>();
+        sf::Vector2f mousePos = mousePosQueue.front();
+
+        const ConfigTexture& playerConfigTexture =
+            getConfig().resources.textures.Find([] (const ConfigTexture& configTexture) {
+                return configTexture.name == getConfig().simulation.player.imageName;
+            });
+
+        sf::Vector2i textureOrientation = playerConfigTexture.orientation;
+
+        playerRotateAngle = angleDeg(sf::Vector2f(textureOrientation), mousePos - playerPos);
+
+        player->Get<CRotation>().value = playerRotateAngle;
+    }
 }
 
 void handleMouseClick()

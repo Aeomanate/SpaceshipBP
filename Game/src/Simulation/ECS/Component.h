@@ -34,8 +34,8 @@ namespace ECS
         : value { t }
         { }
 
-        operator auto& () { return value; }
-        operator const auto& () const { return value; }
+        operator DataT& () { return value; }
+        operator const DataT& () const { return value; }
 
         auto* operator->() { return &value; }
         const auto* operator->() const { return &value; }
@@ -106,7 +106,7 @@ namespace ECS
         }
 
         static inline UserComponentT& Data(KeyEntityT key)
-        { return REF(entitiesWithData.find(key)).second; }
+        { return entitiesWithData.find(key)->second; }
 
         static inline UserComponentT* TryGetFirstDataPtr()
         {

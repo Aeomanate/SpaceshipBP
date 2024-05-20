@@ -22,11 +22,18 @@ void SEntityDrawer::Update(float)
 
     for(auto& [entity, sceneElement]: CSceneElement::AllSorted())
     {
-        if(auto* position = entity->TryGetDataAs<CPosition>(); position)
+        auto* position = entity->TryGetDataAs<CPosition>();
+        auto* rotation = entity->TryGetDataAs<CRotation>();
+
+        if(position || rotation)
         {
-            renderTexture.draw(sceneElement->sprite, sf::Transform().translate(position->value));
+            renderTexture.draw(sceneElement->sprite,
+                               sf::Transform()
+                               .translate(position ? position->value : sf::Vector2f{0, 0})
+                               .rotate(rotation ? rotation->value : 0));
             continue;
         }
+
         renderTexture.draw(sceneElement->sprite);
     }
 

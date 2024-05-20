@@ -7,7 +7,7 @@
 class SDebugInfo: public ECS::System
 {
 public:
-    void Update(float dt) override;
+    void Update(float configTexture) override;
 
 };
 

@@ -17,6 +17,7 @@ EPlayer::EPlayer(const ConfigPlayer& configPlayer)
         .SetMember(&CSceneElement::order, CSceneElement::ZOrder::PLAYER);
 
     Claim<CPosition>(*configPlayer.startPosition);
+    Claim<CRotation>(0.f);
     Claim<CPhysics>().SetMember(&CPhysics::mass, *configPlayer.mass);
 
     Claim<CPlayerScore>();

@@ -4,7 +4,6 @@
 #include "Vectors.h"
 #include "Core/Application/ObjectsAggregator/GetterRandom.h"
 
-// Pseudo scalar product
 float pdot(sf::Vector2f A, sf::Vector2f B) {
     return A.x*B.y - A.y*B.x;
 }
@@ -29,18 +28,6 @@ sf::Vector2f norm(sf::Vector2f A) {
     A.x /= a_length;
     A.y /= a_length;
     return A;
-}
-
-float angleDeg(sf::Vector2f A, sf::Vector2f B) {
-    float cos = dot(A, B) / (len(A) * len(B));
-    float angle = acosf(cos) * 180 / std::numbers::pi_v<float>;
-
-    if(pdot(A, B) > 0)
-    {
-        angle = 360 - angle;
-    }
-
-    return angle; // Clockwise rotate degree.
 }
 
 sf::Vector2f randUnitVector() {

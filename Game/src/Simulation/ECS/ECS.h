@@ -2,6 +2,7 @@
 #define SPACESHIPBP_ECS_H
 
 #include "Features/Movable/CPosition.h"
+#include "Features/Movable/CRotation.h"
 #include "Features/Movable/CPhysics.h"
 #include "Features/Movable/CRequestMovement.h"
 #include "Features/Movable/SEntityMover.h"

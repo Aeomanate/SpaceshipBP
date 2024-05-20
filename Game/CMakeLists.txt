@@ -186,6 +186,7 @@ set(SOURCE_FILES
         src/Simulation/ECS/Features/Debug/SDebugInfo.cpp
         src/Simulation/ECS/Features/Debug/SDebugInfo.h
         src/Utility/Common.h
+        src/Simulation/ECS/Features/Movable/CRotation.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

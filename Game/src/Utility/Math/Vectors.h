@@ -1,8 +1,12 @@
 #ifndef SPACESHIPBP_VECTORS_H
 #define SPACESHIPBP_VECTORS_H
 
+#include <numbers>
 #include "SFML/System/Vector2.hpp"
 #include "Utility/Visual/PositionInRectangle.h"
+
+// Pseudo scalar product
+float pdot(sf::Vector2f A, sf::Vector2f B);
 
 // Scalar product
 float dot(sf::Vector2f A, sf::Vector2f B);
@@ -17,7 +21,31 @@ float len(sf::Vector2f A);
 sf::Vector2f norm(sf::Vector2f A);
 
 // Angle between vectors, 360 degree
-float angleDeg(sf::Vector2f A, sf::Vector2f B);
+// angleDeg<Clockwise>({1, 0}, {1, 1}) == 315
+// angleDeg<Clockwise>({1, 0}, {1, -1}) == 45
+enum class RotationType { Clockwise, AntiClockwise };
+template <RotationType ROTATION_TYPE = RotationType::AntiClockwise>
+float angleDeg(sf::Vector2f A, sf::Vector2f B) {
+    float cos = dot(A, B) / (len(A) * len(B));
+    float angle = acosf(cos) * 180 / std::numbers::pi_v<float>;
+
+    if constexpr (ROTATION_TYPE == RotationType::Clockwise)
+    {
+        if(pdot(A, B) > 0)
+        {
+            angle =  360 - angle;
+        }
+    }
+    else if constexpr (ROTATION_TYPE == RotationType::AntiClockwise)
+    {
+        if(pdot(A, B) < 0)
+        {
+            angle =  360 - angle;
+        }
+    }
+
+    return angle;
+}
 
 // Generate random vector with length equals to 1
 sf::Vector2f randUnitVector();
